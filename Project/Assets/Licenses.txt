@@ -1,0 +1,20 @@
+Licenses & Assets
+
+all visual assets used in this project are stored in the "Art Assets" folder.
+all non-CC0 assets include a corresponding license file within their respective folders. If a separate license file is not provided, licensing information is documented within the same directory.
+
+1. Monsters Creatures Fantasy pack:
+		License: CC0 (Creative Commons Zero)
+		Source: https://luizmelo.itch.io/monsters-creatures-fantasy
+		Usage: Free for commercial and non-commercial use. No attribution required.
+		
+
+2. Monsters Creatures Fantasy pack:
+		License: CC0 (Creative Commons Zero)
+		Source: https://luizmelo.itch.io/monsters-creatures-fantasy-2
+		Usage: Free for commercial and non-commercial use. No attribution required.
+
+3. EVil Wizard :
+		License: CC0 (Creative Commons Zero)
+		Source: https://luizmelo.itch.io/evil-wizard-2
+		Usage: Free for commercial and non-commercial use. No attribution required.
