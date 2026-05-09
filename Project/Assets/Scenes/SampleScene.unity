@@ -393,7 +393,7 @@ MonoBehaviour:
   normalSpeed: 100
   chaseSpeed: 260
   currentSpeed: 0
-  isMonster: 0
+  canMove: 1
   faceDir: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -476,7 +476,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.64212406, g: 0.6093583, b: 0.7216981, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -3669,7 +3669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1676374295
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3896,7 +3896,7 @@ MonoBehaviour:
   normalSpeed: 100
   chaseSpeed: 260
   currentSpeed: 0
-  isMonster: 0
+  canMove: 1
   faceDir: {x: 0, y: 0, z: 0}
 --- !u!95 &1676374303
 Animator:
