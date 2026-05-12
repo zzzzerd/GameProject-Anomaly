@@ -195,7 +195,19 @@ MonoBehaviour:
         m_CallState: 2
   OnDie:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 337123697}
+        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
+        m_MethodName: OnDie
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!95 &337123691
 Animator:
   serializedVersion: 5
@@ -407,9 +419,10 @@ MonoBehaviour:
   chaseSpeed: 260
   currentSpeed: 0
   hurtForce: 4.5
+  faceDir: {x: 0, y: 0, z: 0}
   canMove: 1
   isHurt: 0
-  faceDir: {x: 0, y: 0, z: 0}
+  isDead: 0
   attacker: {fileID: 0}
   waitTime: 2
   waitTimeCounter: 0
@@ -4640,9 +4653,10 @@ MonoBehaviour:
   chaseSpeed: 260
   currentSpeed: 0
   hurtForce: 0
+  faceDir: {x: 0, y: 0, z: 0}
   canMove: 1
   isHurt: 0
-  faceDir: {x: 0, y: 0, z: 0}
+  isDead: 0
   attacker: {fileID: 0}
   waitTime: 0
   waitTimeCounter: 0
