@@ -13,15 +13,25 @@ public class Enemy : MonoBehaviour
     public float normalSpeed;
     public float chaseSpeed;
     public float currentSpeed;
+    public float hurtForce;
+    public Vector3 faceDir;   //面朝的方向
+
     [Header("状态")]
     public bool canMove = true;
-    //面朝的方向
-    public Vector3 faceDir;
+    public bool isHurt;
+    public bool isDead;
+
+   
+
+
+    public Transform attacker;
+
 
     [Header("计时器")]
     public float waitTime;
     public float waitTimeCounter;
     public bool wait;
+
 
 
     private void Awake()
@@ -46,11 +56,6 @@ public class Enemy : MonoBehaviour
             anim.SetBool("walk", false);
             wait = true;
         }
-        //else if (physicsCheck.touchRightWall)
-        //{
-        //    //transform.localScale = new Vector3(-1, 1, 1); // 朝左
-        //    wait = true;
-        //}
 
         TimeCounter();
 
@@ -65,7 +70,10 @@ public class Enemy : MonoBehaviour
         //如果模拟怪物是箱子就先不动
         if (canMove)
         {
-            Move();
+            if (!isHurt & !isDead)//受伤就不可以执行这个代码了
+            {
+                Move();
+            }
         }
     }
 
@@ -76,6 +84,9 @@ public class Enemy : MonoBehaviour
         rb.velocity = new Vector2( currentSpeed * faceDir.x * Time.deltaTime, rb.velocity.y);
     }
 
+    /// <summary>
+    /// 计时器
+    /// </summary>
     public void TimeCounter()
     {
         if (wait)
@@ -88,5 +99,53 @@ public class Enemy : MonoBehaviour
                 transform.localScale = new Vector3(-faceDir.x, 1, 1);
             }
         }
+    }
+
+    public void OnTakeDamage(Transform attackTrans)
+    {
+        attacker = attackTrans;
+        //转身
+        if (attackTrans.position.x - transform.position.x > 0)//站在右侧
+        {
+            //Debug.Log("转身1");
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        if ( attackTrans.position.x - transform.position.x < 0 )//站在左边
+        {
+            //Debug.Log("转身2");
+            transform.localScale = new Vector3( -1, 1, 1);
+        }
+
+        //受伤被击退
+        isHurt = true;
+        anim.SetTrigger("hurt");//播放受伤的动画
+        Vector2 dir = new Vector2(transform.position.x - attackTrans.position.x, 0).normalized;
+
+        StartCoroutine(OnHurt(dir));
+    }
+
+    //协成，按照一定的顺序逐一执行，还可以等待,返回一个迭代器
+    private IEnumerator OnHurt(Vector2 dir)
+    {
+        rb.AddForce(dir * hurtForce, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(0.45f);//等待一忽儿
+        isHurt = false;
+    }
+
+    public void OnDie()
+    {
+        //播放死亡动画
+        anim.SetBool("dead", true);
+        //改变状态
+        isDead = true;//已经死了
+    }
+
+    /// <summary>
+    /// 销毁
+    /// </summary>
+    public void DestroyAfterAnimation()
+    {
+        //销毁当前物体
+        Destroy(this.gameObject);
     }
 }
