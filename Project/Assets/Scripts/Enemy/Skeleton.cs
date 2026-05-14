@@ -1,3 +1,18 @@
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
+
+////ºÃ≥–enmey¿‡ 
+//public class Skeleton : Enemy
+//{
+//    public override void Move()
+//    {
+//        base.Move();
+//        anim.SetBool("walk", true);
+//    }
+//}
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,9 +20,10 @@ using UnityEngine;
 //ºÃ≥–enmey¿‡ 
 public class Skeleton : Enemy
 {
-    public override void Move()
+
+    protected override void Awake()
     {
-        base.Move();
-        anim.SetBool("walk", true);
+        base.Awake();
+        patrolState = new SkeletonPatrolState();
     }
 }
