@@ -1,0 +1,50 @@
+
+Group: FrenchChips
+Scripts studied: Projectile.cs, Health.cs, Damage.cs
+
+New concept
+We found that Update() is not something we call ourselves. Instead, it is a Unity engine callback that runs once per frame as long as the object is active.
+In practice, this means Unity is constantly “asking” each frame what should happen next. In our case, Projectile.cs uses this behavior to continuously apply movement logic without any manual loop.
+
+Code evidence
+
+private void Update()
+{
+    MoveProjectile();
+}
+
+private void MoveProjectile()
+{
+    transform.position = transform.position
+        + transform.up * projectileSpeed * Time.deltaTime;
+}
+
+ Event chain
+Unity frame update event
+  → Projectile.Update()
+  → MoveProjectile()
+  → transform.position changes
+  → projectile moves smoothly in the direction it is facing in the game world
+
+Why this matters
+Coming from languages like Java, we expected a main loop that we control. Unity works differently: the engine owns the execution cycle, and our scripts respond to its events.
+This also explains why Time.deltaTime is important—it ensures movement stays consistent across different frame rates instead of changing speed depending on performance.
+
+Improvement idea
+One improvement would be to prevent projectiles from existing forever in the scene. A simple lifetime system can solve this:
+
+        public float lifeTime = 3f;
+        
+        private void Start()
+        {
+            Destroy(gameObject, lifeTime);
+        }
+        This helps avoid unnecessary objects accumulating during gameplay.
+
+Sources
+	• Unity Manual: Event function execution order 
+	• Unity Scripting API: MonoBehaviour lifecycle 
+	• Unity Scripting API: Time.deltaTime 
+
+ Reflection
+This exercise helped us understand that Unity gameplay logic is built around engine-triggered events rather than manually controlled loops. Functions like Update() are just one part of a larger event system that also includes physics, input, and object lifecycle events.
