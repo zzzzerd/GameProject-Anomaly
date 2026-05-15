@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// 这是巡逻的状态
-/// </summary>
-public class SkeletonPatrolState : BaseState
+public class MimicPatrolState : BaseState
 {
+
 
     public override void OnEnter(Enemy enmey)
     {
@@ -14,19 +12,18 @@ public class SkeletonPatrolState : BaseState
         currentEnemy = enmey;//来自父类的，也就是当前的这个物体
         //Debug.Log("physicsCheck = " + currentEnemy.physicsCheck);
         currentEnemy.currentSpeed = currentEnemy.normalSpeed;
+
     }
-
-
-
     public override void LogicUpdate()
     {
         //如果发现player就切换状态
         if (currentEnemy.FoundPlayer())
         {
             //调用这个方法就是换state
-            currentEnemy.SwitchState(NPCState.Chase);
+            currentEnemy.SwitchState(NPCState.Skill);
         }
-        //如果碰到墙
+
+        //是不是撞墙,是的就停下并变换方向
         if (!currentEnemy.physicsCheck.isGround || (currentEnemy.physicsCheck.touchLeftWall && currentEnemy.faceDir.x < 0) || (currentEnemy.physicsCheck.touchRightWall && currentEnemy.faceDir.x > 0))
         {
             //transform.localScale = new Vector3(1, 1, 1); // 朝右
@@ -52,20 +49,17 @@ public class SkeletonPatrolState : BaseState
         {
             currentEnemy.anim.SetBool("walk", true);
         }
+
     }
-
-
-    public override void PhysicsUpdate()
+       public override void PhysicsUpdate()
     {
-
-    }
-
+       
+    } 
+    
     public override void OnExit()
     {
-        //巡逻结束就结束走路状态
-        currentEnemy.anim.SetBool("walk", false);
-
-        //测试:退出巡逻状态
-        Debug.Log("退出巡逻状态");
+       
     }
+
+
 }

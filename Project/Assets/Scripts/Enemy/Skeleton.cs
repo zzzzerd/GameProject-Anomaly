@@ -25,5 +25,6 @@ public class Skeleton : Enemy
     {
         base.Awake();
         patrolState = new SkeletonPatrolState();
+        chaseState = new SkeletonChaseState();
     }
 }
