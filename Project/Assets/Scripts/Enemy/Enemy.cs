@@ -148,8 +148,9 @@ public class Enemy : MonoBehaviour
     //移动的行为函数，不加别的逻辑判断，单纯移动
     public virtual void Move()
     {
-        //移动：让敌人产生位移
-        rb.velocity = new Vector2(currentSpeed * faceDir.x * Time.deltaTime, rb.velocity.y);
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("MimicTransformToBox")&& !anim.GetCurrentAnimatorStateInfo(0).IsName("MimicTransformToMonster"))
+            //移动：让敌人产生位移
+            rb.velocity = new Vector2(currentSpeed * faceDir.x * Time.deltaTime, rb.velocity.y);
     }
 
 
