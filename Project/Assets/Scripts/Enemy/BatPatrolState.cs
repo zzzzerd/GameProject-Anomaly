@@ -45,6 +45,7 @@ public class BatPatrolState : BaseState
 
     public override void PhysicsUpdate()
     {
+        //就是覆盖移动的逻辑
         if(!currentEnemy.wait && !currentEnemy.isHurt && !currentEnemy.isDead)
         {
             currentEnemy.rb.velocity = moveDir * currentEnemy.currentSpeed* Time.deltaTime;

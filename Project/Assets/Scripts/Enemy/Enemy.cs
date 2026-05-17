@@ -8,7 +8,7 @@ using UnityEngine.InputSystem.XR.Haptics;
 public class Enemy : MonoBehaviour
 {
     //获取敌人身上的组件的准备
-    [HideInInspector] protected Rigidbody2D rb;
+    [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Animator anim;
     [HideInInspector] public PhysicsCheck physicsCheck;
     public Transform attacker;
@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public float currentSpeed;
     public float hurtForce;
     public Vector3 faceDir;   //面朝的方向
+    public Vector3 spwanPoint;
 
     [Header("检测")]
     public Vector2 centerOffet;
@@ -59,6 +60,7 @@ public class Enemy : MonoBehaviour
 
         currentSpeed = normalSpeed;
         waitTimeCounter = waitTime;
+        spwanPoint =  transform.position;
 
     }
 
@@ -154,6 +156,16 @@ public class Enemy : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 留给飞行动物的获取新的position目标点的函数
+    /// </summary>
+    /// <returns></returns>
+    public virtual Vector3 GetNewPoint()
+    {
+
+        return transform.position;
+    }
+
 
     /// <summary>
     /// 计时器
@@ -186,7 +198,7 @@ public class Enemy : MonoBehaviour
     /// 发射一个东西，然后看看能不能找到对应物体，返回bool
     /// </summary>
     /// <returns></returns>
-    public bool FoundPlayer()
+    public virtual bool FoundPlayer()
     {
         return Physics2D.BoxCast(transform.position + (Vector3)centerOffet,checkSize,0,faceDir,checkDistance,attackLayer);
     }
@@ -273,7 +285,7 @@ public class Enemy : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    private void OnDrawGizmosSelected()
+    public virtual void OnDrawGizmosSelected()
     {
         //Gizmos.DrawWireSphere(transform.position+(Vector3)centerOffet+ new Vector3(checkDistance*faceDir.x,0),0.2f);
         Gizmos.DrawWireSphere(transform.position+(Vector3)centerOffet+ new Vector3( checkDistance * transform.localScale.x, 0 ),0.2f);
