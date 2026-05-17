@@ -15,6 +15,7 @@ public class Bat : Enemy
         base.Awake();
         ////就是先创建一下这两个状态
         patrolState = new BatPatrolState();
+        chaseState = new BatChaseState();
         //skillState = new MimicSkillState();
     }
 

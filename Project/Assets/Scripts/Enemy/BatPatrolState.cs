@@ -41,6 +41,7 @@ public class BatPatrolState : BaseState
             currentEnemy.transform.localScale = new Vector3(1,1,1);//我怀疑这里要改
         if (moveDir.x < 0)
             currentEnemy.transform.localScale = new Vector3(-1,1,1);
+    
     }
 
     public override void PhysicsUpdate()
