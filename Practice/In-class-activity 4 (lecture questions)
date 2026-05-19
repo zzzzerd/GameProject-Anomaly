@@ -1,0 +1,192 @@
+1.Title: Anomaly
+
+2. What:
+A 2D side-scrolling action-exploration game in Unity with a double-state system (Normal State and Anomaly State) that changes the environment, enemies, and gameplay rules.
+
+3. Player Action:
+The player moves, jumps, and attacks enemies while exploring levels,
+switching between Normal and Anomaly states to overcome obstacles and reach the exit.
+
+4. Unity Format:
+2D physics, animator-driven character control, enemy AI scripts, and a state-based system for gameplay transformation.
+
+5. Vertical slice:
+A single 2D level where the player can move, jump, and attack one enemy, with a ring that toggles between Normal and Anomaly states. In Normal State, the player navigates a simple platform map with visible paths and a basic enemy blocking progress. When the Anomaly State is activated, the environment changes (like  hidden path appears or enemy behavior changes)
+
+6. Core system : 
+player control(move, attack, physics detection),enemy(move, attack, automatical patrol and detection)
+
+
+7. One visible task before session:
+Roles of player and enemgy can move and attack. There would be at least 3 different enmey. A good tilemap and some UI to indicate the player's health level. Most importantly is the clear rule to complete one level of the game.
+
+8. Five Week Plan:
+  [Week 1] implement basic logical of palyers and enemys
+  [Week 2]  ui management, and success determination
+  [Week 3]  double-status system(different tilemap style and rules)
+  [Week 4] add different endings and more interesting storytelling.
+  [Week 5] Testing\Fixs bugs\polish to reach vividly medieval style
+
+9.Scope sorting:
+  [Must have]: player and enemy movement and attack system, the level system (just 2 levels for demo)
+  [should-have]:the double-state changing system, the different ending system
+  [could-have]:Stuff picking system
+  [cut first]: the Farming system
+
+10.Peer Review:
+
+   -- Wang Sihan is developing a mining game. Her main challenge is managing time, as she is worried about not having enough time to complete tasks within the game.
+    
+    -- Huang Zeyuan is creating an escape room game. He adds an engaging element by introducing a “guardian” character that increases tension and keeps players under pressure.
+    
+    -- Xu Yanbing is working on a clone-based combat game, where the player can create and control multiple copies of themselves to fight enemies.
+    
+    -- Zhu’s game is a monster-fighting game featuring robot-style enemies, focusing on combat against mechanical creatures.
+
+
+[I've design the game weeks ago, after this lecture, I refined my designing documentation]:
+        
+        # Anomaly
+        
+        A 2D side-scrolling exploration and light combat game built in Unity.
+        
+        ---
+        
+        ## Overview
+        
+        Anomaly is a 2D exploration game built around a dual-state system: Normal State and Anomaly State.
+        
+        The player discovers a mysterious object known as the Black Marker Stone and a ring that allows access to an altered version of reality. This alternate state modifies environmental rules, enemy behavior, level structure, and influences the final outcome of the game.
+        
+        ---
+        
+        ## Core Gameplay Loop (MVP)
+        
+        The core gameplay loop is designed as follows:
+        
+        Enter Level  
+        → Explore and navigate  
+        → Combat / Collect items / Overcome obstacles  
+        → Activate Ring (Anomaly State)  
+        → World transformation occurs  
+        → Complete objective  
+        → Reach exit  
+        → Level completion / ending result  
+        
+        ---
+        
+        ## Core Features
+        
+        ### Player System
+        - 2D movement (WASD)
+        - Jumping, climbing, crouching
+        - Melee combat system
+        - Health system (HP)
+        - Corruption system
+        
+        ---
+        
+        ### Level System
+        - 2D side-scrolling level structure
+        - Multiple themed environments:
+          - Human settlement
+          - Forest
+          - Mining area
+        - Unified level objectives (reach exit / complete task)
+        
+        ---
+        
+        ### Combat System
+        - Collision-based melee combat
+        - Animation-driven attack timing
+        - Simple enemy AI:
+          - Distance-based detection
+          - Contact damage
+        - Behavior changes under Anomaly State
+        
+        ---
+        
+        ## Anomaly State System (Core Mechanic)
+        
+        The game is built around a dual-state system:
+        
+        ### Normal State
+        - Standard enemy behavior
+        - Stable environment layout
+        - Fully visible paths and objects
+        
+        ### Anomaly State
+        Activated through a ring item, this state introduces systemic changes:
+        
+        - Environment becomes visually distorted
+        - UI and visual effects are altered
+        - Hidden paths and objects are revealed
+        - Enemy behavior is modified (disabled or enhanced)
+        - Corruption value increases over time
+        
+        ---
+        
+        ## Corruption System
+        
+        Corruption represents the player's exposure to the Anomaly State.
+        
+        - Increases when Anomaly State is active
+        - Influences gameplay difficulty and narrative outcome
+        - Acts as a long-term risk-reward mechanic
+        
+        ---
+        
+        ## Ending System
+        
+        The ending is determined by the final Corruption value:
+        
+        | Corruption Level | Ending Type |
+        |------------------|------------|
+        | Low              | Standard Ending |
+        | Medium           | Neutral Ending |
+        | High             | Corrupted Ending |
+        
+        ---
+        
+        ## Project Structure
+        
+        The project follows a modular system design:
+        
+        - Player System
+        - Enemy AI System
+        - Level System
+        - State System (Normal / Anomaly)
+        - UI System
+        - Combat System
+        
+        ---
+        
+        ## Planned Features (Not in MVP)
+        
+        - Inventory system (item stacking)
+        - Dialogue system
+        - Save system (PlayerPrefs)
+        - Multi-level progression
+        - Farming system (maybe I will not implement it, becuase it too big to implement)
+        
+        ---
+        
+        ## Design Philosophy
+        
+        - State-driven gameplay (Normal vs Anomaly)
+        - Mechanic-first design approach
+        - Modular and low-coupling systems
+        - Focus on a complete playable core loop (MVP)
+        
+        ---
+        
+        ## Goal
+        
+        The goal of this project is to build a compact and complete 2D game prototype featuring:
+        
+        - A clear gameplay loop
+        - A dual-state transformation mechanic
+        - A consistent system architecture
+        - Strong mechanic-driven player experience
+
+  
