@@ -1,0 +1,16 @@
+Title: Anomaly
+What:
+A 2D side-scrolling action-exploration game in Unity with a double-state system (Normal State and Anomaly State) that changes the environment, enemies, and gameplay rules.
+
+Player Action:
+The player moves, jumps, and attacks enemies while exploring levels,
+也许 switching between Normal and Anomaly states to overcome obstacles and reach the exit.
+
+Unity Format:
+2D physics, animator-driven character control, enemy AI scripts, and a state-based system for gameplay transformation.
+
+Vertical slice:
+A single 2D level where the player can move, jump, and attack one enemy, with a ring that toggles between Normal and Anomaly states. In Normal State, the player navigates a simple platform map with visible paths and a basic enemy blocking progress. When the Anomaly State is activated, the environment changes (like  hidden path appears or enemy behavior changes)
+
+Core system : 
+player control(move, attack, physics detection),enemy(move, attack, automatical patrol and detection)
