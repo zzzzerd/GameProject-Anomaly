@@ -7,7 +7,9 @@ public class BatChaseState : BaseState
     private Attack attack;
     private Vector3 target;
     private Vector3 moveDir;
+    private float attackRateCounter;
 
+    private bool isAttack;
     public override void OnEnter(Enemy enmey)
     {
         currentEnemy = enmey;
@@ -15,6 +17,12 @@ public class BatChaseState : BaseState
         currentEnemy.currentSpeed = currentEnemy.chaseSpeed;//切换逻辑
         //currentEnemy.anim.SetBool("run", true);//播放动画
         attack = enmey.GetComponent<Attack>();
+
+        //防止一直反反复复转换状态
+        currentEnemy.lostTimeCounter = currentEnemy.lostTime;
+
+        currentEnemy.anim.SetBool("chase",true);
+    
     }
     public override void LogicUpdate()
     {
@@ -30,11 +38,30 @@ public class BatChaseState : BaseState
         {
             //攻击逻辑
             //1.停下来
-            currentEnemy.rb.velocity = Vector2.zero;
+            isAttack = true;
+            //如果受伤了才执行这行代码
+            if(currentEnemy.isHurt)
+                currentEnemy.rb.velocity = Vector2.zero;
+
+            //计时器
+            attackRateCounter -= Time.deltaTime;
+            if (attackRateCounter <= 0)
+            {
+                //一旦小于0就采取攻击
+                currentEnemy.anim.SetTrigger("attack");
+                attackRateCounter = attack.attackRate;//重置时间
+
+            }
+
+
 
         }
+        else//超出
+        {
+            isAttack=false;
+        }
 
-        moveDir = (target - currentEnemy.transform.position).normalized;
+            moveDir = (target - currentEnemy.transform.position).normalized;
 
         if (moveDir.x > 0)
             currentEnemy.transform.localScale = new Vector3(1, 1, 1);//我怀疑这里要改
@@ -48,7 +75,7 @@ public class BatChaseState : BaseState
     public override void PhysicsUpdate()
     {
         //移动逻辑
-        if (!currentEnemy.isHurt && !currentEnemy.isDead)
+        if (!currentEnemy.isHurt && !currentEnemy.isDead && !isAttack)
         {
             currentEnemy.rb.velocity = moveDir * currentEnemy.currentSpeed * Time.deltaTime;
         }
@@ -60,5 +87,7 @@ public class BatChaseState : BaseState
     {
         //currentEnemy.lostTimeCounter = currentEnemy.lostTime;
         //currentEnemy.anim.SetBool("run", false);
+        Debug.Log("离开蝙蝠追踪状态");
+        currentEnemy.anim.SetBool("chase", false);
     }
 }

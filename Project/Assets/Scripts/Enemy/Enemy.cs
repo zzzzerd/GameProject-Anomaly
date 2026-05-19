@@ -98,7 +98,7 @@ public class Enemy : MonoBehaviour
     }
 
     // Update is called once per frame,实时获取
-    void Update()
+    protected virtual void Update()
     {   //获取面朝方向
         //Debug.Log($"[Update] {name} ID={GetInstanceID()}");
         faceDir = new Vector3(transform.localScale.x, 0, 0);//因为只需要x的值(左右方向),然后在update里面会实时更新
@@ -265,7 +265,7 @@ public class Enemy : MonoBehaviour
         isHurt = false;//可以恢复行动了
     }
 
-    public void OnDie()
+    public virtual void OnDie()
     {
         //把这个敌人的图层改成不和player发生碰撞的图层
         gameObject.layer = 2; //inspector里面去看具体layer和对应的编号

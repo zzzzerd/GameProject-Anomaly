@@ -6,7 +6,7 @@ public class Attack : MonoBehaviour
 {
     public int damage;//伤害值
     public float attackRange; //攻击范围
-    public float damageRate; //攻击频率
+    public float attackRate; //攻击频率
 
     private void OnTriggerStay2D(Collider2D other)
     {
