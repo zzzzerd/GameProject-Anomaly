@@ -19,3 +19,10 @@ player control(move, attack, physics detection),enemy(move, attack, automatical 
 
 7. One visible task before session:
 Roles of player and enemgy can move and attack. There would be at least 3 different enmey. A good tilemap and some UI to indicate the player's health level. Most importantly is the clear rule to complete one level of the game.
+
+8. Five Week Plan:
+  [Week 1] implement basic logical of palyers and enemys
+  [Week 2]  ui management, and success determination
+  [Week 3]  double-status system(different tilemap style and rules)
+  [Week 4] add different endings and more interesting storytelling.
+  [Week 5] Testing\Fixs bugs\polish to reach vividly medieval style
