@@ -194,6 +194,12 @@ public class PlayerController : MonoBehaviour
 
     private void CheckState()
     {
-        coll.sharedMaterial = physicsCheck.isGround ? normal : wall; 
-    }
+        coll.sharedMaterial = physicsCheck.isGround ? normal : wall;
+
+
+        if (physicsCheck.onWall)
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y / 2f);
+        else
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
+       }
 }
