@@ -14,6 +14,8 @@ public class Character : MonoBehaviour
     private float invulnerableCounter;
     public bool invulnerable;
 
+    public UnityEvent<Character> OnHealthChange;
+
     public UnityEvent<Transform> OnTakeDamage;
     public UnityEvent OnDie;
 
@@ -52,6 +54,8 @@ public class Character : MonoBehaviour
             //¥•∑¢À¿Õˆ
             OnDie?.Invoke();
         }
+
+        OnHealthChange?.Invoke(this);
     }
 
     //¥•∑¢Œﬁµ–
@@ -70,6 +74,7 @@ public class Character : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        OnHealthChange?.Invoke(this);
     }
 
     // Update is called once per frame

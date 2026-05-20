@@ -24,13 +24,13 @@ MonoBehaviour:
     textAlignment: 1
     fontStyle: 1
   - keyChar: '#'
-    textColor: {r: 0.018578673, g: 0.021248661, b: 0.023584902, a: 1}
-    backgroundColor: {r: 0.5058824, g: 0.84705883, b: 0.81960785, a: 1}
+    textColor: {r: 1, g: 1, b: 1, a: 1}
+    backgroundColor: {r: 0.45817018, g: 0.5538672, b: 0.6745283, a: 1}
     textAlignment: 1
     fontStyle: 1
   - keyChar: '@'
     textColor: {r: 1, g: 1, b: 1, a: 1}
-    backgroundColor: {r: 0.8207547, g: 0.6350863, b: 0, a: 1}
+    backgroundColor: {r: 0.6130963, g: 0.7783019, b: 0.67317104, a: 1}
     textAlignment: 4
     fontStyle: 1
   - keyChar: $

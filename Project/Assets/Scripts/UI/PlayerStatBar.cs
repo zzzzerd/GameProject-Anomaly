@@ -10,9 +10,22 @@ public class PlayerStatBar : MonoBehaviour
     public Image healthDelayImage;
     public Image powerImage;
 
+    private void Update()
+    {
+        //if (healthDelayImage.fillAmount > healthImage.fillAmount)
+        //{
+        //    healthDelayImage.fillAmount-=Time.deltaTime*2;//延迟
+        //}
+
+        healthDelayImage.fillAmount = Mathf.MoveTowards(
+            healthDelayImage.fillAmount,
+            healthImage.fillAmount,
+            Time.deltaTime * 0.5f
+        );
+    }
 
     /// <summary>
-    /// health 变化的时候的百分比
+    /// 这个就是把组件的数值设为一个传入的参数，shhealth 变化的时候的百分比
     /// </summary>
     /// <param name="persentage">current/Maxhealth</param>
     public void OnHealthChange(float persentage)

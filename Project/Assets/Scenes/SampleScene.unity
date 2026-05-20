@@ -253,6 +253,9 @@ MonoBehaviour:
   currentHealth: 0
   invulnerableDuration: 1
   invulnerable: 0
+  OnHealthChange:
+    m_PersistentCalls:
+      m_Calls: []
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls:
@@ -600,7 +603,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.926
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -675,7 +678,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.54
+  m_FillAmount: 0.49
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -1031,14 +1034,27 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 1.6454334, y: 0.8551192}
-      - {x: 1.1874561, y: 0.53193283}
-      - {x: 0.93445206, y: -0.17135906}
-      - {x: 0.7161436, y: -0.20258379}
-      - {x: 0.55417466, y: -0.2855394}
-      - {x: 0.87805986, y: -0.6116723}
+      - {x: 1.2330647, y: 0.4863248}
+      - {x: 0.9001403, y: 0.36182547}
+      - {x: 0.79019594, y: 0.1792345}
+      - {x: -0.079414845, y: 0.43041563}
+      - {x: -0.5067735, y: 0.44891453}
+      - {x: -0.6935873, y: 0.13006401}
+      - {x: -0.5061612, y: 0.08474922}
+      - {x: 0.20373154, y: -0.32569647}
+      - {x: 0.102651834, y: -0.32658696}
+      - {x: -0.6224556, y: -0.7074503}
+      - {x: -0.20716953, y: -0.71917105}
+      - {x: -0.05308485, y: -0.7382498}
+      - {x: -0.38753796, y: -0.9405885}
+      - {x: -0.41377926, y: -1.0149813}
+      - {x: -0.14990187, y: -1.0298843}
+      - {x: -0.027433872, y: -0.78791904}
+      - {x: 0.27419662, y: -0.8170996}
+      - {x: 0.47431278, y: -0.85809135}
       - {x: 0.9913821, y: -0.95389795}
       - {x: 0.9913821, y: -0.95389795}
-      - {x: 0.99138224, y: -0.9538977}
+      - {x: 0.76790106, y: -1.0177495}
       - {x: 1.1903028, y: -1.4587674}
       - {x: 1.9084191, y: -1.4132004}
       - {x: 2.2918491, y: -1.1351013}
@@ -1295,10 +1311,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfab3dce8360b3746a611db65c613fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 40
   currentHealth: 0
   invulnerableDuration: 0.2
   invulnerable: 0
+  OnHealthChange:
+    m_PersistentCalls:
+      m_Calls: []
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls:
@@ -1342,7 +1361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 3
-  attackRange: 1.31
+  attackRange: 1.4
   attackRate: 2
 --- !u!1 &987734785
 GameObject:
@@ -7122,10 +7141,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfab3dce8360b3746a611db65c613fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1000
+  maxHealth: 100
   currentHealth: 0
   invulnerableDuration: 2
   invulnerable: 0
+  OnHealthChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: d9c0aa7be097d194498acc0dce12a223, type: 2}
+        m_TargetAssemblyTypeName: CharacterEventSO, Assembly-CSharp
+        m_MethodName: RaiseEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls:
@@ -7205,6 +7239,52 @@ RectTransform:
   m_AnchoredPosition: {x: 205.00014, y: -64}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1570394073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1570394074}
+  - component: {fileID: 1570394075}
+  m_Layer: 0
+  m_Name: UI Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1570394074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570394073}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1570394075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570394073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8413a4c91e417764bbd031eb88936034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStatBar: {fileID: 1364633438}
+  healthEvent: {fileID: 11400000, guid: d9c0aa7be097d194498acc0dce12a223, type: 2}
 --- !u!1 &1593815607
 GameObject:
   m_ObjectHideFlags: 0
@@ -7426,6 +7506,37 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1627238338}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1657638023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1657638024}
+  m_Layer: 0
+  m_Name: '@MANAGERS'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1657638024
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657638023}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -7725,6 +7836,9 @@ MonoBehaviour:
   currentHealth: 0
   invulnerableDuration: 1
   invulnerable: 1
+  OnHealthChange:
+    m_PersistentCalls:
+      m_Calls: []
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls:
@@ -8263,3 +8377,5 @@ SceneRoots:
   - {fileID: 370865191}
   - {fileID: 1945551811}
   - {fileID: 1627238341}
+  - {fileID: 1657638024}
+  - {fileID: 1570394074}
