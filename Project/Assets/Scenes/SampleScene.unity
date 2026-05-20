@@ -7699,11 +7699,13 @@ MonoBehaviour:
   inputDirection: {x: 0, y: 0}
   speed: 290
   jumpForce: 16.5
-  isCrouch: 0
+  wallJumpForce: 6.5
   hurtForce: 1
-  isHurt: 0
   isDead: 0
   isAttack: 0
+  isHurt: 0
+  isCrouch: 0
+  wallJump: 0
   normal: {fileID: 6200000, guid: c13ede1699e84ad42a0466685999d73d, type: 2}
   wall: {fileID: 6200000, guid: 9d66a59d711b4b74e896ec88bd449598, type: 2}
 --- !u!114 &1471822100

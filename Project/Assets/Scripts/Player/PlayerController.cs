@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     //跳跃-力
     public float jumpForce;
+    public float wallJumpForce;//登墙力
 
     //my own script
     private PhysicsCheck physicsCheck;
@@ -26,10 +27,6 @@ public class PlayerController : MonoBehaviour
     private float walkSpeed => speed / 2.5f;
 
     //public int combo;
-
-
-    //下蹲
-    public bool isCrouch;
 
 
     //获取碰撞体组件
@@ -41,11 +38,16 @@ public class PlayerController : MonoBehaviour
 
     //受伤被弹开
     public float hurtForce;
-    public bool isHurt;
 
-    //角色死亡
-    public bool isDead;
+
+
+    [Header("状态")]
+    public bool isDead;    //角色死亡
     public bool isAttack;
+    public bool isHurt;
+    public bool isCrouch;    //下蹲
+    public bool wallJump;
+
 
     [Header("物理材质")]
     public PhysicsMaterial2D normal;
@@ -122,7 +124,7 @@ public class PlayerController : MonoBehaviour
     public void Move()
     {
         //主要的移动方法
-        if(!isCrouch) //不是下蹲才可以移动
+        if(!isCrouch && !wallJump) //不是下蹲才可以移动
          rb.velocity = new Vector2(inputDirection.x * speed * Time.deltaTime, rb.velocity.y);
         
         //初始值
@@ -157,8 +159,16 @@ public class PlayerController : MonoBehaviour
     private void Jump(InputAction.CallbackContext context)
     {
         //throw new NotImplementedException();
-        if(physicsCheck.isGround)
+        if (physicsCheck.isGround)
+        {
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+        }
+        else if (physicsCheck.onWall)
+        {
+            rb.AddForce(new Vector2(-inputDirection.x, 2.1f) * wallJumpForce, ForceMode2D.Impulse);//这里改蹬墙跳的纵向高度
+            wallJump = true;//蹬墙跳状态
+        }
+
     }
 
     //攻击函数
@@ -201,5 +211,13 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y / 2f);
         else
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
+
+
+        if(wallJump&& rb.velocity.y < 0f)
+        {
+            wallJump = false;
+        }
        }
+     
+    
 }
