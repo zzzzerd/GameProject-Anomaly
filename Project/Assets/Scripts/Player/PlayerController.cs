@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerInputControl inputControl;
     public Vector2 inputDirection;
+    public Character character;
 
     //Rigidbody组件，后面可以直接拖动获得引用
     private Rigidbody2D rb;
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public float wallJumpForce;//登墙力
     public float slideDistance;     //滑铲距离
     public float slideSpeed;    //滑铲速度
+    public int slidePowerCost;
 
     //my own script
     private PhysicsCheck physicsCheck;
@@ -64,6 +66,7 @@ public class PlayerController : MonoBehaviour
         physicsCheck = GetComponent<PhysicsCheck>();
         coll = GetComponent<CapsuleCollider2D>();
         playerAnimation = GetComponent<PlayerAnimation>();
+        character = GetComponent<Character>();
 
         //获取组件面板上这两个参数（下蹲）
         originalOffset = coll.offset;
@@ -169,6 +172,10 @@ public class PlayerController : MonoBehaviour
         if (physicsCheck.isGround)
         {
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+
+            //打断这个滑铲的协程
+            isSlide = false;
+            StopAllCoroutines();
         }
         else if (physicsCheck.onWall)
         {
@@ -180,43 +187,21 @@ public class PlayerController : MonoBehaviour
 
     private void Slide(InputAction.CallbackContext obj)
     {
-        if (!isSlide)
+        //不能滑铲的场景: 在空中不能滑铲
+        if (!isSlide && physicsCheck.isGround && character.currentPower >=slidePowerCost)
         {
             isSlide = true;
 
             var targetPos = new Vector3(transform.position.x+slideDistance * transform.localScale.x, transform.position.y);
-
+            //slide的时候把玩家的layer改成Enemy
+            gameObject.layer = LayerMask.NameToLayer("Enemy");
             //打开协成：
             StartCoroutine(TriggerSlide(targetPos));
+            character.OnSlide(slidePowerCost);
+            
         }
     }
 
-    //private IEnumerator TriggerSlide(Vector3 target)
-    //{
-    //    //持续不断地做知道当前x的值达到目标值
-    //    //rb.MovePosition(target);
-    //    do
-    //    {
-    //        Debug.Log("进入协成");
-    //        yield return null;
-    //        if(!physicsCheck.isGround)//如果到悬崖边上就结束协成
-    //            yield break;
-    //        if ( physicsCheck.touchLeftWall || physicsCheck.touchRightWall)
-    //        {
-    //            Debug.Log("撞墙哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈");
-    //            //撞墙也停止
-    //            isSlide = false;
-    //            break;
-
-    //        }
-    //        //如果上面都不满足，就往前移动
-    //        rb.MovePosition(new Vector2(transform.position.x + transform.localScale.x * slideSpeed, transform.position.y));
-
-    //    } while (MathF.Abs(target.x-transform.position.x) > 0.1f);
-
-    //    //GPT老师教的，bug:这个滑铲一直结束不了
-    //    isSlide = false;
-    //}
 
 
     /// <summary>
@@ -242,10 +227,10 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log("协成结束");
                 Debug.Log("离开地面");
-                yield break;
+                break;
             }
 
-            if (physicsCheck.touchLeftWall || physicsCheck.touchRightWall)
+            if (physicsCheck.touchLeftWall && transform.localScale.x<0f|| physicsCheck.touchRightWall && transform.localScale.x > 0f)
             {
                 Debug.Log("撞墙停止");
 
@@ -268,6 +253,7 @@ public class PlayerController : MonoBehaviour
         } while (MathF.Abs(target.x - transform.position.x) > 0.1f);
 
         isSlide = false;
+        gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
 

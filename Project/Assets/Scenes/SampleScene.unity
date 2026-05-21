@@ -156,7 +156,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -938.6078, y: 507}
+  m_AnchoredPosition: {x: -938.61, y: 506.61}
   m_SizeDelta: {x: 385.4986, y: 19.3979}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &40714136
@@ -251,6 +251,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   currentHealth: 0
+  maxPower: 0
+  currentPower: 0
+  powerRecoverSpeed: 0
   invulnerableDuration: 1
   invulnerable: 0
   OnHealthChange:
@@ -475,7 +478,7 @@ Transform:
   m_GameObject: {fileID: 337123687}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.86, y: -1.88, z: 0}
+  m_LocalPosition: {x: -13.79, y: -2.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -653,7 +656,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -933, y: 499}
-  m_SizeDelta: {x: 372.2831, y: 37.665}
+  m_SizeDelta: {x: 372.28, y: 37.665}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &359736697
 MonoBehaviour:
@@ -1317,6 +1320,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 40
   currentHealth: 0
+  maxPower: 0
+  currentPower: 0
+  powerRecoverSpeed: 0
   invulnerableDuration: 0.2
   invulnerable: 0
   OnHealthChange:
@@ -6247,8 +6253,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5, y: 32.1}
-  m_SizeDelta: {x: 325.1063, y: 289.8467}
+  m_AnchoredPosition: {x: -4.8335, y: 32.1}
+  m_SizeDelta: {x: 325.4394, y: 289.8467}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1278241811
 MonoBehaviour:
@@ -6609,7 +6615,7 @@ Transform:
   m_GameObject: {fileID: 1471822093}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.11, y: 1.54, z: 0}
+  m_LocalPosition: {x: -2.21, y: -2.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6691,11 +6697,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputDirection: {x: 0, y: 0}
+  character: {fileID: 0}
   speed: 290
   jumpForce: 16.5
   wallJumpForce: 10
-  slideDistance: 3
-  slideSpeed: 4.5
+  slideDistance: 5
+  slideSpeed: 8
+  slidePowerCost: 5
   hurtForce: 0.3
   isDead: 0
   isAttack: 0
@@ -6778,6 +6786,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  maxPower: 15
+  currentPower: 0
+  powerRecoverSpeed: 0.2
   invulnerableDuration: 2
   invulnerable: 0
   OnHealthChange:
@@ -6954,8 +6965,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -932, y: 507}
-  m_SizeDelta: {x: 372.2831, y: 19.3979}
+  m_AnchoredPosition: {x: -938.61, y: 503.3366}
+  m_SizeDelta: {x: 372.28, y: 12.8482}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1593815609
 MonoBehaviour:
@@ -6982,7 +6993,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.54
+  m_FillAmount: 0.45
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -7469,6 +7480,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   currentHealth: 0
+  maxPower: 0
+  currentPower: 0
+  powerRecoverSpeed: 0
   invulnerableDuration: 1
   invulnerable: 1
   OnHealthChange:
@@ -7813,7 +7827,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1945551808
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,6 +8,10 @@ public class Character : MonoBehaviour
     [Header("基本属性")]
     public float maxHealth;
     public float currentHealth;
+    public float maxPower;
+    public float currentPower;  //当前力量滑铲值
+    public float powerRecoverSpeed; //力量回复速度
+
 
     [Header("受伤无敌")]
     public float invulnerableDuration;
@@ -74,6 +78,7 @@ public class Character : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        currentPower = maxPower;
         OnHealthChange?.Invoke(this);
     }
 
@@ -89,7 +94,24 @@ public class Character : MonoBehaviour
                 invulnerable = false;
             }
         }
+
+        if (currentPower < maxPower)
+        {
+            currentPower += Time.deltaTime * powerRecoverSpeed;
+        }
         
+    }
+
+
+    /// <summary>
+    /// 更新power数值，要在playerController里面滑铲的时候调用
+    /// </summary>
+    /// <param name="cost">这里是每次调用减去的power数值</param>
+    public void OnSlide(int cost)
+    {
+        currentPower -= cost;
+        //这里
+        OnHealthChange?.Invoke(this);
     }
 
 
