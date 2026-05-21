@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
     //跳跃-力
     public float jumpForce;
     public float wallJumpForce;//登墙力
+    public float slideDistance;     //滑铲距离
+    public float slideSpeed;    //滑铲速度
 
     //my own script
     private PhysicsCheck physicsCheck;
@@ -47,6 +50,7 @@ public class PlayerController : MonoBehaviour
     public bool isHurt;
     public bool isCrouch;    //下蹲
     public bool wallJump;
+    public bool isSlide;
 
 
     [Header("物理材质")]
@@ -88,6 +92,9 @@ public class PlayerController : MonoBehaviour
 
         //攻击
         inputControl.GamePlay.Attack.started += PlayerAttack;
+
+        //滑铲
+        inputControl.GamePlay.Slide.started += Slide;
     }
 
 
@@ -170,6 +177,99 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    private void Slide(InputAction.CallbackContext obj)
+    {
+        if (!isSlide)
+        {
+            isSlide = true;
+
+            var targetPos = new Vector3(transform.position.x+slideDistance * transform.localScale.x, transform.position.y);
+
+            //打开协成：
+            StartCoroutine(TriggerSlide(targetPos));
+        }
+    }
+
+    //private IEnumerator TriggerSlide(Vector3 target)
+    //{
+    //    //持续不断地做知道当前x的值达到目标值
+    //    //rb.MovePosition(target);
+    //    do
+    //    {
+    //        Debug.Log("进入协成");
+    //        yield return null;
+    //        if(!physicsCheck.isGround)//如果到悬崖边上就结束协成
+    //            yield break;
+    //        if ( physicsCheck.touchLeftWall || physicsCheck.touchRightWall)
+    //        {
+    //            Debug.Log("撞墙哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈");
+    //            //撞墙也停止
+    //            isSlide = false;
+    //            break;
+
+    //        }
+    //        //如果上面都不满足，就往前移动
+    //        rb.MovePosition(new Vector2(transform.position.x + transform.localScale.x * slideSpeed, transform.position.y));
+
+    //    } while (MathF.Abs(target.x-transform.position.x) > 0.1f);
+
+    //    //GPT老师教的，bug:这个滑铲一直结束不了
+    //    isSlide = false;
+    //}
+
+
+    /// <summary>
+    /// 这个就是有bug
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
+    private IEnumerator TriggerSlide(Vector3 target)
+    {
+        do
+        {
+
+            Debug.Log(
+                "isGround: " + physicsCheck.isGround +
+                " | leftWall: " + physicsCheck.touchLeftWall +
+                " | rightWall: " + physicsCheck.touchRightWall +
+                " | onWall: " + physicsCheck.onWall +
+                " | posX: " + transform.position.x +
+                " | velocity: " + rb.velocity
+            );
+
+            if (!physicsCheck.isGround)
+            {
+                Debug.Log("协成结束");
+                Debug.Log("离开地面");
+                yield break;
+            }
+
+            if (physicsCheck.touchLeftWall || physicsCheck.touchRightWall)
+            {
+                Debug.Log("撞墙停止");
+
+                isSlide = false;
+                break;
+            }
+            yield return null;
+
+            //第一个版本，不可以会穿墙
+            //rb.MovePosition(
+            //    new Vector2(
+            //        transform.position.x + transform.localScale.x * slideSpeed,
+            //        transform.position.y
+            //    )
+            //);
+
+            //不会穿墙的版本
+            rb.MovePosition(rb.position + new Vector2(transform.localScale.x * slideSpeed * Time.fixedDeltaTime, 0));
+
+        } while (MathF.Abs(target.x - transform.position.x) > 0.1f);
+
+        isSlide = false;
+    }
+
 
     //攻击函数
     private void PlayerAttack(InputAction.CallbackContext obj)
