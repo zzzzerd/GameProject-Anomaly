@@ -103,6 +103,19 @@ public class Character : MonoBehaviour
     }
 
 
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Water"))
+        {
+            currentHealth = 0;
+            OnHealthChange?.Invoke(this);
+            //死亡
+            OnDie.Invoke();//死亡的一系列事件
+            //跟新血量
+            //播放音乐
+        }
+    }
+
     /// <summary>
     /// 更新power数值，要在playerController里面滑铲的时候调用
     /// </summary>

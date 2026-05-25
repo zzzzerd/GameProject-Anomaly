@@ -69,7 +69,7 @@ public class PhysicsCheck : MonoBehaviour
          
         //在墙上且不再地上
         if(isPlayer)
-             onWall = (touchLeftWall && playerController.inputDirection.x<0f||touchRightWall && playerController.inputDirection.x > 0f) && rb.velocity.y<0f;
+             onWall = (touchLeftWall && playerController.inputDirection.x < 0f||touchRightWall && playerController.inputDirection.x > 0f) && rb.velocity.y<0f;
     }
 
         
