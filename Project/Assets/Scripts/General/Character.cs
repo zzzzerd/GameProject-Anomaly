@@ -59,6 +59,9 @@ public class Character : MonoBehaviour
             OnDie?.Invoke();
         }
 
+        Debug.Log($"[OnHealthChange] 调用对象: {gameObject.name}");
+        //OnHealthChange?.Invoke(this);
+
         OnHealthChange?.Invoke(this);
     }
 

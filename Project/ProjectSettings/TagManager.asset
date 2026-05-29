@@ -40,12 +40,30 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
+  - name: back_picture
+    uniqueID: 1323593135
+    locked: 0
+  - name: back_trees
+    uniqueID: 4070485141
+    locked: 0
+  - name: back_brushes
+    uniqueID: 643251129
+    locked: 0
+  - name: back_grass
+    uniqueID: 9373685
+    locked: 0
+  - name: water
+    uniqueID: 3520113447
     locked: 0
   - name: middle
     uniqueID: 2438027869
     locked: 0
-  - name: water
-    uniqueID: 3520113447
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: second front
+    uniqueID: 2087019919
+    locked: 0
+  - name: Front
+    uniqueID: 3226260097
     locked: 0

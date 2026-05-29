@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -95,7 +95,721 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 91
+        width: 58
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2430fc7de77542042a47923f72fe6ab8
+      internalID: -2103631655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 175
+        width: 61
+        height: 81
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a2e28dfbc8dbaf4d90d86ba80421529
+      internalID: -1061266886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_2
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 206
+        width: 53
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 1, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 041ed05d1d5be1f47b4679adbde7c426
+      internalID: 845167545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_3
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 224
+        width: 31
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cea0ddc93f50c0941a1d48c68d2c8717
+      internalID: 68854946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 177
+        width: 63
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 092de1ba032afe343a54e3ae8620c433
+      internalID: -1419659377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_5
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 143
+        width: 30
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d6d1b5314371cb4cbe81d202e99ac71
+      internalID: -733351089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_6
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 0
+        width: 41
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7004ada09513234587a0652b2ad4bfd
+      internalID: -1615617829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_7
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 0
+        width: 64
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 18d5434416c5da2409a9592a41020f90
+      internalID: 1904721896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_8
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 30
+        width: 45
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c49d08947cd5954cadfcb279956bc5b
+      internalID: -1788191116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_9
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 59
+        width: 46
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fc31b8979d6f864f89d6b31d32554ed
+      internalID: -1832553030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_10
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 93
+        width: 71
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 837ac2208b70801479204705082969c1
+      internalID: -1839302133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_11
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 63
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c2f85e719b495840bb553e84b82fb12
+      internalID: 178698584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_12
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 63
+        width: 22
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8cbd3084696abcd40944725b7ddd4ac8
+      internalID: 2647401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_13
+      rect:
+        serializedVersion: 2
+        x: 181
+        y: 163
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67942ae0387c1d244a8f1c55bddab1db
+      internalID: -708301054
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_14
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 163
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67ecb19860bcfab409dd0d600ed161cc
+      internalID: -521197688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_15
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 163
+        width: 2
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5b089f9c493f9b40b9588cedc020101
+      internalID: 1128987146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_16
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 145
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14e0e20a62d07614384dec0391b432b5
+      internalID: -591224859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_17
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 145
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e172b664834b34e4d9eb8b4db6f09299
+      internalID: -2108094700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_18
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 141
+        width: 16
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c26a1e3494b3044896078948f9a0e94
+      internalID: 1521420858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_19
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 94
+        width: 66
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9914aa84060ef7946b194ec15ac394bb
+      internalID: 1861149646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_20
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 240
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f8bf6e5ae3acf74f95ece82a255d7e6
+      internalID: 1234536255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_21
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 221
+        width: 16
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 240bc3e4a805fba4bb2c09f1574914b4
+      internalID: 67303642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_22
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 223
+        width: 31
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 033cf208b66d7274b8b990c39f0a6ddc
+      internalID: 501208509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_23
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 224
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd2c708eb0217234fa1ad55ccd57011e
+      internalID: -157591747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_24
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 226
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 259d584f5faf2da459b4f168ec65f623
+      internalID: 1041696320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_25
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 240
+        width: 18
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25b1193e0204d454ca7cc7609579fcf1
+      internalID: -313203185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_26
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 209
+        width: 29
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ae9f70ddd50cd146a399d0bf19958a3
+      internalID: 813592934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_27
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 171
+        width: 63
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 442b89bcafbd1d647ba24f20b44b6e0c
+      internalID: 52234822
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_28
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 127
+        width: 53
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 791f55358c12f92438a4e7655f3e003b
+      internalID: -1872362687
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_29
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 96
+        width: 28
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf056c73f44e9304a8ade57fc8422a85
+      internalID: 388492670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_30
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 143
+        width: 32
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7ee39a3233e62f45bdb9d71a66ad027
+      internalID: -1119692195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_31
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 174
+        width: 23
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89217c65965a3b647802d5264d5baace
+      internalID: 1574307590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_32
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 46
+        width: 49
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 999d186e2d5a97e4ba7b6a634fd53c04
+      internalID: 1900092788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Props-Rocks-purplemixblue_33
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 46
+        width: 28
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 2}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08afc441a45065647aeefca580c98376
+      internalID: 575058729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -106,7 +820,41 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Props-Rocks-purplemixblue_0: -2103631655
+      Props-Rocks-purplemixblue_1: -1061266886
+      Props-Rocks-purplemixblue_10: -1839302133
+      Props-Rocks-purplemixblue_11: 178698584
+      Props-Rocks-purplemixblue_12: 2647401
+      Props-Rocks-purplemixblue_13: -708301054
+      Props-Rocks-purplemixblue_14: -521197688
+      Props-Rocks-purplemixblue_15: 1128987146
+      Props-Rocks-purplemixblue_16: -591224859
+      Props-Rocks-purplemixblue_17: -2108094700
+      Props-Rocks-purplemixblue_18: 1521420858
+      Props-Rocks-purplemixblue_19: 1861149646
+      Props-Rocks-purplemixblue_2: 845167545
+      Props-Rocks-purplemixblue_20: 1234536255
+      Props-Rocks-purplemixblue_21: 67303642
+      Props-Rocks-purplemixblue_22: 501208509
+      Props-Rocks-purplemixblue_23: -157591747
+      Props-Rocks-purplemixblue_24: 1041696320
+      Props-Rocks-purplemixblue_25: -313203185
+      Props-Rocks-purplemixblue_26: 813592934
+      Props-Rocks-purplemixblue_27: 52234822
+      Props-Rocks-purplemixblue_28: -1872362687
+      Props-Rocks-purplemixblue_29: 388492670
+      Props-Rocks-purplemixblue_3: 68854946
+      Props-Rocks-purplemixblue_30: -1119692195
+      Props-Rocks-purplemixblue_31: 1574307590
+      Props-Rocks-purplemixblue_32: 1900092788
+      Props-Rocks-purplemixblue_33: 575058729
+      Props-Rocks-purplemixblue_4: -1419659377
+      Props-Rocks-purplemixblue_5: -733351089
+      Props-Rocks-purplemixblue_6: -1615617829
+      Props-Rocks-purplemixblue_7: 1904721896
+      Props-Rocks-purplemixblue_8: -1788191116
+      Props-Rocks-purplemixblue_9: -1832553030
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
