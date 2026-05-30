@@ -65,7 +65,7 @@ Note: This folder may be empty during early stages of development.
 
 #  Status
 
-This repository is currently in the learning and preparation phase.
+This repository is currently in the developing phase.
 
 Main game project will be developed inside the `Project` folder in the future.
 
