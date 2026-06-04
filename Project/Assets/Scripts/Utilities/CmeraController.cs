@@ -8,7 +8,8 @@ using System;
 /// </summary>
 public class CmeraController : MonoBehaviour
 {
-
+    [Header("事件监听")]
+    public VoidEventSO afterSceneLoadedEvent;
     private CinemachineConfiner2D confiner2D;
     public CinemachineImpulseSource iSource;
     public VoidEventSO cameraShakeEvent;
@@ -36,11 +37,24 @@ public class CmeraController : MonoBehaviour
         //cameraShakeEvent被触发的时候,执行OnCameraShakeEvent的方法
 
         cameraShakeEvent.OnEventRaised += OnCameraShakeEvent;
+        afterSceneLoadedEvent.OnEventRaised += OnAfterSceneLoadedEvent;
     }
+
+
     private void OnDisable()
     {
         cameraShakeEvent.OnEventRaised -= OnCameraShakeEvent;
+        afterSceneLoadedEvent.OnEventRaised -= OnAfterSceneLoadedEvent;
     }
+
+    private void OnAfterSceneLoadedEvent()
+    {
+        //throw new NotImplementedException();
+        GetNewCameraBounds();
+    }
+
+
+
 
     private void GetNewCameraBounds()
     {
@@ -53,8 +67,8 @@ public class CmeraController : MonoBehaviour
         confiner2D.InvalidateCache();
     }
     // Update is called once per frame
-    void Start()
-    {
-        GetNewCameraBounds();
-    }
+    //void Start()
+    //{
+    //    GetNewCameraBounds();
+    //}
 }
