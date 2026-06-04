@@ -8,6 +8,7 @@ public class UIManager : MonoBehaviour
     public PlayerStatBar playerStatBar;
     [Header("事件监听")]
     public CharacterEventSO healthEvent;//监听事件
+    public SceneLoadEventSO loadEvent;
 
     /// <summary>
     /// 注册事件（固定写法）
@@ -15,7 +16,7 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         healthEvent.OnEventRaised += OnHealthEvent; //一个事件可以注册多个函数
-
+        loadEvent.LoadRequestEvent += OnLoadEvent;
     }
 
     /// <summary>
@@ -24,6 +25,21 @@ public class UIManager : MonoBehaviour
     private void OnDisable()
     {
         healthEvent.OnEventRaised -= OnHealthEvent;
+        loadEvent.LoadRequestEvent -= OnLoadEvent;
+
+    }
+
+    private void OnLoadEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
+    {
+        //throw new NotImplementedException();
+        //if(arg0.sceneType == SceneType.Menu)
+        //{
+        //   playerStatBar.gameObject.SetActive(false);
+        //}
+
+        var isMenu = arg0.sceneType == SceneType.Menu;
+        playerStatBar.gameObject.SetActive(!isMenu);
+
 
     }
 

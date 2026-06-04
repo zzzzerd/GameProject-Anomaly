@@ -13,15 +13,24 @@ public class ScenesLoader : MonoBehaviour
 
     [Header("事件广播")]
     public VoidEventSO afterSceneLoadedEvent;
+    public FadeEventSO fadeEventSO;
+    public VoidEventSO newGameEventSO;
+    public SceneLoadEventSO unloadedSceneEvent;
 
 
     [Header("玩家参数")]
     public Transform playerTransform;
+    public Vector3 playerSpawnPoint; //玩家出生点第一次坐标
 
     [Header("事件监听")]
     public SceneLoadEventSO loadEventSO;
+
+
+    [Header("场景参数")]
     public GameSceneSO firstLoadScene;
     public GameSceneSO currentLoadedScene;
+    public GameSceneSO mapScene;
+    //public GameSceneSO mainMenuScene;
 
     //一些临时的变量，后续可能会用到
     private GameSceneSO sceneToLoad;
@@ -34,23 +43,30 @@ public class ScenesLoader : MonoBehaviour
 
 
 
-
+    private void Start()
+    {
+        //一开始要去的场景，不过map其实无所谓
+        //后面要吧第一个场景改成mainmeu，然后在mainmenu里面有个开始探索的按钮会带到map里面去
+        loadEventSO.RaiseLoadRequestEvent(mapScene, playerSpawnPoint, true);
+        //currentLoadedScene = firstLoadScene;
+    }
     private void Awake()
     {
-        //Addressables.LoadSceneAsync(firstLoadScene.sceneAssetReference, LoadSceneMode.Additive);
-        currentLoadedScene = firstLoadScene;
-        currentLoadedScene.sceneAssetReference.LoadSceneAsync(LoadSceneMode.Additive);
+        
+        //currentLoadedScene.sceneAssetReference.LoadSceneAsync(LoadSceneMode.Additive);
     }
 
     private void OnEnable()
     {
         loadEventSO.LoadRequestEvent += OnLoadRequestEvent;
+        newGameEventSO.OnEventRaised += NewGame;
 
     }
 
     private void OnDisable()
     {
         loadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
+        newGameEventSO.OnEventRaised -= NewGame;
 
     }
 
@@ -76,8 +92,12 @@ public class ScenesLoader : MonoBehaviour
         {
             StartCoroutine(UnLoadPreviousScene());
         }
-        //只是测试
-        Debug.Log("Load scene: " + sceneToLoad.sceneAssetReference.SubObjectName + " to position: " + positionToGo + " with fade screen: " + fadeScreen);
+        else
+        {
+                       LoadNewScene();
+        }
+            //只是测试
+            Debug.Log("Load scene: " + sceneToLoad.sceneAssetReference.SubObjectName + " to position: " + positionToGo + " with fade screen: " + fadeScreen);
 
     }
 
@@ -85,10 +105,12 @@ public class ScenesLoader : MonoBehaviour
     {
         if (fadeScreen)
         {
-            //实现渐入渐出
+            //逐渐变黑，然后卸载场景
+            fadeEventSO.FadeIn(fadeDuration);
 
         }
         yield return new WaitForSeconds(fadeDuration);
+        unloadedSceneEvent.RaiseLoadRequestEvent(sceneToLoad,positionToGo, true);   //其实这里是什么值无所谓，只是借用这个事件去启动uimananger
         yield return currentLoadedScene.sceneAssetReference.UnLoadScene();
 
         playerTransform.gameObject.SetActive(false);
@@ -118,13 +140,21 @@ public class ScenesLoader : MonoBehaviour
 
         if (fadeScreen)
         {
-            //减出
+            fadeEventSO.FadeOut(fadeDuration);
         }
 
         isLoading = false;
 
         //场景加载完成的事件广播
-        afterSceneLoadedEvent.RaiseEvent();
+        if(currentLoadedScene.sceneType ==SceneType.Location)
+            afterSceneLoadedEvent.RaiseEvent();
+    }
+
+    private void NewGame()
+    {
+        sceneToLoad = firstLoadScene;
+        //OnLoadRequestEvent(sceneToLoad, playerSpawnPoint, true);
+        loadEventSO.RaiseLoadRequestEvent(sceneToLoad, playerSpawnPoint, true);
     }
 }
 

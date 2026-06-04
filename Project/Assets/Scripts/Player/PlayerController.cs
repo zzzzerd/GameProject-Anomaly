@@ -5,6 +5,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("¼àÌý")]
+    public SceneLoadEventSO loadEventSO; 
+    public VoidEventSO afterSceneLoad;
+
+
+
+
     public PlayerInputControl inputControl;
     public Vector2 inputDirection;
     public Character character;
@@ -104,11 +111,28 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         inputControl.Enable();
+        loadEventSO.LoadRequestEvent += OnLoadRequestEvent;
+        afterSceneLoad.OnEventRaised += OnAfterSceneLoad;
+    }
+
+    private void OnAfterSceneLoad()
+    {
+
+        inputControl.GamePlay.Enable();
+        //throw new NotImplementedException();
     }
 
     private void OnDisable()
     {
         inputControl.Disable();
+        loadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
+        afterSceneLoad.OnEventRaised -= OnAfterSceneLoad;
+    }
+
+    private void OnLoadRequestEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
+    {
+        inputControl.GamePlay.Disable();
+        //throw new NotImplementedException();
     }
 
 
