@@ -68,24 +68,27 @@ public class GameDataManager : MonoBehaviour
             saveable.ReadSaveData(saveData);
         }
 
+        // 关键：把 saveData 赋值给 data，这样 Load() 才能读取到存档数据
+        data = saveData;
+
         // 测试：打印角色数据
-        foreach (var kvp in saveData.characterData)
+        foreach (var kvp in data.characterData)
         {
             Debug.Log($"角色存档: ID={kvp.Key}, Position={kvp.Value.position}, Health={kvp.Value.currentHealth}");
         }
 
         // 测试：打印场景物体数据
-        foreach (var kvp in saveData.sceneObjectData)
+        foreach (var kvp in data.sceneObjectData)
         {
             Debug.Log($"场景物体存档: ID={kvp.Key}, isDone={kvp.Value.isDone}");
         }
 
         // 测试：打印玩家统计
-        Debug.Log($"玩家统计: 开箱={saveData.playerStats.openedChests}, 篝火={saveData.playerStats.litCampfires}, " +
-                  $"掉星={saveData.playerStats.activatedStars}, 杀敌={saveData.playerStats.killedEnemies}, " +
-                  $"异世界={saveData.playerStats.enteredOtherWorld}");
+        Debug.Log($"玩家统计: 开箱={data.playerStats.openedChests}, 篝火={data.playerStats.litCampfires}, " +
+                  $"掉星={data.playerStats.activatedStars}, 杀敌={data.playerStats.killedEnemies}, " +
+                  $"异世界={data.playerStats.enteredOtherWorld}");
 
-        // TODO: 序列化 saveData 为 JSON 写入文件
+        // TODO: 序列化 data 为 JSON 写入文件
 
     }
 

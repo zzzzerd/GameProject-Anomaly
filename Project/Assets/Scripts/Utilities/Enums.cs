@@ -18,3 +18,12 @@ public enum EndingType
 {
 
 }
+
+/// <summary>
+/// 雕塑存档点类型
+/// </summary>
+public enum StatueType
+{
+    Good,       // 好的雕塑：加血 + 统计
+    Anomaly     // 异常雕塑：切换到 OtherWorld
+}

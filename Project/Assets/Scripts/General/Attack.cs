@@ -14,7 +14,7 @@ public class Attack : MonoBehaviour
         Debug.Log("--------触发攻击------------");
         string attackerName = gameObject.name;
         string targetName = other.gameObject.name;
-        Debug.Log($"[Attack] {attackerName} → {targetName} | Damage: {damage}");
+        //Debug.Log($"[Attack] {attackerName} → {targetName} | Damage: {damage}");
 
         //被攻击的人
         //other.GetComponent<Character>().currentHealth

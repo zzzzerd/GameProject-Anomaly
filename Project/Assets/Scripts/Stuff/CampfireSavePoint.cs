@@ -7,6 +7,9 @@ public class CampfireSavePoint : SavePointBase
     public Animator animator;
     public CampfireEventSO campfireEvent;
     public float healAmount = 20f;
+
+
+
     protected override void OnActivatedVisual()
     {
         Debug.Log("Éú»ð");

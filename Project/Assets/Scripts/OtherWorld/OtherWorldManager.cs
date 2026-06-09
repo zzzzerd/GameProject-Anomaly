@@ -191,6 +191,8 @@ public class OtherWorldManager : MonoBehaviour
             if (remainingTime <= 0)
             {
                 remainingTime = 0;
+
+                //离开
                 ExitOtherWorld();
             }
         }

@@ -1,38 +1,78 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
 public class StatueSavePoint : SavePointBase
 {
+
+    [Header("雕塑类型")]
+    public StatueType statueType;
     private SpriteRenderer spriteRenderer;
 
-    //暂时还没有想好这个雕塑具体干什么
+    [Header("雕塑广播的事件-anomaly")]
+    public StatusEventSO BadEvent;
+
+    [Header("雕塑广播事件-好事情")]
+    public StatusGoodEventSO goodEvent;
+    public float addHealth;
+    public float addPower;
+
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-
-
-    protected override void OnActivatedVisual()
-    {
-        Debug.Log("雕塑激活|开始形态变化");
-        spriteRenderer.color = Color.yellow;
-        //animator.SetBool("fire", true);
-
-    }
-
     /// <summary>
-    /// 通知玩家
+    /// 第一次激活的
+    /// 
     /// </summary>
     protected override void OnFirstActivated()
     {
-        Debug.Log("雕塑激活|开始事件逻辑的广播");
-        //激活雕塑事件记录+1
-        //存档
-        //获得能力
-        //campfireEvent.RaiseEvent(healAmount);
+        Debug.Log("雕塑激活发生事件");
+        //这里应该是两种，一种是增加一次激活数量，一种是去往异世界的异常雕塑,用枚举类,然后可以挂载雕塑上面选择的
+        //好的激活事件就加血吧
+
+        if (statueType == StatueType.Good)
+        {
+            Debug.Log("【雕塑:获得好的事件】");
+            GameDataManager.Instance.AddActivatedStar();//激活增加
+            goodEvent.RaiseEvent(addHealth,addPower); //
+
+        }
+        else if (statueType == StatueType.Anomaly)
+        {
+            Debug.Log("【雕塑:去往异世界事件】");
+            GameDataManager.Instance.AddEnteredOtherWorld();//事件增加
+            BadEvent.RaiseEvent();
+        }
     }
+
+
+    /// <summary>
+    /// 这个就是本身激活后状态
+    /// </summary>
+    protected override void OnActivatedVisual()
+    {
+        Debug.Log("变成雕塑激活了后的状态");
+        //改变雕塑的样子
+        ChangeTheStatus();
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void ChangeTheStatus()
+    {
+        if (statueType == StatueType.Good)
+        {
+            spriteRenderer.color = Color.yellow;
+        }
+        else
+        {
+            spriteRenderer.color = Color.red;
+        }
+
+    }
+
 }
