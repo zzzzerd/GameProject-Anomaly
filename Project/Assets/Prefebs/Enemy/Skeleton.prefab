@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5157513017542328520}
   - component: {fileID: 5246879042893401431}
   - component: {fileID: 7278289536039434157}
+  - component: {fileID: 4963747432349763789}
   m_Layer: 8
   m_Name: Skeleton
   m_TagString: Untagged
@@ -232,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfab3dce8360b3746a611db65c613fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newGameEventSO: {fileID: 11400000, guid: 7896adb19e6b990408ab870004526c3f, type: 2}
   maxHealth: 50
   currentHealth: 0
   maxPower: 0
@@ -239,6 +241,7 @@ MonoBehaviour:
   powerRecoverSpeed: 0
   invulnerableDuration: 1
   invulnerable: 0
+  healAudio: {fileID: 0}
   OnHealthChange:
     m_PersistentCalls:
       m_Calls: []
@@ -361,3 +364,16 @@ MonoBehaviour:
   touchLeftWall: 0
   touchRightWall: 0
   onWall: 0
+--- !u!114 &4963747432349763789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334353299441478871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2bf3d9ac6e9a5847a87ae203dc70ba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uniqueId: e8483580-27b2-448a-a9e4-08cb1cf6d646

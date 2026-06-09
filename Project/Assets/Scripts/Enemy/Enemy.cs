@@ -3,51 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.XR.Haptics;
 
-[RequireComponent(typeof(Rigidbody2D),typeof(Animator),typeof(PhysicsCheck))]//Ò»¶¨ĞèÒªµÄ×é¼ş
+[RequireComponent(typeof(Rigidbody2D),typeof(Animator),typeof(PhysicsCheck))]//ä¸€å®šéœ€è¦çš„ç»„ä»¶
 
 public class Enemy : MonoBehaviour
 {
-    //»ñÈ¡µĞÈËÉíÉÏµÄ×é¼şµÄ×¼±¸
+    //è·å–æ•Œäººèº«ä¸Šçš„ç»„ä»¶çš„å‡†å¤‡
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Animator anim;
     [HideInInspector] public PhysicsCheck physicsCheck;
     public Transform attacker;
 
-    [Header("»ù±¾²ÎÊı")]
+    [Header("åŸºæœ¬å‚æ•°")]
     public float normalSpeed;
     public float chaseSpeed;
     [HideInInspector] public float currentSpeed;
     public float hurtForce;
-    public Vector3 faceDir;   //Ãæ³¯µÄ·½Ïò
+    public Vector3 faceDir;   //é¢æœçš„æ–¹å‘
     public Vector3 spwanPoint;
 
-    [Header("¼ì²â")]
+    [Header("æ£€æµ‹")]
     public Vector2 centerOffet;
-    public Vector2 checkSize;//ºĞ×Ó´óĞ¡
-    public float checkDistance;//¼ì²â¾àÀë
-    public LayerMask attackLayer;//Òª¼ì²âµÄÈËÊôÓÚµÄÍ¼²ã£¿£¿
+    public Vector2 checkSize;//ç›’å­å¤§å°
+    public float checkDistance;//æ£€æµ‹è·ç¦»
+    public LayerMask attackLayer;//è¦æ£€æµ‹çš„äººå±äºçš„å›¾å±‚ï¼Ÿï¼Ÿ
 
 
-    [Header("¼ì²â-×·×ÙÊ±¼ä")]
+    [Header("æ£€æµ‹-è¿½è¸ªæ—¶é—´")]
     public float lostTime;
     public float lostTimeCounter;
 
 
-    [Header("×´Ì¬")]
-    public bool canMove = true; //ÔİÊ±ÓÃ²»ÉÏ
-    public bool isHurt;//±»´òÁË
-    public bool isDead;//ÒÑËÀ
+    [Header("çŠ¶æ€")]
+    public bool canMove = true; //æš‚æ—¶ç”¨ä¸ä¸Š
+    public bool isHurt;//è¢«æ‰“äº†
+    public bool isDead;//å·²æ­»
 
-    protected BaseState currentState;//µ±Ç°×´Ì¬
-    protected BaseState patrolState; //Ñ²Âß×´Ì¬
-    protected BaseState chaseState; //×·¸Ï×´Ì¬
-    protected BaseState skillState; //ÌØÊâ¼¼ÄÜ×´Ì¬
+    protected BaseState currentState;//å½“å‰çŠ¶æ€
+    protected BaseState patrolState; //å·¡é€»çŠ¶æ€
+    protected BaseState chaseState; //è¿½èµ¶çŠ¶æ€
+    protected BaseState skillState; //ç‰¹æ®ŠæŠ€èƒ½çŠ¶æ€
 
 
-    [Header("¼ÆÊ±Æ÷")]
+    [Header("è®¡æ—¶å™¨")]
     public float waitTime;
     public float waitTimeCounter;
-    public bool wait;//Õâ¸öÒ²ÊÇ×´Ì¬ÊµÔò£¬Èç¹ûwaitÖ»ÒªÉèÖÃwaitµÄtrue£¬¾Í»áÍ£ÏÂÀ´Á½ÃëÈ»ºó×ªÉí
+    public bool wait;//è¿™ä¸ªä¹Ÿæ˜¯çŠ¶æ€å®åˆ™ï¼Œå¦‚æœwaitåªè¦è®¾ç½®waitçš„trueï¼Œå°±ä¼šåœä¸‹æ¥ä¸¤ç§’ç„¶åè½¬èº«
 
 
 
@@ -65,46 +65,46 @@ public class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// ÎïÌå±»¼¤»îµÄÊ±ºò
+    /// ç‰©ä½“è¢«æ¿€æ´»çš„æ—¶å€™
     /// </summary>
     private void OnEnable()
     {
         currentState = patrolState;
-        currentState.OnEnter(this);//°Ñµ±Ç°Õâ¸öÀàĞÍ´«Èë
+        currentState.OnEnter(this);//æŠŠå½“å‰è¿™ä¸ªç±»å‹ä¼ å…¥
 
-        ////²âÊÔ
+        ////æµ‹è¯•
         //Debug.Log("currentState = " + currentState);
         //Debug.Log("patrolState = " + patrolState);
 
         //if (patrolState == null)
         //{
-        //    Debug.LogError("ÔÚOnEnableÀïÃæ patrolState is NULL");
+        //    Debug.LogError("åœ¨OnEnableé‡Œé¢ patrolState is NULL");
         //}
         //else
         //{
-        //    Debug.Log("ÔÚOnEnableÀïÃæpatrolState²»ÊÇ¿ÕµÄ£¬patrolState = " + patrolState);
+        //    Debug.Log("åœ¨OnEnableé‡Œé¢patrolStateä¸æ˜¯ç©ºçš„ï¼ŒpatrolState = " + patrolState);
         //}
 
         //if (currentState == null)
         //{
-        //    Debug.LogError("ÔÚOnEnableÀïÃæ currentState is NULL");
+        //    Debug.LogError("åœ¨OnEnableé‡Œé¢ currentState is NULL");
         //}
         //else
         //{
-        //    Debug.Log("ÔÚOnEnableÀïÃæcurrentState²»ÊÇ¿ÕµÄ£¬currentState = " + currentState);
+        //    Debug.Log("åœ¨OnEnableé‡Œé¢currentStateä¸æ˜¯ç©ºçš„ï¼ŒcurrentState = " + currentState);
         //}
 
 
     }
 
-    // Update is called once per frame,ÊµÊ±»ñÈ¡
+    // Update is called once per frame,å®æ—¶è·å–
     protected virtual void Update()
-    {   //»ñÈ¡Ãæ³¯·½Ïò
+    {   //è·å–é¢æœæ–¹å‘
         //Debug.Log($"[Update] {name} ID={GetInstanceID()}");
-        faceDir = new Vector3(transform.localScale.x, 0, 0);//ÒòÎªÖ»ĞèÒªxµÄÖµ(×óÓÒ·½Ïò),È»ºóÔÚupdateÀïÃæ»áÊµÊ±¸üĞÂ
+        faceDir = new Vector3(transform.localScale.x, 0, 0);//å› ä¸ºåªéœ€è¦xçš„å€¼(å·¦å³æ–¹å‘),ç„¶ååœ¨updateé‡Œé¢ä¼šå®æ—¶æ›´æ–°
 
 
-        ////²âÊÔ£º
+        ////æµ‹è¯•ï¼š
         //if (patrolState == null)
         //    Debug.LogError("patrolState is NULL");
 
@@ -115,31 +115,31 @@ public class Enemy : MonoBehaviour
         //    Debug.LogError("physicsCheck is NULL");
 
         currentState?.LogicUpdate();
-        TimeCounter();//Ã¿Ò»Ö¡¶¼»áµ÷ÓÃ£¬µ«ÊÇÖ»ÓĞwai==trueµÄÊ±ºò²Å»á½øĞĞÄÚ²¿µ¹¼ÆÊ±µÄÂß¼­
+        TimeCounter();//æ¯ä¸€å¸§éƒ½ä¼šè°ƒç”¨ï¼Œä½†æ˜¯åªæœ‰wai==trueçš„æ—¶å€™æ‰ä¼šè¿›è¡Œå†…éƒ¨å€’è®¡æ—¶çš„é€»è¾‘
 
 
 
     }
 
 
-    //¹Ì¶¨Ê±¼äÖ´ĞĞ£¬ºÍÎïÀíÏµÍ³Í¬²½
+    //å›ºå®šæ—¶é—´æ‰§è¡Œï¼Œå’Œç‰©ç†ç³»ç»ŸåŒæ­¥
     private void FixedUpdate()
     {
-        //Èç¹ûÄ£Äâ¹ÖÎïÊÇÏä×Ó¾ÍÏÈ²»¶¯
+        //å¦‚æœæ¨¡æ‹Ÿæ€ªç‰©æ˜¯ç®±å­å°±å…ˆä¸åŠ¨
         if (canMove)
         {
-            if (!isHurt && !isDead && !wait)//ÊÜÉË¾Í²»¿ÉÒÔÖ´ĞĞÕâ¸ö´úÂëÁË
+            if (!isHurt && !isDead && !wait)//å—ä¼¤å°±ä¸å¯ä»¥æ‰§è¡Œè¿™ä¸ªä»£ç äº†
             {
                 Move();
             }
         }
 
-        //×´Ì¬»ú
+        //çŠ¶æ€æœº
         currentState.PhysicsUpdate();
     }
 
     /// <summary>
-    /// ÍË³öÖ´ĞĞ£¬ÈËÎïÏûÊ§Ö´ĞĞ
+    /// é€€å‡ºæ‰§è¡Œï¼Œäººç‰©æ¶ˆå¤±æ‰§è¡Œ
     /// </summary>
     private void OnDisable()
     {
@@ -147,17 +147,17 @@ public class Enemy : MonoBehaviour
         currentState.OnExit();
     }
 
-    //ÒÆ¶¯µÄĞĞÎªº¯Êı£¬²»¼Ó±ğµÄÂß¼­ÅĞ¶Ï£¬µ¥´¿ÒÆ¶¯
+    //ç§»åŠ¨çš„è¡Œä¸ºå‡½æ•°ï¼Œä¸åŠ åˆ«çš„é€»è¾‘åˆ¤æ–­ï¼Œå•çº¯ç§»åŠ¨
     public virtual void Move()
     {
         if (!anim.GetCurrentAnimatorStateInfo(0).IsName("MimicTransformToBox")&& !anim.GetCurrentAnimatorStateInfo(0).IsName("MimicTransformToMonster"))
-            //ÒÆ¶¯£ºÈÃµĞÈË²úÉúÎ»ÒÆ
+            //ç§»åŠ¨ï¼šè®©æ•Œäººäº§ç”Ÿä½ç§»
             rb.velocity = new Vector2(currentSpeed * faceDir.x * Time.deltaTime, rb.velocity.y);
     }
 
 
     /// <summary>
-    /// Áô¸ø·ÉĞĞ¶¯ÎïµÄ»ñÈ¡ĞÂµÄpositionÄ¿±êµãµÄº¯Êı
+    /// ç•™ç»™é£è¡ŒåŠ¨ç‰©çš„è·å–æ–°çš„positionç›®æ ‡ç‚¹çš„å‡½æ•°
     /// </summary>
     /// <returns></returns>
     public virtual Vector3 GetNewPoint()
@@ -168,19 +168,19 @@ public class Enemy : MonoBehaviour
 
 
     /// <summary>
-    /// ¼ÆÊ±Æ÷
+    /// è®¡æ—¶å™¨
     /// </summary>
     public void TimeCounter()
     {
-        if (wait)//wait==trueµÄÊ±ºò
+        if (wait)//wait==trueçš„æ—¶å€™
         {
-            //Debug.Log("¿ªÊ¼µ¹¼ÆÊ±");
+            //Debug.Log("å¼€å§‹å€’è®¡æ—¶");
             waitTimeCounter -= Time.deltaTime;
-            if (waitTimeCounter <= 0)//µ¹¼ÆÊ±½áÊøÁË
+            if (waitTimeCounter <= 0)//å€’è®¡æ—¶ç»“æŸäº†
             {
-                wait = false;//ĞŞ¸Ä×´Ì¬(ÔÚupdateÄÇÀï¿ÉÒÔµ÷ÓÃmoveº¯ÊıÁË)£¬ÕâÀï»á¸Ä»Ø×´Ì¬
+                wait = false;//ä¿®æ”¹çŠ¶æ€(åœ¨updateé‚£é‡Œå¯ä»¥è°ƒç”¨moveå‡½æ•°äº†)ï¼Œè¿™é‡Œä¼šæ”¹å›çŠ¶æ€
                 waitTimeCounter = waitTime;
-                transform.localScale = new Vector3(-faceDir.x, 1, 1);//×ªÉí
+                transform.localScale = new Vector3(-faceDir.x, 1, 1);//è½¬èº«
             }
         }
 
@@ -188,14 +188,14 @@ public class Enemy : MonoBehaviour
         {
             lostTimeCounter-=Time.deltaTime;
         }
-        //else//Èç¹ûÔÚÕâ¸ö¹ı³ÌÖĞÓÖ·¢ÏÖÁËµĞÈË
+        //else//å¦‚æœåœ¨è¿™ä¸ªè¿‡ç¨‹ä¸­åˆå‘ç°äº†æ•Œäºº
         //{
         //    lostTimeCounter = lostTime;
         //}
     }
 
     /// <summary>
-    /// ·¢ÉäÒ»¸ö¶«Î÷£¬È»ºó¿´¿´ÄÜ²»ÄÜÕÒµ½¶ÔÓ¦ÎïÌå£¬·µ»Øbool
+    /// å‘å°„ä¸€ä¸ªä¸œè¥¿ï¼Œç„¶åçœ‹çœ‹èƒ½ä¸èƒ½æ‰¾åˆ°å¯¹åº”ç‰©ä½“ï¼Œè¿”å›bool
     /// </summary>
     /// <returns></returns>
     public virtual bool FoundPlayer()
@@ -205,83 +205,93 @@ public class Enemy : MonoBehaviour
 
 
     /// <summary>
-    /// ×´Ì¬ÇĞ»»
+    /// çŠ¶æ€åˆ‡æ¢
     /// </summary>
     /// <param name="state"></param>
     public void SwitchState(NPCState state)
     {
         
-        var newState = state switch //¼ì²éÃ¶¾ÙÀàĞÍstateµÄvalue
+        var newState = state switch //æ£€æŸ¥æšä¸¾ç±»å‹stateçš„value
         {
-            NPCState.Patrol => patrolState,//Èç¹ûÊÇpatrol¾Í·µ»ØpatrolState
-            NPCState.Chase => chaseState,//Í¬Àí
+            NPCState.Patrol => patrolState,//å¦‚æœæ˜¯patrolå°±è¿”å›patrolState
+            NPCState.Chase => chaseState,//åŒç†
             NPCState.Skill => skillState,
+            // Boss çŠ¶æ€å¤ç”¨æ§½ä½
+            NPCState.BossIdle => patrolState,
+            NPCState.BossChase => chaseState,
+            NPCState.BossAttack => skillState,
             _ => null
         };
 
-        currentState.OnExit();//ÏÈÍË³öÉÏÒ»¸ö
-        currentState = newState;//»»³ÉĞÂµÄ×´Ì¬
-        currentState.OnEnter(this);//½øÈëĞÂ×´Ì¬
+        currentState.OnExit();//å…ˆé€€å‡ºä¸Šä¸€ä¸ª
+        currentState = newState;//æ¢æˆæ–°çš„çŠ¶æ€
+        currentState.OnEnter(this);//è¿›å…¥æ–°çŠ¶æ€
 
     }
 
 
 
     /// <summary>
-    /// ±»¹¥»÷µÄĞĞÎª
+    /// è¢«æ”»å‡»çš„è¡Œä¸º
     /// </summary>
     /// <param name="attackTrans"></param>
     public void OnTakeDamage(Transform attackTrans)
     {
         attacker = attackTrans;
 
-        //ÊÜÉË¾Í×ªÉí
-        if (attackTrans.position.x - transform.position.x > 0)//Õ¾ÔÚÓÒ²à
+        //å—ä¼¤å°±è½¬èº«
+        if (attackTrans.position.x - transform.position.x > 0)//ç«™åœ¨å³ä¾§
         {
-            Debug.Log("ÊÜÉË×ªÉí1");
-            transform.localScale = new Vector3(1, 1, 1);//¾Í³¯×ÅÓÒ±ß
+            Debug.Log("å—ä¼¤è½¬èº«1");
+            transform.localScale = new Vector3(1, 1, 1);//å°±æœç€å³è¾¹
         }
-        if (attackTrans.position.x - transform.position.x < 0)//Õ¾ÔÚ×ó±ß
+        if (attackTrans.position.x - transform.position.x < 0)//ç«™åœ¨å·¦è¾¹
         {
-            Debug.Log("ÊÜÉË×ªÉí2");
-            transform.localScale = new Vector3(-1, 1, 1);//³¯Ïò×ó±ß
+            Debug.Log("å—ä¼¤è½¬èº«2");
+            transform.localScale = new Vector3(-1, 1, 1);//æœå‘å·¦è¾¹
         }
 
-        //ÊÜÉË±»»÷ÍË
-        isHurt = true;//Ó°ÏìupdateÀïÃæµÄmove
-        anim.SetTrigger("hurt");//²¥·ÅÊÜÉËµÄ¶¯»­,ÓÉÓÚÊÇtrigger£¬ËùÒÔ´òÒ»È­¾Í´¥·¢Ò»´Î
+        //å—ä¼¤è¢«å‡»é€€
+        isHurt = true;//å½±å“updateé‡Œé¢çš„move
+        anim.SetTrigger("hurt");//æ’­æ”¾å—ä¼¤çš„åŠ¨ç”»,ç”±äºæ˜¯triggerï¼Œæ‰€ä»¥æ‰“ä¸€æ‹³å°±è§¦å‘ä¸€æ¬¡
 
-        //±»»÷·É
+        //è¢«å‡»é£
         Vector2 dir = new Vector2(transform.position.x - attackTrans.position.x, 0).normalized;
         rb.velocity = new Vector2(0,rb.velocity.y);
         StartCoroutine(OnHurt(dir));
     }
 
-    //Ğ­³É£¬°´ÕÕÒ»¶¨µÄË³ĞòÖğÒ»Ö´ĞĞ£¬»¹¿ÉÒÔµÈ´ı,·µ»ØÒ»¸öµü´úÆ÷
+    //åæˆï¼ŒæŒ‰ç…§ä¸€å®šçš„é¡ºåºé€ä¸€æ‰§è¡Œï¼Œè¿˜å¯ä»¥ç­‰å¾…,è¿”å›ä¸€ä¸ªè¿­ä»£å™¨
     private IEnumerator OnHurt(Vector2 dir)
     {
-        rb.AddForce(dir * hurtForce, ForceMode2D.Impulse);//ÊÜÉË±»»÷ÍË
-        yield return new WaitForSeconds(0.45f);//µÈ´ıÒ»ºö¶ù
-        isHurt = false;//¿ÉÒÔ»Ö¸´ĞĞ¶¯ÁË
+        rb.AddForce(dir * hurtForce, ForceMode2D.Impulse);//å—ä¼¤è¢«å‡»é€€
+        yield return new WaitForSeconds(0.45f);//ç­‰å¾…ä¸€å¿½å„¿
+        isHurt = false;//å¯ä»¥æ¢å¤è¡ŒåŠ¨äº†
     }
 
     public virtual void OnDie()
     {
-        //°ÑÕâ¸öµĞÈËµÄÍ¼²ã¸Ä³É²»ºÍplayer·¢ÉúÅö×²µÄÍ¼²ã
-        gameObject.layer = 2; //inspectorÀïÃæÈ¥¿´¾ßÌålayerºÍ¶ÔÓ¦µÄ±àºÅ
-        //²¥·ÅËÀÍö¶¯»­
+        //æŠŠè¿™ä¸ªæ•Œäººçš„å›¾å±‚æ”¹æˆä¸å’Œplayerå‘ç”Ÿç¢°æ’çš„å›¾å±‚
+        gameObject.layer = 2; //inspectoré‡Œé¢å»çœ‹å…·ä½“layerå’Œå¯¹åº”çš„ç¼–å·
+        //æ’­æ”¾æ­»äº¡åŠ¨ç”»
         anim.SetBool("dead", true);
-        //¸Ä±ä×´Ì¬
-        isDead = true;//ÒÑ¾­ËÀÁË
+        //æ”¹å˜çŠ¶æ€
+        isDead = true;//å·²ç»æ­»äº†
 
+        // ç»Ÿè®¡ï¼šæ€æ•Œ +1
+
+        //æµ‹è¯•
+        Debug.Log($"çœ‹çœ‹:{GameDataManager.Instance}");
+        GameDataManager.Instance?.AddKilledEnemy();
+        Debug.Log("å·²ç»æ­»");
     }
 
     /// <summary>
-    /// Ïú»Ù
+    /// é”€æ¯
     /// </summary>
     public void DestroyAfterAnimation()
     {
-        //Ïú»Ùµ±Ç°ÎïÌå
+        //é”€æ¯å½“å‰ç‰©ä½“
         Destroy(this.gameObject);
     }
 

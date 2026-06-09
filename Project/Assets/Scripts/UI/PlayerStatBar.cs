@@ -7,20 +7,31 @@ using UnityEngine.UI;
 public class PlayerStatBar : MonoBehaviour
 {
     private Character currentCharacter;
+
     public Image healthImage;
     public Image healthDelayImage;
     public Image powerImage;
+    public Image frameImage;
+
     private bool isRecovering;
+
+    public Sprite normalFrame;
+    public Sprite otherWorldFrame;
+
+    public void SwitchToOtherWorld()
+    {
+        frameImage.sprite = otherWorldFrame;
+    }
+
+    public void SwitchToNormalWorld()
+    {
+        frameImage.sprite = normalFrame;
+    }
+
 
     private void Update()
     {
-        ////这一个版本没有那么好
-        //if (healthDelayImage.fillAmount > healthImage.fillAmount)
-        //{
-        //    healthDelayImage.fillAmount-=Time.deltaTime*2;//延迟
-        //}
 
-        //ai给的反应更明显
         healthDelayImage.fillAmount = Mathf.MoveTowards(
             healthDelayImage.fillAmount,
             healthImage.fillAmount,

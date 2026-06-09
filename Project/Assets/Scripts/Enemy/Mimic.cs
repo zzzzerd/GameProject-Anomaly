@@ -15,6 +15,7 @@ public class Mimic : Enemy
     protected override void Awake()
     {
         base.Awake();
+        Debug.Log("Spawn: " + gameObject.name + " ID=" + GetInstanceID());
         //就是先创建一下这两个状态
         patrolState = new MimicPatrolState();
         skillState = new MimicSkillState();

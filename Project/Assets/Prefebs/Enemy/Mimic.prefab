@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 5120710731555446609}
   - component: {fileID: 1245188954090808567}
   - component: {fileID: 7087725979374824500}
+  - component: {fileID: 3381678801103623521}
   m_Layer: 8
   m_Name: Mimic
   m_TagString: Untagged
@@ -232,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfab3dce8360b3746a611db65c613fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newGameEventSO: {fileID: 11400000, guid: 7896adb19e6b990408ab870004526c3f, type: 2}
   maxHealth: 50
   currentHealth: 0
   maxPower: 0
@@ -239,6 +241,7 @@ MonoBehaviour:
   powerRecoverSpeed: 0
   invulnerableDuration: 1
   invulnerable: 1
+  healAudio: {fileID: 0}
   OnHealthChange:
     m_PersistentCalls:
       m_Calls:
@@ -373,3 +376,16 @@ MonoBehaviour:
   waitTime: 1
   waitTimeCounter: 4
   wait: 0
+--- !u!114 &3381678801103623521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8704269857705174919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2bf3d9ac6e9a5847a87ae203dc70ba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uniqueId: 94c45e26-7d1c-49cd-883c-29037c6b01a1

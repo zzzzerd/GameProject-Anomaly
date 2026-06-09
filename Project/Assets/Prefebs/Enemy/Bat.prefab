@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7229102641529428768}
   - component: {fileID: 2202715403478427961}
   - component: {fileID: 6830074430436849251}
+  - component: {fileID: 8471310785458599787}
   m_Layer: 8
   m_Name: Bat
   m_TagString: Untagged
@@ -265,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfab3dce8360b3746a611db65c613fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newGameEventSO: {fileID: 11400000, guid: 7896adb19e6b990408ab870004526c3f, type: 2}
   maxHealth: 40
   currentHealth: 0
   maxPower: 0
@@ -272,6 +274,7 @@ MonoBehaviour:
   powerRecoverSpeed: 0
   invulnerableDuration: 0.2
   invulnerable: 0
+  healAudio: {fileID: 0}
   OnHealthChange:
     m_PersistentCalls:
       m_Calls: []
@@ -317,6 +320,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8471310785458599787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2812109154604445232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2bf3d9ac6e9a5847a87ae203dc70ba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uniqueId: b656c829-1b41-42d4-a9fa-f7a06ab30f0f
 --- !u!1 &5027889781562493886
 GameObject:
   m_ObjectHideFlags: 0

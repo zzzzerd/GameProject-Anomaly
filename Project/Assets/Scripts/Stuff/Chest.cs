@@ -10,6 +10,10 @@ public class Chest : MonoBehaviour,interInteractable
     public Sprite closeSprite;
     public bool isDone;
 
+    [Header("å¥–åŠ±")]
+    public float healAmount = 15f;  // å¼€ç®±å›å¤è¡€é‡ï¼Œ0 è¡¨ç¤ºä¸åŠ è¡€
+    public Character playerCharacter;  // æ‹–å…¥ç©å®¶ Character
+
     public void TriggerAction()
     {
         //throw new System.NotImplementedException();
@@ -32,11 +36,6 @@ public class Chest : MonoBehaviour,interInteractable
         spriteRenderer.sprite = isDone? openSprite : closeSprite;   
     }
 
-
-
-
-
-
     private void OpenChest()
     {
         StartCoroutine(OpenChestCoroutine());
@@ -46,14 +45,23 @@ public class Chest : MonoBehaviour,interInteractable
     {
         GetComponent<AudioDefination>()?.PlayAudioCLip();
 
-        // µÈ´ı0.5Ãë
+        // ç­‰å¾…0.5ç§’
         yield return new WaitForSeconds(0.5f);
 
         spriteRenderer.sprite = openSprite;
 
-        // ¿ÉÄÜ»ñµÃÈÎÒâ¼¼ÄÜ£º¼ÓÑªÁ¿¡¢¶ş¶ÎÌø
+        // å¥–åŠ±ï¼šåŠ è¡€
+        if (playerCharacter != null && healAmount > 0)
+        {
+            playerCharacter.Heal(healAmount);
+        }
+
+        // åç»­å¯æ‰©å±•ï¼šäºŒæ®µè·³ç­‰å…¶ä»–å¥–åŠ±
 
         isDone = true;
         gameObject.tag = "Untagged";
+
+        // ç»Ÿè®¡ï¼šå¼€ç®± +1
+        GameDataManager.Instance?.AddOpenedChest();
     }
 }

@@ -7,32 +7,32 @@ using System;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 
-public class ScenesLoader : MonoBehaviour
+public class ScenesLoader : MonoBehaviour,ISaveService
 {
 
 
-    [Header("ÊÂ¼ş¹ã²¥")]
+    [Header("äº‹ä»¶")]
     public VoidEventSO afterSceneLoadedEvent;
     public FadeEventSO fadeEventSO;
     public VoidEventSO newGameEventSO;
     public SceneLoadEventSO unloadedSceneEvent;
 
 
-    [Header("Íæ¼Ò²ÎÊı")]
+    [Header("ä¼ é€’çš„å‚æ•°")]
     public Transform playerTransform;
-    public Vector3 playerSpawnPoint; //Íæ¼Ò³öÉúµãµÚÒ»´Î×ø±ê
+    public Vector3 playerSpawnPoint; //ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    [Header("ÊÂ¼ş¼àÌı")]
+    [Header("äº‹ä»¶")]
     public SceneLoadEventSO loadEventSO;
 
 
-    [Header("³¡¾°²ÎÊı")]
+    [Header("æ¸¸æˆåœºæ™¯")]
     public GameSceneSO firstLoadScene;
     public GameSceneSO currentLoadedScene;
     public GameSceneSO mapScene;
-    //public GameSceneSO mainMenuScene;
+    public GameSceneSO mainMenuScene;
 
-    //Ò»Ğ©ÁÙÊ±µÄ±äÁ¿£¬ºóĞø¿ÉÄÜ»áÓÃµ½
+    //Ò»
     private GameSceneSO sceneToLoad;
     private Vector3 positionToGo;
 
@@ -45,46 +45,48 @@ public class ScenesLoader : MonoBehaviour
 
     private void Start()
     {
-        //Ò»¿ªÊ¼ÒªÈ¥µÄ³¡¾°£¬²»¹ımapÆäÊµÎŞËùÎ½
-        //ºóÃæÒª°ÉµÚÒ»¸ö³¡¾°¸Ä³Émainmeu£¬È»ºóÔÚmainmenuÀïÃæÓĞ¸ö¿ªÊ¼Ì½Ë÷µÄ°´Å¥»á´øµ½mapÀïÃæÈ¥
-        loadEventSO.RaiseLoadRequestEvent(mapScene, playerSpawnPoint, true);
-        //currentLoadedScene = firstLoadScene;
+        // æ³¨å†Œå­˜æ¡£ï¼ˆStart åœ¨ Awake ä¹‹åï¼Œç¡®ä¿ GameDataManager.Instance å·²åˆå§‹åŒ–ï¼‰
+        ISaveService saveService = this;
+        saveService.TurnToSaveble();
+
+        // ç¬¬ä¸€æ¬¡å¯åŠ¨åŠ è½½ä¸»èœå•
+        loadEventSO.RaiseLoadRequestEvent(mainMenuScene, playerSpawnPoint, true);
     }
+
     private void Awake()
     {
-        
-        //currentLoadedScene.sceneAssetReference.LoadSceneAsync(LoadSceneMode.Additive);
+
     }
 
     private void OnEnable()
     {
         loadEventSO.LoadRequestEvent += OnLoadRequestEvent;
         newGameEventSO.OnEventRaised += NewGame;
-
     }
 
     private void OnDisable()
     {
         loadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
         newGameEventSO.OnEventRaised -= NewGame;
-
+        
+        ISaveService saveService=this;
+        saveService.TurnToUnsaveble();
     }
 
-    /// <summary>
-    /// ÕâÊÇÒ»¸öÈ¥ÍùĞÂ³¡¾°µÄÇëÇóÊÂ¼ş£¬²ÎÊı·Ö±ğÊÇÒªÈ¥ÍùµÄ³¡¾°¡¢ÔÚĞÂ³¡¾°ÖĞµÄÎ»ÖÃ¡¢ÊÇ·ñÒªµ­Èëµ­³ö
-    /// </summary>
-    /// <param name="locationToLoad"></param>
-    /// <param name="positionToGo"></param>
-    /// <param name="fadeScreen"></param>
+/// <summary>
+/// 
+/// </summary>
+/// <param name="locationToLoad"></param>
+/// <param name="positionToGo"></param>
+/// <param name="fadeScreen"></param>
     private void OnLoadRequestEvent(GameSceneSO locationToLoad, Vector3 positionToGo, bool fadeScreen)
     {
-        if(isLoading)
+        if (isLoading)
             return;
 
         isLoading = true;
-        
-        
-        //ÏÈ¸³Öµ
+
+
         sceneToLoad = locationToLoad;
         this.positionToGo = positionToGo;
         this.fadeScreen = fadeScreen;
@@ -94,10 +96,9 @@ public class ScenesLoader : MonoBehaviour
         }
         else
         {
-                       LoadNewScene();
+            LoadNewScene();
         }
-            //Ö»ÊÇ²âÊÔ
-            Debug.Log("Load scene: " + sceneToLoad.sceneAssetReference.SubObjectName + " to position: " + positionToGo + " with fade screen: " + fadeScreen);
+        Debug.Log("Load scene: " + sceneToLoad.sceneAssetReference.SubObjectName + " to position: " + positionToGo + " with fade screen: " + fadeScreen);
 
     }
 
@@ -105,12 +106,11 @@ public class ScenesLoader : MonoBehaviour
     {
         if (fadeScreen)
         {
-            //Öğ½¥±äºÚ£¬È»ºóĞ¶ÔØ³¡¾°
             fadeEventSO.FadeIn(fadeDuration);
 
         }
         yield return new WaitForSeconds(fadeDuration);
-        unloadedSceneEvent.RaiseLoadRequestEvent(sceneToLoad,positionToGo, true);   //ÆäÊµÕâÀïÊÇÊ²Ã´ÖµÎŞËùÎ½£¬Ö»ÊÇ½èÓÃÕâ¸öÊÂ¼şÈ¥Æô¶¯uimananger
+        unloadedSceneEvent.RaiseLoadRequestEvent(sceneToLoad, positionToGo, true);   //ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê²Ã´Öµï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½Ö»ï¿½Ç½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½È¥ï¿½ï¿½ï¿½ï¿½uimananger
         yield return currentLoadedScene.sceneAssetReference.UnLoadScene();
 
         playerTransform.gameObject.SetActive(false);
@@ -119,13 +119,13 @@ public class ScenesLoader : MonoBehaviour
 
     private void LoadNewScene()
     {
-        var loadingOption = sceneToLoad.sceneAssetReference.LoadSceneAsync(LoadSceneMode.Additive,true);
-        loadingOption.Completed+=OnloadComplete;
+        var loadingOption = sceneToLoad.sceneAssetReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+        loadingOption.Completed += OnloadComplete;
 
     }
 
     /// <summary>
-    /// ĞÂ³¡¾°¶¼¼ÓÔØºÃÁË
+    ///
     /// </summary>
     /// <param name="handle"></param>
     private void OnloadComplete(AsyncOperationHandle<SceneInstance> handle)
@@ -133,7 +133,7 @@ public class ScenesLoader : MonoBehaviour
         //throw new NotImplementedException();
         currentLoadedScene = sceneToLoad;
 
-        playerTransform.position = positionToGo;  //ÒÆ¶¯playerµÄ×ø±ê
+        playerTransform.position = positionToGo;  //ï¿½Æ¶ï¿½playerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
         //playerTransform.position.Set
         playerTransform.gameObject.SetActive(true);
@@ -145,18 +145,61 @@ public class ScenesLoader : MonoBehaviour
 
         isLoading = false;
 
-        //³¡¾°¼ÓÔØÍê³ÉµÄÊÂ¼ş¹ã²¥
-        if(currentLoadedScene.sceneType ==SceneType.Location)
+     
+        if (currentLoadedScene.sceneType == SceneType.Location)
             afterSceneLoadedEvent.RaiseEvent();
     }
 
+
+
+
     private void NewGame()
     {
+        if (isLoading)
+            return;
+
         sceneToLoad = firstLoadScene;
-        //OnLoadRequestEvent(sceneToLoad, playerSpawnPoint, true);
         loadEventSO.RaiseLoadRequestEvent(sceneToLoad, playerSpawnPoint, true);
     }
-}
 
+    public UniqueId GetUniqueId()
+    {
+        //throw new NotImplementedException();
+        return GetComponent<UniqueId>();
+    }
+
+    public void ReadSaveData(GameData data)
+    {
+        //ä¿å­˜è¿™ä¸ªsceneæ–‡ä»¶
+        data.SaveGameScene(currentLoadedScene);
+        //throw new NotImplementedException();
+    }
+
+    public void LoadData(GameData data)
+    {
+        var playerID = playerTransform.GetComponent<UniqueId>().Id;
+        if (data.characterData.ContainsKey(playerID))
+        {
+            positionToGo = data.characterData[playerID].position;
+            sceneToLoad = data.GetSavedScene();//ä¼šè¿”å›ä¸€ä¸ªåœºæ™¯
+
+            // åˆ¤æ–­å­˜æ¡£åœºæ™¯ä¸å½“å‰åœºæ™¯æ˜¯å¦ç›¸åŒ
+            bool sameScene = currentLoadedScene != null &&
+                             sceneToLoad != null &&
+                             currentLoadedScene.sceneAssetReference.AssetGUID == sceneToLoad.sceneAssetReference.AssetGUID;
+
+            if (sameScene)
+            {
+                // åŒä¸€åœºæ™¯ï¼šåªç§»åŠ¨ç©å®¶ä½ç½®ï¼Œä¸é‡æ–°åŠ è½½ï¼ˆé¿å…æ•Œäººé‡ç”Ÿï¼‰
+                playerTransform.position = positionToGo;
+            }
+            else
+            {
+                // ä¸åŒåœºæ™¯ï¼ˆå¦‚ä» OtherWorld è¿”å›ï¼ŒLevel1 å·²å¸è½½ï¼‰ï¼šé‡æ–°åŠ è½½å­˜æ¡£åœºæ™¯
+                loadEventSO.RaiseLoadRequestEvent(sceneToLoad, positionToGo, false);
+            }
+        }
+    }
+}
 
 

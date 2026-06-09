@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 6595835346027785116}
   - component: {fileID: 5306160984652339251}
   - component: {fileID: 8092197140861003954}
+  - component: {fileID: 3381630082471733612}
   m_Layer: 8
   m_Name: EvileBoss
   m_TagString: Untagged
@@ -232,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfab3dce8360b3746a611db65c613fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  newGameEventSO: {fileID: 0}
   maxHealth: 50
   currentHealth: 0
   maxPower: 0
@@ -239,6 +241,7 @@ MonoBehaviour:
   powerRecoverSpeed: 0
   invulnerableDuration: 1
   invulnerable: 0
+  healAudio: {fileID: 0}
   OnHealthChange:
     m_PersistentCalls:
       m_Calls: []
@@ -361,3 +364,16 @@ MonoBehaviour:
   touchLeftWall: 0
   touchRightWall: 0
   onWall: 0
+--- !u!114 &3381630082471733612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2596412761645932525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2bf3d9ac6e9a5847a87ae203dc70ba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uniqueId: 5c567e69-a63c-456d-aca4-9e4c9e999b90

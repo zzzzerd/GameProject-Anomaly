@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour,ISaveService
 {
-    [Header("基本属性")]
+    [Header("事件监听")]
+    public VoidEventSO newGameEventSO;
+
+
     public float maxHealth;
     public float currentHealth;
     public float maxPower;
@@ -18,10 +21,24 @@ public class Character : MonoBehaviour
     private float invulnerableCounter;
     public bool invulnerable;
 
+    [Header("音效")]
+    public AudioDefination healAudio;  // 加血音效
+
     public UnityEvent<Character> OnHealthChange;
 
     public UnityEvent<Transform> OnTakeDamage;
     public UnityEvent OnDie;
+
+    /// <summary>
+    /// 加血的逻辑，不超过 maxHealth
+    /// </summary>
+    /// <param name="amount">回复量</param>
+    public void Heal(float amount)
+    {
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        healAudio?.PlayAudioCLip();//播放加血音效
+        OnHealthChange?.Invoke(this);
+    }
 
     //接受伤害逻辑和行为
     public void TakeDamage(Attack attacker)
@@ -65,6 +82,23 @@ public class Character : MonoBehaviour
         OnHealthChange?.Invoke(this);
     }
 
+
+    private void OnEnable()
+    {
+        newGameEventSO.OnEventRaised += NewGame;
+
+        //保存系统注册
+        ISaveService saveble = this;
+        saveble.TurnToSaveble();
+    }
+
+    private void OnDisable()
+    {
+        newGameEventSO.OnEventRaised -= NewGame;
+        //保存系统注销
+        ISaveService saveble = this;
+        saveble.TurnToUnsaveble();
+    }   
     //触发无敌
     private void TriggerInvulnerable()
     {
@@ -78,7 +112,7 @@ public class Character : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void NewGame()
     {
         currentHealth = maxHealth;
         currentPower = maxPower;
@@ -131,4 +165,59 @@ public class Character : MonoBehaviour
     }
 
 
+    ///关于这个character的数据保存(血量能量以及位置)
+
+    /// <summary>
+    /// 获取当前的id
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="System.NotImplementedException"></exception>
+    public UniqueId GetUniqueId()
+    {
+        //throw new System.NotImplementedException();
+        return GetComponent<UniqueId>();
+    }
+
+
+    /// <summary>
+    /// 添加数据到"数据库"里面
+    /// </summary>
+    public void ReadSaveData(GameData data)
+    {
+        //创建这个对象的数据结构
+        string id = GetUniqueId().Id;
+        var charData = new CharacterData
+        {
+            position = transform.position,
+            currentHealth = currentHealth,
+            currentPower = currentPower
+        };
+
+        //如果存在就修改，不存在直接添加
+        if (data.characterData.ContainsKey(id))
+        {
+            data.characterData[id] = charData;
+        }
+        else
+        {
+            data.characterData.Add(id, charData);
+        }
+    }
+
+    /// <summary>
+    /// 加载当前这个对象的数据把数据加载
+    /// </summary>
+    /// <param name="data"></param>
+    public void LoadData(GameData data)
+    {
+        //根据唯一id找到对应的数据
+        string id = GetUniqueId().Id;
+        if (data.characterData.TryGetValue(id, out CharacterData charData))
+        {
+            transform.position = charData.position;
+            currentHealth = charData.currentHealth;
+            currentPower = charData.currentPower;
+            OnHealthChange?.Invoke(this);
+        }
+    }
 }

@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class FadingController : MonoBehaviour
 {
-    [Header("ÊÂ¼ş¼àÌı")]
+    [Header("äº‹ä»¶ç›‘å¬")]
     public FadeEventSO fadeEventSO;
     public Image fadeImage;
 
@@ -23,13 +23,13 @@ public class FadingController : MonoBehaviour
 
 
     /// <summary>
-    /// Òª±ä³ÉÊ²Ã´ÑÕÉ«£¬µÚ¶ş¸ö²ÎÊıÊÇ³ÖĞøÊ±¼ä£¬µ¥Î»ÊÇÃë
+    /// è¦å˜æˆä»€ä¹ˆé¢œè‰²ï¼Œç¬¬äºŒä¸ªå‚æ•°æ˜¯æŒç»­æ—¶é—´ï¼Œå•ä½æ˜¯ç§’
     /// </summary>
+    /// <param name="target"></param>
+    /// <param name=""></param>
     private void OnFadeEvent(Color target, float duration, bool isfadeIn)
     {
-        // È·±£ fadeImage µÄ GameObject ÊÇ¼¤»îµÄ
-        fadeImage.gameObject.SetActive(true);
-        fadeImage.DOColor(target, duration);
+        fadeImage.DOBlendableColor(target,duration);
     }
 
 
