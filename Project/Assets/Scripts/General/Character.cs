@@ -140,17 +140,27 @@ public class Character : MonoBehaviour,ISaveService
     }
 
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Water"))
-        {
-            currentHealth = 0;
-            OnHealthChange?.Invoke(this);
-            //死亡
-            OnDie.Invoke();//死亡的一系列事件
-            //跟新血量
-            //播放音乐
-        }
+        if (!other.CompareTag("Water"))
+            return;
+
+
+        Debug.Log("Water Trigger | isDead={GetComponent<PlayerController>().isDead}");
+
+        Debug.Log( $"[Death] 掉进水里 | pos={transform.position}");
+
+
+        var playerController = GetComponent<PlayerController>();
+
+        if (playerController != null && playerController.isDead)
+            return;
+
+        currentHealth = 0;
+
+        OnHealthChange?.Invoke(this);
+
+        OnDie?.Invoke();
     }
 
     /// <summary>

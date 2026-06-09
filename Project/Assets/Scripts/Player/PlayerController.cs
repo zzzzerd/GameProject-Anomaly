@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [Header("监听")]
     public SceneLoadEventSO loadEventSO; 
     public VoidEventSO afterSceneLoad;
+    public VoidEventSO newGameEventSO;
 
 
 
@@ -105,28 +106,42 @@ public class PlayerController : MonoBehaviour
 
         //滑铲
         inputControl.GamePlay.Slide.started += Slide;
+
+        inputControl.Enable();
     }
 
 
     private void OnEnable()
     {
-        inputControl.Enable();
         loadEventSO.LoadRequestEvent += OnLoadRequestEvent;
         afterSceneLoad.OnEventRaised += OnAfterSceneLoad;
+        //if (newGameEventSO != null)
+        //    newGameEventSO.OnEventRaised += OnNewGame;
     }
 
     private void OnAfterSceneLoad()
     {
+        if (isDead)
+        {
+            Debug.Log("场景加载完成，执行复活");
+            ReviveAfterLoad();
+        }
 
         inputControl.GamePlay.Enable();
-        //throw new NotImplementedException();
     }
+
+    //private void OnNewGame()
+    //{
+    //    ReviveAfterLoad();
+    //}
 
     private void OnDisable()
     {
         inputControl.Disable();
         loadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
         afterSceneLoad.OnEventRaised -= OnAfterSceneLoad;
+        //if (newGameEventSO != null)
+        //    newGameEventSO.OnEventRaised -= OnNewGame;
     }
 
     private void OnLoadRequestEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
@@ -139,12 +154,25 @@ public class PlayerController : MonoBehaviour
     //只有下面这两个update函数才会一直执行在代码中
     private void Update()
     {
+        if (isDead)
+        {
+            inputDirection = Vector2.zero;
+            CheckState();
+            return;
+        }
+
         inputDirection = inputControl.GamePlay.Move.ReadValue<Vector2>();
         CheckState();
     }
 
     private void FixedUpdate()
     {
+        if (isDead)
+        {
+            rb.velocity = new Vector2(0f, rb.velocity.y);
+            return;
+        }
+
         if(!isHurt && !isAttack)
             Move();
         
@@ -308,8 +336,24 @@ public class PlayerController : MonoBehaviour
     public void PlayerDead()
     {
         isDead = true;
+        rb.velocity = Vector2.zero;
         //把这些游戏操作都关闭
         inputControl.GamePlay.Disable();
+    }
+
+    public void ReviveAfterLoad()
+    {
+        Debug.Log("爸爸妈妈我复活了");
+        isDead = false;
+        isHurt = false;
+        isAttack = false;
+        isSlide = false;
+        wallJump = false;
+        character.currentHealth = character.maxHealth;
+        character.currentPower = character.maxPower;
+        rb.velocity = Vector2.zero;
+        gameObject.layer = LayerMask.NameToLayer("Player");
+        inputControl.GamePlay.Enable();
     }
 
     private void CheckState()
