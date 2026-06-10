@@ -44,23 +44,42 @@ public class EndingManager : MonoBehaviour
 
     /// <summary>
     /// 根据玩家统计数据判断结局
+    /// 哪个属性最高就走对应结局；侵蚀最高时再看力量高低
     /// </summary>
     public void TriggerEndingByStats()
     {
-        //获取player的统计值
         var stats = GameDataManager.Instance.Data.playerStats;
 
-        //计算结局公式
-        int total = stats.killedEnemies + stats.litCampfires + stats.activatedStars
-                  + stats.enteredOtherWorld + stats.openedChests;
-        //根据数值获取结局
-        EndingType ending = (total == 0) ? EndingType.GoodEnding : EndingType.BadEnding;
 
+        //计算三个方向的值
+        int strength   = stats.killedEnemies + stats.killedBosses * 5;
+        int hope       = stats.activatedStars * 3 + stats.litCampfires * 2;
+        int corruption = stats.enteredOtherWorld * 4;
 
-        //测试输出
-        Debug.Log($"[EndingManager] 统计总值={total}，判定结局={ending}");
+        Debug.Log($"[EndingManager] strength={strength} hope={hope} corruption={corruption}");
 
-        //激发结局
+        EndingType ending;
+
+        if (strength >= hope && strength >= corruption)
+        {
+            ending = EndingType.Warrior;       
+        }
+        else if (hope >= strength && hope >= corruption)
+        {
+            ending = EndingType.Saint;// 希望最高
+        }
+        else
+
+        {
+            // 侵蚀最高
+            ending = (strength >= 10) ? EndingType.AnomalySage : EndingType.LostSoul;
+        }
+
+        // 全都是 0 → 归乡者
+        if (strength == 0 && hope == 0 && corruption == 0)
+            ending = EndingType.Farmer;
+
+        Debug.Log($"[EndingManager] 判定结局={ending}");
         TriggerEnding(ending);
     }
 

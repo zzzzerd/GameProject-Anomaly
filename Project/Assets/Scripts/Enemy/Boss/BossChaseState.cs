@@ -1,66 +1,96 @@
 using UnityEngine;
 
 /// <summary>
-/// Boss 追逐状态：朝玩家飞行追击
+/// Boss 追逐状态：朝玩家飞行追击（仿 BatChaseState）
 /// </summary>
 public class BossChaseState : BaseState
 {
     private Attack attack;
     private Vector3 target;
     private Vector3 moveDir;
+    private float attackRateCounter;
+    private bool isAttack;
 
     public override void OnEnter(Enemy enemy)
     {
         currentEnemy = enemy;
         currentEnemy.currentSpeed = currentEnemy.chaseSpeed;
         currentEnemy.anim.SetBool("chase", true);
-        attack = enemy.GetComponent<Attack>();
+        attack = enemy.GetComponentInChildren<Attack>();
         currentEnemy.lostTimeCounter = currentEnemy.lostTime;
     }
 
     public override void LogicUpdate()
     {
-        // 丢失目标太久 → 回到 Idle
+        // 丢失目标太久 → 回 Idle
         if (currentEnemy.lostTimeCounter <= 0)
         {
             currentEnemy.SwitchState(NPCState.BossIdle);
             return;
         }
 
-        // 有 attacker 才能追击
+        // 每帧刷新 attacker
+        currentEnemy.FoundPlayer();
+
         if (currentEnemy.attacker == null) return;
 
-        // 目标点：玩家头顶上方（Boss 漂浮攻击）
-        target = currentEnemy.attacker.position + Vector3.up * 1.5f;
+        // 目标点：玩家位置抬高一点
+        target = new Vector3(
+            currentEnemy.attacker.position.x,
+            currentEnemy.attacker.position.y + 1f,
+            0
+        );
 
-        // 进入攻击范围 → 切换攻击状态
-        float dist = Vector3.Distance(currentEnemy.transform.position, target);
-        if (attack != null && dist <= attack.attackRange)
+        float stopDist = (currentEnemy is BossEnemy boss) ? boss.attackStopDistance : 2f;
+
+        // 进入攻击停止距离 → 停下播攻击动画
+        if (Vector3.Distance(currentEnemy.transform.position, target) <= stopDist)
         {
-            currentEnemy.SwitchState(NPCState.BossAttack);
-            return;
+            isAttack = true;
+
+            if (currentEnemy.isHurt)
+                currentEnemy.rb.velocity = Vector2.zero;
+
+            attackRateCounter -= Time.deltaTime;
+            if (attackRateCounter <= 0)
+            {
+                currentEnemy.anim.SetTrigger("attack");
+                if (attack != null)
+                    attackRateCounter = attack.attackRate;
+                else
+                    attackRateCounter = 1.5f;
+            }
+        }
+        else
+        {
+            isAttack = false;
         }
 
-        // 朝目标移动
         moveDir = (target - currentEnemy.transform.position).normalized;
 
-        // 面向
+        // 朝向
         if (moveDir.x > 0)
             currentEnemy.transform.localScale = new Vector3(1, 1, 1);
-        else if (moveDir.x < 0)
+        if (moveDir.x < 0)
             currentEnemy.transform.localScale = new Vector3(-1, 1, 1);
     }
 
     public override void PhysicsUpdate()
     {
-        if (!currentEnemy.isHurt && !currentEnemy.isDead)
+        if (!currentEnemy.isHurt && !currentEnemy.isDead && !isAttack)
         {
             currentEnemy.rb.velocity = moveDir * currentEnemy.currentSpeed * Time.deltaTime;
+        }
+        else if (isAttack)
+        {
+            currentEnemy.rb.velocity = Vector2.zero;
         }
     }
 
     public override void OnExit()
     {
         currentEnemy.anim.SetBool("chase", false);
+        isAttack = false;
+        attackRateCounter = 0;
     }
 }

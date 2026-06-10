@@ -53,13 +53,11 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
-        //Debug.Log($"[Awake] {name} ID={GetInstanceID()}");
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         physicsCheck = GetComponent<PhysicsCheck>();
 
         currentSpeed = normalSpeed;
-        //waitTimeCounter = waitTime;
         spwanPoint =  transform.position;
 
     }
@@ -71,54 +69,15 @@ public class Enemy : MonoBehaviour
     {
         currentState = patrolState;
         currentState.OnEnter(this);//把当前这个类型传入
-
-        ////测试
-        //Debug.Log("currentState = " + currentState);
-        //Debug.Log("patrolState = " + patrolState);
-
-        //if (patrolState == null)
-        //{
-        //    Debug.LogError("在OnEnable里面 patrolState is NULL");
-        //}
-        //else
-        //{
-        //    Debug.Log("在OnEnable里面patrolState不是空的，patrolState = " + patrolState);
-        //}
-
-        //if (currentState == null)
-        //{
-        //    Debug.LogError("在OnEnable里面 currentState is NULL");
-        //}
-        //else
-        //{
-        //    Debug.Log("在OnEnable里面currentState不是空的，currentState = " + currentState);
-        //}
-
-
     }
 
     // Update is called once per frame,实时获取
     protected virtual void Update()
     {   //获取面朝方向
-        //Debug.Log($"[Update] {name} ID={GetInstanceID()}");
         faceDir = new Vector3(transform.localScale.x, 0, 0);//因为只需要x的值(左右方向),然后在update里面会实时更新
-
-
-        ////测试：
-        //if (patrolState == null)
-        //    Debug.LogError("patrolState is NULL");
-
-        //if (currentState == null)
-        //    Debug.LogError("currentState is NULL");
-
-        //if (physicsCheck == null)
-        //    Debug.LogError("physicsCheck is NULL");
 
         currentState?.LogicUpdate();
         TimeCounter();//每一帧都会调用，但是只有wai==true的时候才会进行内部倒计时的逻辑
-
-
-
     }
 
 
@@ -143,7 +102,6 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void OnDisable()
     {
-        //Debug.Log("Enemy OnDisable");
         currentState.OnExit();
     }
 
@@ -174,7 +132,6 @@ public class Enemy : MonoBehaviour
     {
         if (wait)//wait==true的时候
         {
-            //Debug.Log("开始倒计时");
             waitTimeCounter -= Time.deltaTime;
             if (waitTimeCounter <= 0)//倒计时结束了
             {
@@ -188,10 +145,6 @@ public class Enemy : MonoBehaviour
         {
             lostTimeCounter-=Time.deltaTime;
         }
-        //else//如果在这个过程中又发现了敌人
-        //{
-        //    lostTimeCounter = lostTime;
-        //}
     }
 
     /// <summary>
@@ -242,12 +195,10 @@ public class Enemy : MonoBehaviour
         //受伤就转身
         if (attackTrans.position.x - transform.position.x > 0)//站在右侧
         {
-            Debug.Log("受伤转身1");
             transform.localScale = new Vector3(1, 1, 1);//就朝着右边
         }
         if (attackTrans.position.x - transform.position.x < 0)//站在左边
         {
-            Debug.Log("受伤转身2");
             transform.localScale = new Vector3(-1, 1, 1);//朝向左边
         }
 
@@ -279,8 +230,6 @@ public class Enemy : MonoBehaviour
         isDead = true;//已经死了
 
         // 统计：杀敌 +1
-
-        //测试
         Debug.Log($"看看:{GameDataManager.Instance}");
         GameDataManager.Instance?.AddKilledEnemy();
         Debug.Log("已经死");
@@ -297,7 +246,6 @@ public class Enemy : MonoBehaviour
 
     public virtual void OnDrawGizmosSelected()
     {
-        //Gizmos.DrawWireSphere(transform.position+(Vector3)centerOffet+ new Vector3(checkDistance*faceDir.x,0),0.2f);
         Gizmos.DrawWireSphere(transform.position+(Vector3)centerOffet+ new Vector3( checkDistance * transform.localScale.x, 0 ),0.2f);
     }
 }

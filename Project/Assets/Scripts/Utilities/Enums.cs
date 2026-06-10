@@ -16,9 +16,12 @@ public enum EnemyType
 
 public enum EndingType
 {
-    Death,       // 死亡结局
-    GoodEnding,  // 好结局（统计值之和 == 0）
-    BadEnding    // 坏结局（统计值之和 > 0）
+    Death,          // 死亡结局
+    Warrior,        // 勇士：力量最高
+    Saint,          // 圣者：希望最高
+    AnomalySage,    // 异界贤者：侵蚀最高 + 力量高
+    LostSoul,       // 失魂者：侵蚀最高 + 力量低
+    Farmer          // 归乡者：其余情况
 }
 
 /// <summary>

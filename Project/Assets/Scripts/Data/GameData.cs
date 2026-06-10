@@ -36,11 +36,12 @@ public class CharacterData
 [System.Serializable]
 public class PlayerStatsData
 {
-    public int openedChests;        //打开箱子个数
-    public int litCampfires;        //升起篝火个数
-    public int activatedStars;      //激活掉星个数
-    public int killedEnemies;       //杀死敌人个数
-    public int enteredOtherWorld;   //去往异世界次数
+    public int openedChests;        // 打开箱子个数
+    public int litCampfires;        // 升起篝火个数（篝火）
+    public int activatedStars;      // 激活好雕塑个数
+    public int killedEnemies;       // 杀死普通怪数量
+    public int killedBosses;        // 击杀 Boss 次数
+    public int enteredOtherWorld;   // 去往异世界次数
 }
 
 /// <summary>
@@ -62,10 +63,15 @@ public class EndingRecord
     public EndingType endingType;
     public string dateTime;
     public int killedEnemies;
+    public int killedBosses;
     public int litCampfires;
     public int activatedStars;
     public int enteredOtherWorld;
     public int openedChests;
+    // 三隐藏属性快照
+    public int strength;
+    public int hope;
+    public int corruption;
 }
 
 /// <summary>

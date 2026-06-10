@@ -113,6 +113,15 @@ public class Character : MonoBehaviour,ISaveService
 
     // Start is called before the first frame update
     //就是会重置一下血量和能量值
+    private void Awake()
+    {
+        // 如果 currentHealth 未在 Inspector 设置，自动用 maxHealth 初始化
+        if (currentHealth <= 0)
+            currentHealth = maxHealth;
+        if (currentPower <= 0)
+            currentPower = maxPower;
+    }
+
     void NewGame()
     {
         currentHealth = maxHealth;

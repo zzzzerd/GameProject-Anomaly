@@ -229,10 +229,16 @@ public class GameDataManager : MonoBehaviour
     public void AddKilledEnemy()
     {
         data.playerStats.killedEnemies++;
-        Debug.Log(
-    "杀敌增加后 = "
-    + data.playerStats.killedEnemies
-);
+        Debug.Log("[GameDataManager] killedEnemies=" + data.playerStats.killedEnemies);
+    }
+
+    /// <summary>
+    /// 增加击杀 Boss 次数
+    /// </summary>
+    public void AddKilledBoss()
+    {
+        data.playerStats.killedBosses++;
+        Debug.Log("[GameDataManager] killedBosses=" + data.playerStats.killedBosses);
     }
 
     /// <summary>
@@ -279,15 +285,22 @@ public class GameDataManager : MonoBehaviour
         }
 
         var stats = data.playerStats;
+        int strength   = stats.killedEnemies + stats.killedBosses * 5;
+        int hope       = stats.activatedStars * 3 + stats.litCampfires * 2;
+        int corruption = stats.enteredOtherWorld * 4;
         recordData.records.Add(new EndingRecord
         {
-            endingType      = endingType,
-            dateTime        = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-            killedEnemies   = stats.killedEnemies,
-            litCampfires    = stats.litCampfires,
-            activatedStars  = stats.activatedStars,
+            endingType        = endingType,
+            dateTime          = System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+            killedEnemies     = stats.killedEnemies,
+            killedBosses      = stats.killedBosses,
+            litCampfires      = stats.litCampfires,
+            activatedStars    = stats.activatedStars,
             enteredOtherWorld = stats.enteredOtherWorld,
-            openedChests    = stats.openedChests
+            openedChests      = stats.openedChests,
+            strength          = strength,
+            hope              = hope,
+            corruption        = corruption
         });
 
         File.WriteAllText(recordPath, JsonConvert.SerializeObject(recordData, Formatting.Indented));
