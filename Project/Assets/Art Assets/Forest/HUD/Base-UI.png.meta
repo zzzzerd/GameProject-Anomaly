@@ -1357,7 +1357,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-UI_60
+      name: Pause_UI
       rect:
         serializedVersion: 2
         x: 50
@@ -1827,7 +1827,7 @@ TextureImporter:
         width: 57
         height: 2
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1905,7 +1905,6 @@ TextureImporter:
       Base-UI_58: 338933141
       Base-UI_59: 1364653446
       Base-UI_6: 852397364
-      Base-UI_60: 869536560
       Base-UI_61: -192033489
       Base-UI_62: 1204310333
       Base-UI_63: 2003658738
@@ -1933,6 +1932,7 @@ TextureImporter:
       Base-UI_HealthRed: -899541939
       Base-UI_healthFrame: -763297011
       Base-UI_healthGreen: 960850377
+      Pause_UI: 869536560
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

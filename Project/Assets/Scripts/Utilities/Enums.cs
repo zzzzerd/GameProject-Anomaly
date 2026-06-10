@@ -16,7 +16,9 @@ public enum EnemyType
 
 public enum EndingType
 {
-
+    Death,       // 死亡结局
+    GoodEnding,  // 好结局（统计值之和 == 0）
+    BadEnding    // 坏结局（统计值之和 > 0）
 }
 
 /// <summary>

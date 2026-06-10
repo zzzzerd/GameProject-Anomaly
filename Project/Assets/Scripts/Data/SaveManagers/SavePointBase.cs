@@ -38,13 +38,13 @@ public abstract class SavePointBase : MonoBehaviour, interInteractable, ISaveSer
 
 
     /// <summary>
-    /// 存档
+    /// 写入
     /// </summary>
     /// <param name="data"></param>
     public void ReadSaveData(GameData data)
     {
         string id = GetUniqueId().Id;
-        Debug.Log($"保存 {name}  ID={id}  isDone={isDone}");
+        //Debug.Log($"保存 {name}  ID={id}  isDone={isDone}");
         if (data.sceneObjectData.ContainsKey(id))
         {
             data.sceneObjectData[id] = new SceneObjectData { isDone = isDone };
@@ -64,35 +64,35 @@ public abstract class SavePointBase : MonoBehaviour, interInteractable, ISaveSer
     {
 
         //测试
-        Debug.Log(
-            name
-            + " 正在读取存档"
-        );
+        //Debug.Log(
+        //    name
+        //    + " 正在读取存档"
+        //);
         string id = GetUniqueId().Id;
 
         if (data.sceneObjectData.TryGetValue(id, out SceneObjectData objData))
         {
-            Debug.Log(
-                $"找到存档 {name}  isDone={objData.isDone}"
-            );
+            //Debug.Log(
+            //    $"找到存档 {name}  isDone={objData.isDone}"
+            //);
 
             isDone = objData.isDone;
 
             //已经done了的话要把那个视觉上还有接触上都改了
-            Debug.Log(name + " 读取到 isDone=" + isDone);
+            //Debug.Log(name + " 读取到 isDone=" + isDone);
             if (isDone)
             {
                 gameObject.tag = "Untagged";
                 OnActivatedVisual(); 
             }
         }
-        else
-        {
-            Debug.LogWarning(
-                $"没找到存档数据 {name}"
-            );
+        //else
+        //{
+        //    Debug.LogWarning(
+        //        $"没找到存档数据 {name}"
+        //    );
 
-        }
+        //}
     }
 
     //注册/注销
@@ -102,13 +102,13 @@ public abstract class SavePointBase : MonoBehaviour, interInteractable, ISaveSer
         ISaveService saveble = this;
         
         saveble.TurnToSaveble();
-        Debug.Log(name + " 注册存档");
+        //Debug.Log(name + " 注册存档");
     }
 
     private void OnDisable()
     {
         ISaveService saveble = this;
         saveble.TurnToUnsaveble();
-        Debug.Log(name + " 注销存档");
+        //Debug.Log(name + " 注销存档");
     }
 }

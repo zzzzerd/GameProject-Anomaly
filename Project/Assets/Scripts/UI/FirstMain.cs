@@ -7,22 +7,39 @@ public class FirstMain : MonoBehaviour
     [Header("事件监听")]
     public SceneLoadEventSO loadEventSO;
 
-    [Header("一些事件")]
+    [Header("场景")]
     public GameSceneSO mapScene;
 
-    [Header("其他参数")]
-    public Vector3 playerSpawnPoint;
+    [Header("继续旅程按钮（有存档时显示）")]
+    public GameObject continueButton;
 
+    private void Start()
+    {
+        // 根据是否有存档，决定继续旅程按钮的显隐
+        if (continueButton != null)
+            continueButton.SetActive(GameDataManager.Instance != null && GameDataManager.Instance.HasSaveData());
+    }
+
+    /// <summary>
+    /// 开始新旅程：进入地图界面，在地图点 Level1 是新游戏
+    /// </summary>
     public void StartNewExplore()
     {
-        loadEventSO.RaiseLoadRequestEvent(mapScene, playerSpawnPoint,true);
+        Map.IsContinueMode = false;
+        loadEventSO.RaiseLoadRequestEvent(mapScene, Vector3.zero, true);
         Debug.Log("开始新的旅程");
     }
+
+    /// <summary>
+    /// 继续旅程：进入地图界面，在地图点 Level1 是读档继续
+    /// </summary>
     public void ContinueExplore()
     {
-        //loadEventSO.RaiseLoadRequestEvent(mapScene, playerSpawnPoint, true);
-        Debug.Log("继续旅程");
+        Map.IsContinueMode = true;
+        loadEventSO.RaiseLoadRequestEvent(mapScene, Vector3.zero, true);
+        Debug.Log("继续旅程 → 进入地图");
     }
+
     public void ExistGame()
     {
         Application.Quit();
@@ -31,7 +48,6 @@ public class FirstMain : MonoBehaviour
 
     public void ShowTutorial()
     {
-        //Application.Quit();
-        Debug.Log("离开游戏");
+        Debug.Log("显示教程");
     }
 }

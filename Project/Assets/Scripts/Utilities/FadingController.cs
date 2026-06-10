@@ -29,7 +29,7 @@ public class FadingController : MonoBehaviour
     /// <param name=""></param>
     private void OnFadeEvent(Color target, float duration, bool isfadeIn)
     {
-        fadeImage.DOBlendableColor(target,duration);
+        fadeImage.DOColor(target, duration);
     }
 
 

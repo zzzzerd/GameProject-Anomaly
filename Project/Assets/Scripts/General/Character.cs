@@ -40,7 +40,7 @@ public class Character : MonoBehaviour,ISaveService
         OnHealthChange?.Invoke(this);
     }
 
-    //接受伤害逻辑和行为
+    //玩家被伤害
     public void TakeDamage(Attack attacker)
     {
         //Debug.Log(attacker.damage);
@@ -55,12 +55,12 @@ public class Character : MonoBehaviour,ISaveService
         //非无敌状态-剩余血量-受到伤害
         if (currentHealth - attacker.damage > 0)
         {
-            Debug.Log($"[TakeDamage] 进入受伤逻辑 | 当前血量: {currentHealth} | 伤害: {attacker.damage} | 攻击者: {attacker.name}");
+            //Debug.Log($"[TakeDamage] 进入受伤逻辑 | 当前血量: {currentHealth} | 伤害: {attacker.damage} | 攻击者: {attacker.name}");
 
             //血量减少
             currentHealth -= attacker.damage;
 
-            Debug.Log($"[TakeDamage] 受伤完成 | 剩余血量: {currentHealth}");
+            //Debug.Log($"[TakeDamage] 受伤完成 | 剩余血量: {currentHealth}");
             //触发无敌
             TriggerInvulnerable();
             //执行受伤
@@ -76,7 +76,7 @@ public class Character : MonoBehaviour,ISaveService
             OnDie?.Invoke();
         }
 
-        Debug.Log($"[OnHealthChange] 调用对象: {gameObject.name}");
+        //Debug.Log($"[OnHealthChange] 调用对象: {gameObject.name}");
         //OnHealthChange?.Invoke(this);
 
         OnHealthChange?.Invoke(this);
@@ -112,6 +112,7 @@ public class Character : MonoBehaviour,ISaveService
 
 
     // Start is called before the first frame update
+    //就是会重置一下血量和能量值
     void NewGame()
     {
         currentHealth = maxHealth;
@@ -198,7 +199,7 @@ public class Character : MonoBehaviour,ISaveService
         string id = GetUniqueId().Id;
         var charData = new CharacterData
         {
-            position = transform.position,
+            position = new SerializeVector3(transform.position),
             currentHealth = currentHealth,
             currentPower = currentPower
         };
@@ -224,7 +225,7 @@ public class Character : MonoBehaviour,ISaveService
         string id = GetUniqueId().Id;
         if (data.characterData.TryGetValue(id, out CharacterData charData))
         {
-            transform.position = charData.position;
+            transform.position = charData.position.ToVector3();
             currentHealth = charData.currentHealth;
             currentPower = charData.currentPower;
             OnHealthChange?.Invoke(this);

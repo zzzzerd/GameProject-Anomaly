@@ -7,23 +7,37 @@ using System;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 
-public class ScenesLoader : MonoBehaviour,ISaveService
+public class ScenesLoader : MonoBehaviour, ISaveService
 {
 
 
-    [Header("事件")]
+    [Header("场景加载完成后事件广播-通知照相机获取边界")]
     public VoidEventSO afterSceneLoadedEvent;
+
+    [Header("场景渐变时间广播-通知fading Controller执行渐变")]
     public FadeEventSO fadeEventSO;
+
+    [Header("场景事件监听-执行创建新游戏逻辑")]
     public VoidEventSO newGameEventSO;
+
+    [Header("场景事件监听-执行OnLoadRequestEvent加载事件")]
+    public SceneLoadEventSO loadEventSO;
+
+    [Header("暂时好像没有用得到")]
     public SceneLoadEventSO unloadedSceneEvent;
 
 
-    [Header("传递的参数")]
+    [Header("参数:player组件")]
     public Transform playerTransform;
-    public Vector3 playerSpawnPoint; //��ҳ������һ������
 
-    [Header("场景请求加载事件监听")]
-    public SceneLoadEventSO loadEventSO;
+    [Header("参数:场景渐变时间")]
+    public float fadeDuration;
+
+
+    [Header("参数:游戏level1出生点")]
+    public Vector3 playerSpawnPoint; //出生点
+
+
 
 
     [Header("游戏场景")]
@@ -32,39 +46,44 @@ public class ScenesLoader : MonoBehaviour,ISaveService
     public GameSceneSO mapScene;
     public GameSceneSO mainMenuScene;
 
-    //һ
+    //
     private GameSceneSO sceneToLoad;
     private Vector3 positionToGo;
-
     private bool isLoading;
-
     private bool fadeScreen;
-    public float fadeDuration;
 
-    /// <summary>
-    /// 防止 LoadData 触发加载时与 OnloadComplete 的 Load() 形成死循环
-    /// </summary>
-    private bool isLoadingFromSaveData;
 
-    /// <summary>
-    /// 非读档触发的切场景（如异世界返回）结束后，是否需要补一次读档恢复场景物体
-    /// </summary>
-    private bool shouldRestoreAfterNextSceneLoad;
-
-    /// <summary>
-    /// 标记当前是否在异世界中，异世界中保存时不应覆盖存档场景
-    /// </summary>
+    private bool isLoadingFromSaveData;  // 防止 LoadData 触发加载时与 OnloadComplete 的 Load() 形成死循环
+    private bool shouldRestoreAfterNextSceneLoad;// 非读档触发的切场景（如异世界返回）结束后，是否需要补一次读档恢复场景物体
     [HideInInspector]
-    public bool isInOtherWorld;
+    public bool isInOtherWorld;    /// 标记当前是否在异世界中，异世界中保存时不应覆盖存档场景
 
 
 
     private void Start()
     {
-        // 第一次启动加载主菜单
+        //启动游戏加载的第一个场景
+        LoadInitialScene();
+    }
+
+
+    /// <summary>
+    /// 加载游戏第一个场景
+    /// </summary>
+    private void LoadInitialScene()
+    {
         loadEventSO.RaiseLoadRequestEvent(mainMenuScene, playerSpawnPoint, true);
     }
 
+
+
+
+
+
+
+
+
+    //两个监听函数
     private void OnEnable()
     {
         loadEventSO.LoadRequestEvent += OnLoadRequestEvent;
@@ -79,19 +98,30 @@ public class ScenesLoader : MonoBehaviour,ISaveService
     {
         loadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
         newGameEventSO.OnEventRaised -= NewGame;
-        
-        ISaveService saveService=this;
+
+
+        //取消注册存档注册存档
+        ISaveService saveService = this;
         saveService.TurnToUnsaveble();
     }
 
-/// <summary>
-/// 
-/// </summary>
-/// <param name="locationToLoad"></param>
-/// <param name="positionToGo"></param>
-/// <param name="fadeScreen"></param>
+
+
+
+
+
+
+    /// <summary>
+    /// 监听的具体实现
+    /// </summary>
+
+
+
+
     private void OnLoadRequestEvent(GameSceneSO locationToLoad, Vector3 positionToGo, bool fadeScreen)
     {
+        //测试
+        Debug.Log("[ScenesLoader] 监听到OnLoadRequestEvent 被触发,开始执行OnLoadRequestEvent");
         if (isLoading)
             return;
 
@@ -101,17 +131,19 @@ public class ScenesLoader : MonoBehaviour,ISaveService
         sceneToLoad = locationToLoad;
         this.positionToGo = positionToGo;
         this.fadeScreen = fadeScreen;
-        if (currentLoadedScene != null)
+        if (currentLoadedScene != null)//当前有场景要先卸载掉然后加载新场景
         {
             StartCoroutine(UnLoadPreviousScene());
         }
         else
         {
-            LoadNewScene();
+            LoadNewScene();//直接加载新场景
         }
         Debug.Log("Load scene: " + sceneToLoad.sceneAssetReference.SubObjectName + " to position: " + positionToGo + " with fade screen: " + fadeScreen);
 
     }
+
+
 
     private IEnumerator UnLoadPreviousScene()
     {
@@ -121,13 +153,16 @@ public class ScenesLoader : MonoBehaviour,ISaveService
 
         }
         yield return new WaitForSeconds(fadeDuration);
-        unloadedSceneEvent.RaiseLoadRequestEvent(sceneToLoad, positionToGo, true);   //��ʵ������ʲôֵ����ν��ֻ�ǽ�������¼�ȥ����uimananger
+        unloadedSceneEvent.RaiseLoadRequestEvent(sceneToLoad, positionToGo, true);   //卸载事件
         yield return currentLoadedScene.sceneAssetReference.UnLoadScene();
 
         playerTransform.gameObject.SetActive(false);
         LoadNewScene();
     }
 
+
+
+    //加载要去的场景
     private void LoadNewScene()
     {
         var loadingOption = sceneToLoad.sceneAssetReference.LoadSceneAsync(LoadSceneMode.Additive, true);
@@ -135,16 +170,18 @@ public class ScenesLoader : MonoBehaviour,ISaveService
 
     }
 
+
+
+
     /// <summary>
-    ///
+    ///结束load的时候要做的事情
     /// </summary>
     /// <param name="handle"></param>
     private void OnloadComplete(AsyncOperationHandle<SceneInstance> handle)
     {
         currentLoadedScene = sceneToLoad;
-
+        Debug.Log($"【不显示bug】OnloadComplete | 场景={currentLoadedScene.name} | sceneType={currentLoadedScene.sceneType}");
         playerTransform.position = positionToGo;
-
         playerTransform.gameObject.SetActive(true);
 
         if (fadeScreen)
@@ -179,22 +216,33 @@ public class ScenesLoader : MonoBehaviour,ISaveService
 
 
 
+
+
+
+    /// <summary>
+    /// 开始新游戏逻辑
+    /// </summary>
+
+
     private void NewGame()
     {
-        Debug.Log("[ScenesLoader] NewGame 被触发");
-        Debug.Log(
-    $"[ScenesLoader] 出生点 = {playerSpawnPoint}"
-);
+        Debug.Log("[ScenesLoader] 监听到NewGame信号 开始执行newGame");
 
         if (isLoading)
         {
-            Debug.Log("[ScenesLoader] 当前正在加载，直接返回");
+            Debug.Log("NewGame-[ScenesLoader] 当前正在加载新场景，就不重复了，直接返回");
             return;
         }
 
-        sceneToLoad = firstLoadScene;
+        // 开始新游戏前清除旧存档，防止"继续旅程"读到脏数据
+        if (GameDataManager.Instance.HasSaveData())
+        {
+            GameDataManager.Instance.DeleteSaveData();
+            Debug.Log("[ScenesLoader] 新游戏开始，旧存档已清除");
+        }
 
-        Debug.Log("[ScenesLoader] 准备加载：" + sceneToLoad.name);
+        sceneToLoad = firstLoadScene;
+        Debug.Log("NewGame-[ScenesLoader] 准备加载：" + sceneToLoad.name);
 
         loadEventSO.RaiseLoadRequestEvent(
             sceneToLoad,
@@ -225,13 +273,15 @@ public class ScenesLoader : MonoBehaviour,ISaveService
         data.SaveGameScene(currentLoadedScene);
     }
 
+
+
     public void LoadData(GameData data)
     {
         Debug.Log("ScemesLoader开始读档");
         var playerID = playerTransform.GetComponent<UniqueId>().Id;
         if (data.characterData.ContainsKey(playerID))
         {
-            positionToGo = data.characterData[playerID].position;
+            positionToGo = data.characterData[playerID].position.ToVector3();
             sceneToLoad = data.GetSavedScene();//会返回一个场景
 
 
@@ -260,9 +310,18 @@ public class ScenesLoader : MonoBehaviour,ISaveService
     private IEnumerator DelayedSceneReload()
     {
         yield return null;
-        // isLoadingFromSaveData 会在 OnloadComplete 中使用后自动重置，不要在这里清除
-        OnLoadRequestEvent(sceneToLoad, positionToGo, false);
+        // 通过 SO 广播，确保 UIManager 等所有监听者都能收到场景切换通知
+        loadEventSO.RaiseLoadRequestEvent(sceneToLoad, positionToGo, false);
     }
+
+
+    ///// <summary>
+    ///// 加载游戏第一个场景
+    ///// </summary>
+    //private void LoadInitialScene()
+    //{
+    //    loadEventSO.RaiseLoadRequestEvent(mainMenuScene, playerSpawnPoint, true);
+    //}
 }
 
 

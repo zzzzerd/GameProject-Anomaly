@@ -1,40 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 
 public class Map : MonoBehaviour
 {
+    /// <summary>
+    /// 进入地图前由主菜单设置：true=继续旅程，false=开始新旅程
+    /// </summary>
+    public static bool IsContinueMode = false;
+
     [Header("关卡场景")]
     public GameSceneSO level1Scene;
-    public Vector3 level1SpawnPoint;
-
-    [Header("UI")]
-    public GameObject newGameButton;
 
     [Header("事件")]
     public SceneLoadEventSO loadEventSO;
+    public VoidEventSO newGameEventSO;
 
-    private void OnEnable()
-    {
-        // 延迟一帧设置，等 EventSystem 初始化
-        StartCoroutine(SetDefaultButton());
-    }
-
-    private IEnumerator SetDefaultButton()
-    {
-        yield return null;
-        if (EventSystem.current != null && newGameButton != null)
-            EventSystem.current.SetSelectedGameObject(newGameButton);
-    }
-
+    /// <summary>
+    /// Level1 按钮 OnClick：根据入口模式决定新游戏还是读档
+    /// </summary>
     public void LoadLevel1()
     {
-        if (level1Scene != null)
+        Debug.Log($"[Map] LoadLevel1 被调用 | IsContinueMode={IsContinueMode} | level1Scene={level1Scene}");
+        if (level1Scene == null) { Debug.LogError("[Map] level1Scene 未绑定！"); return; }
+
+        if (IsContinueMode)
         {
-            loadEventSO.RaiseLoadRequestEvent(level1Scene, level1SpawnPoint, true);
+            // 继续旅程：读存档，由 ScenesLoader 跳转到存档场景
+            GameDataManager.Instance.TryLoad();
+        }
+        else
+        {
+            // 开始新旅程：触发 newGameEventSO，由 ScenesLoader.NewGame() 处理出生点
+            newGameEventSO.RaiseEvent();
         }
     }
 
@@ -42,5 +40,4 @@ public class Map : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
-    
 }

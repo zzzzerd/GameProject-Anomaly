@@ -9,64 +9,63 @@ public class UIManager : MonoBehaviour
 {
     [Header("UI")]
     public PlayerStatBar playerStatBar;
+    [Header("迎来结局的时候展示的面板")]
     public GameObject gameOverPanel;
 
+    [Header("暂停面板")]
+    public GameObject pausePanel;
+    public GameObject gearButton;  // 右上角齿轮按钮
+
     [Header("事件监听")]
-    public CharacterEventSO healthEvent;//监听事件
+    public CharacterEventSO healthEvent;
     public SceneLoadEventSO loadEvent;
+
+
+
+    [Header("事件监听-获得了结局结果（EndingManager 广播）")]
+    public EndingResultEventSO endingResultEventSO;
+
+    [Header("事件广播-死亡结局（发给 EndingManager 判断）")]
+    public VoidEventSO deathEndingEventSO;
 
     [Header("死亡面板按钮参数")]
     public GameSceneSO mainMenuScene;
     public PlayerController playerController;
+    [Header("事件广播-开始新游戏")]
     public VoidEventSO newGameEventSO;
 
     [Header("一些状态")]
     private bool gameOverShowing;
+    private bool isDying;   // 防重入：死亡流程进行中，忽略后续 hp==0 的重复事件
 
     /// <summary>
     /// 注册事件（固定写法）
     /// </summary>
     private void OnEnable()
     {
-        //Debug.Log($"[UIManager] OnEnable | healthEvent={(healthEvent != null)} | loadEvent={(loadEvent != null)} | gameOverPanel={(gameOverPanel != null)}");
-        healthEvent.OnEventRaised += OnHealthEvent; //一个事件可以注册多个函数
+        healthEvent.OnEventRaised += OnHealthEvent;
         loadEvent.LoadRequestEvent += OnLoadEvent;
+        endingResultEventSO.OnEventRaised += OnEndingResult;
     }
 
-    /// <summary>
-    /// 取消注册，所以就不会接收到事件的消息了
-    /// </summary>
     private void OnDisable()
     {
         healthEvent.OnEventRaised -= OnHealthEvent;
         loadEvent.LoadRequestEvent -= OnLoadEvent;
-
+        endingResultEventSO.OnEventRaised -= OnEndingResult;
     }
 
+
+    //加载了新场景
     private void OnLoadEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
     {
         var isMenu = arg0.sceneType == SceneType.Menu;
+        Debug.Log($"【不显示bug】UIManager.OnLoadEvent | 场景={arg0.name} | sceneType={arg0.sceneType} | isMenu={isMenu} → bar设为{!isMenu}");
         playerStatBar.gameObject.SetActive(!isMenu);
+        if (gearButton != null) gearButton.SetActive(!isMenu);
         HideGameOverPanel();
     }
 
-    //private void OnHealthEvent(Character character)
-    //{
-    //    var persentage = character.currentHealth / character.maxHealth;
-    //    playerStatBar.OnHealthChange(persentage);
-    //    playerStatBar.OnPowerChange(character);
-
-    //    //if (character.currentHealth <= 0)
-    //    //{
-    //    //    Debug.Log($"[UIManager] 检测到死亡血量，准备打开死亡面板。character={character.name}, hp={character.currentHealth}");
-    //    //    ShowGameOverPanel();
-    //    //}
-    //    if (character.currentHealth <= 0 && !gameOverShowing)
-    //    {
-    //        gameOverShowing = true;
-    //        ShowGameOverPanel();
-    //    }
-    //}
 
     private void OnHealthEvent(Character character)
     {
@@ -74,8 +73,11 @@ public class UIManager : MonoBehaviour
         playerStatBar.OnHealthChange(percentage);
         playerStatBar.OnPowerChange(character);
 
-        if (character.currentHealth <= 0)
+
+        //这里是判断死亡的最终
+        if (character.currentHealth <= 0 && !isDying)
         {
+            isDying = true;
             StartCoroutine(DeathRoutine());
         }
     }
@@ -83,6 +85,21 @@ public class UIManager : MonoBehaviour
     private IEnumerator DeathRoutine()
     {
         yield return new WaitForSeconds(2f);
+        // 通知 EndingManager 处理死亡结局
+        deathEndingEventSO.RaiseEvent();
+    }
+
+
+
+
+
+    /// <summary>
+    /// 收到 EndingManager 广播的结局结果，显示面板
+    /// </summary>
+    private void OnEndingResult(EndingType endingType)
+    {
+        Debug.Log($"[UIManager] 收到结局结果: {endingType}");
+        isDying = false;  // 结局流程走完，重置防重入标志
         ShowGameOverPanel();
     }
 
@@ -95,26 +112,37 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[UIManager] gameOverPanel 未绑定，无法显示死亡面板，也不会暂停时间。");
+            Debug.LogWarning("[UIManager] GameOverPanel 面板未绑定，无法显示死亡面板，也不会暂停时间。");
         }
 
-        LogPanelInteractableState("ShowGameOverPanel");
+        //LogPanelInteractableState("ShowGameOverPanel");
     }
 
+
+    //关闭面板
     private void HideGameOverPanel()
     {
         gameOverShowing = false;
+        isDying = false;
 
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
 
         Time.timeScale = 1f;
-        LogPanelInteractableState("HideGameOverPanel");
+        //LogPanelInteractableState("HideGameOverPanel");
     }
 
+
+
+
+
+    /// <summary>
+    /// 结束面板按钮功能1--返回主菜单
+    /// </summary>
     public void ReturnToMain()
     {
         Debug.Log("[UIManager] 点击 ReturnToMain 按钮");
+        // 进度存档已由 EndingManager 删除，这里只需恢复玩家状态和跳场景
         HideGameOverPanel();
         playerController?.ReviveAfterLoad();
 
@@ -129,44 +157,73 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
+    //结束面板功能2--开始新游戏(其实)
     public void RestartGame()
     {
         Debug.Log("[UIManager] 点击 RestartGame 按钮");
-
         HideGameOverPanel();
-
         newGameEventSO.RaiseEvent();
     }
 
-    private void LogPanelInteractableState(string from)
+
+    // ==================== 暂停面板 ====================
+
+    /// <summary>
+    /// 齿轮按钮 OnClick 连这个（替代直连 SetActive）
+    /// </summary>
+    public void ShowPausePanel()
     {
-        var panelActiveSelf = gameOverPanel != null && gameOverPanel.activeSelf;
-        var panelActiveInHierarchy = gameOverPanel != null && gameOverPanel.activeInHierarchy;
-        Debug.Log($"[UIManager] {from} | panelRef={(gameOverPanel != null)} | activeSelf={panelActiveSelf} | activeInHierarchy={panelActiveInHierarchy} | timeScale={Time.timeScale}");
+        if (pausePanel == null) return;
+        pausePanel.SetActive(true);
+        Time.timeScale = 0f;
+    }
 
-        if (EventSystem.current == null)
-        {
-            Debug.LogError("[UIManager] 当前场景没有 EventSystem，UI 按钮无法点击");
-        }
-        else
-        {
-            Debug.Log($"[UIManager] EventSystem 存在：{EventSystem.current.name}");
-        }
-
-        if (gameOverPanel == null)
+    /// <summary>
+    /// 暂停面板关闭按钮 OnClick 连这个
+    /// </summary>
+    public void HidePausePanel()
+    {
+        if (pausePanel == null) 
             return;
+        pausePanel.SetActive(false);
+        Time.timeScale = 1f;
+    }
 
-        var buttons = gameOverPanel.GetComponentsInChildren<Button>(true);
-        Debug.Log($"[UIManager] 死亡面板按钮数量: {buttons.Length}");
-        foreach (var btn in buttons)
-        {
-            Debug.Log($"[UIManager] Button={btn.name}, activeInHierarchy={btn.gameObject.activeInHierarchy}, interactable={btn.interactable}");
-        }
+    /// <summary>
+    /// 暂停面板按钮继续游戏
+    /// </summary>
+    public void PauseContinue()
+    {
+       
+        HidePausePanel();
+    }
 
-        var groups = gameOverPanel.GetComponentsInParent<CanvasGroup>(true);
-        foreach (var group in groups)
-        {
-            Debug.Log($"[UIManager] CanvasGroup={group.name}, alpha={group.alpha}, interactable={group.interactable}, blocksRaycasts={group.blocksRaycasts}");
-        }
+    /// <summary>
+    /// 暂停面板按钮：保存并返回主菜单（不删存档，让玩家下次可以继续）
+    /// </summary>
+    public void PauseSaveAndReturnToMain()
+    {
+        HidePausePanel();
+
+
+        playerController?.ReviveAfterLoad();//不用new就要重新设置一下
+        if (mainMenuScene != null)
+            loadEvent.RaiseLoadRequestEvent(mainMenuScene, Vector3.zero, true);
+        else
+            Debug.LogError("[UIManager] mainMenuScene 未绑定");
+    }
+
+    /// <summary>
+    /// 暂停面板按钮：放弃本局，开始新游戏（删除进度存档）
+    /// </summary>
+    public void PauseStartNewGame()
+    {
+        HidePausePanel();
+
+
+        // 删除进度存档
+        GameDataManager.Instance.DeleteSaveData();
+        newGameEventSO.RaiseEvent();
     }
 }

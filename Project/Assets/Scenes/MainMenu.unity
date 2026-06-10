@@ -289,7 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadEventSO: {fileID: 11400000, guid: 9c9edcd3dd3dfeb42941766402c22d69, type: 2}
   mapScene: {fileID: 11400000, guid: 6109ebfb6bc5a5a4a8f314e9c0d55a84, type: 2}
-  playerSpawnPoint: {x: 0, y: 0, z: 0}
+  continueButton: {fileID: 859956473}
 --- !u!4 &346760355
 Transform:
   m_ObjectHideFlags: 0
@@ -588,7 +588,7 @@ GameObject:
   - component: {fileID: 859956476}
   - component: {fileID: 859956475}
   m_Layer: 5
-  m_Name: StartButton
+  m_Name: Continue Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -657,7 +657,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 859956476}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 346760354}
+        m_TargetAssemblyTypeName: FirstMain, Assembly-CSharp
+        m_MethodName: ContinueExplore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &859956476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -740,7 +752,7 @@ GameObject:
   - component: {fileID: 938680904}
   - component: {fileID: 938680903}
   m_Layer: 5
-  m_Name: ExistGame
+  m_Name: Exist Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
