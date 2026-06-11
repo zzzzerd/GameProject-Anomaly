@@ -38,11 +38,12 @@ public class EndingRecordPanel : MonoBehaviour
 
     private void BuildList()
     {
-        // 清空旧条目
-        foreach (Transform child in content)
-            Destroy(child.gameObject);
+        // 清空旧条目（DestroyImmediate 确保立刻删除，避免和新生成的混在一起）
+        for (int i = content.childCount - 1; i >= 0; i--)
+            DestroyImmediate(content.GetChild(i).gameObject);
 
         var records = GameDataManager.Instance?.GetEndingRecords();
+        Debug.Log($"[EndingRecordPanel] 读取到记录数量: {records?.Count ?? -1}");
         if (records == null || records.Count == 0)
             return;
 

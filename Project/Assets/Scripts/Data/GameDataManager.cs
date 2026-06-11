@@ -151,11 +151,8 @@ public class GameDataManager : MonoBehaviour
         //测试
         Debug.Log("[GameDataManager] =====Load开始读档=====");
         Debug.Log("[GameDataManager/Load] 存档对象数量：" + savableList.Count);
-        int i = 0;
         foreach (var saveable in savableList)
         {
-            //i++;
-            //Debug.Log($"第{i}个.[GameDataManager/Load] 加载list里面的 " + saveable);
             saveable.LoadData(data);
         }
         Debug.Log("[GameDataManager/Load] =====读档结束=====");

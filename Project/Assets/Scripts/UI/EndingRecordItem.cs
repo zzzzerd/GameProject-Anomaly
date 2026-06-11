@@ -11,7 +11,7 @@ public class EndingRecordItem : MonoBehaviour
     public Image endingImage;      
     public TextMeshProUGUI nameText;  // 结局名称
     public TextMeshProUGUI timeText;  // 时间
-    public TextMeshProUGUI dateText;  
+    //public TextMeshProUGUI dateText;  
 
     public void Setup(EndingRecord record, Sprite sprite)
     {
@@ -31,25 +31,25 @@ public class EndingRecordItem : MonoBehaviour
         switch (type)
         {
             case EndingType.Death:
-                return "死亡结局";
+                return "Death";
 
             case EndingType.Warrior:
-                return "勇士结局";
+                return "Warrior";
 
             case EndingType.Saint:
-                return "圣者结局";
+                return "Sain";
 
             case EndingType.AnomalySage:
-                return "异界贤者";
+                return "Anomaly Sage";
 
             case EndingType.LostSoul:
-                return "失魂者";
+                return "Lost Soul";
 
             case EndingType.Farmer:
-                return "归乡者";
+                return "Farmer";
 
             default:
-                return "未知结局";
+                return "Unknown";
         }
     }
 }

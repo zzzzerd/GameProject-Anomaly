@@ -35,7 +35,6 @@ public class UIManager : MonoBehaviour
     public VoidEventSO newGameEventSO;
 
     [Header("一些状态")]
-    private bool gameOverShowing;
     private bool isDying;   // 防重入：死亡流程进行中，忽略后续 hp==0 的重复事件
 
     /// <summary>
@@ -122,14 +121,11 @@ public class UIManager : MonoBehaviour
     //关闭面板
     private void HideGameOverPanel()
     {
-        gameOverShowing = false;
         isDying = false;
+        Time.timeScale = 1f;  // 先恢复时间，再做其他操作
 
         if (gameOverPanel != null)
             gameOverPanel.SetActive(false);
-
-        Time.timeScale = 1f;
-        //LogPanelInteractableState("HideGameOverPanel");
     }
 
 
@@ -141,14 +137,16 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void ReturnToMain()
     {
-        Debug.Log("[UIManager] 点击 ReturnToMain 按钮");
-        // 进度存档已由 EndingManager 删除，这里只需恢复玩家状态和跳场景
+        Debug.Log($"[UIManager] 点击 ReturnToMain | timeScale={Time.timeScale} | mainMenuScene={mainMenuScene} | loadEvent={loadEvent}");
         HideGameOverPanel();
+        Debug.Log($"[UIManager] HideGameOverPanel 执行完 | timeScale={Time.timeScale}");
+
         playerController?.ReviveAfterLoad();
+        Debug.Log($"[UIManager] ReviveAfterLoad 执行完 | playerController={playerController}");
 
         if (mainMenuScene != null)
         {
-            Debug.Log("[UIManager] 开始加载主菜单场景");
+            Debug.Log("[UIManager] 触发 loadEvent.RaiseLoadRequestEvent → 主菜单");
             loadEvent.RaiseLoadRequestEvent(mainMenuScene, Vector3.zero, true);
         }
         else
