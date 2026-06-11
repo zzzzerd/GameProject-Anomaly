@@ -16,6 +16,9 @@ public class FirstMain : MonoBehaviour
     [Header("结局记录面板")]
     public EndingRecordPanel endingRecordPanel;
 
+    [Header("故事面板")]
+    public StoryPanel storyPanel;
+
     private void Start()
     {
         // 根据是否有存档，决定继续旅程按钮的显隐
@@ -57,5 +60,10 @@ public class FirstMain : MonoBehaviour
     public void ShowEndingRecords()
     {
         endingRecordPanel?.Open();
+    }
+
+    public void ShowStory()
+    {
+        storyPanel?.Open();
     }
 }
