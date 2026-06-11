@@ -4,15 +4,18 @@ using UnityEngine;
 public class StatueSavePoint : SavePointBase
 {
 
-    [Header("µñËÜÀàĞÍ")]
+    [Header("é›•å¡‘ç±»å‹")]
     public StatueType statueType;
     private SpriteRenderer spriteRenderer;
 
-    [Header("µñËÜ¹ã²¥µÄÊÂ¼ş-anomaly")]
+    [Header("é›•å¡‘å¹¿æ’­çš„äº‹ä»¶-anomaly")]
     public StatusEventSO BadEvent;
 
-    [Header("µñËÜ¹ã²¥ÊÂ¼ş-ºÃÊÂÇé")]
+    [Header("é›•å¡‘å¹¿æ’­äº‹ä»¶-å¥½äº‹æƒ…")]
     public StatusGoodEventSO goodEvent;
+
+    [Header("å¹¿æ’­ - å¥½é›•åƒæ¿€æ´»ä»»åŠ¡äº‹ä»¶ï¼ˆè¿ TaskManager çš„ statueActivatedEventSOï¼‰")]
+    public VoidEventSO statueActivatedEventSO;
     public float addHealth;
     public float addPower;
 
@@ -23,38 +26,38 @@ public class StatueSavePoint : SavePointBase
     }
 
     /// <summary>
-    /// µÚÒ»´Î¼¤»îµÄ
+    /// ç¬¬ä¸€æ¬¡æ¿€æ´»çš„
     /// 
     /// </summary>
     protected override void OnFirstActivated()
     {
-        Debug.Log("µñËÜ¼¤»î·¢ÉúÊÂ¼ş");
-        //ÕâÀïÓ¦¸ÃÊÇÁ½ÖÖ£¬Ò»ÖÖÊÇÔö¼ÓÒ»´Î¼¤»îÊıÁ¿£¬Ò»ÖÖÊÇÈ¥ÍùÒìÊÀ½çµÄÒì³£µñËÜ,ÓÃÃ¶¾ÙÀà,È»ºó¿ÉÒÔ¹ÒÔØµñËÜÉÏÃæÑ¡ÔñµÄ
-        //ºÃµÄ¼¤»îÊÂ¼ş¾Í¼ÓÑª°É
+        Debug.Log("é›•å¡‘æ¿€æ´»å‘ç”Ÿäº‹ä»¶");
+        //è¿™é‡Œåº”è¯¥æ˜¯ä¸¤ç§ï¼Œä¸€ç§æ˜¯å¢åŠ ä¸€æ¬¡æ¿€æ´»æ•°é‡ï¼Œä¸€ç§æ˜¯å»å¾€å¼‚ä¸–ç•Œçš„å¼‚å¸¸é›•å¡‘,ç”¨æšä¸¾ç±»,ç„¶åå¯ä»¥æŒ‚è½½é›•å¡‘ä¸Šé¢é€‰æ‹©çš„
+        //å¥½çš„æ¿€æ´»äº‹ä»¶å°±åŠ è¡€å§
 
         if (statueType == StatueType.Good)
         {
-            Debug.Log("¡¾µñËÜ:»ñµÃºÃµÄÊÂ¼ş¡¿");
-            GameDataManager.Instance.AddActivatedStar();//¼¤»îÔö¼Ó
-            goodEvent.RaiseEvent(addHealth,addPower); //
-
+            Debug.Log("ã€é›•å¡‘:è·å¾—å¥½çš„äº‹ä»¶ã€‘");
+            GameDataManager.Instance.AddActivatedStar();
+            goodEvent.RaiseEvent(addHealth, addPower);
+            statueActivatedEventSO?.RaiseEvent();  // é€šçŸ¥TaskManager
         }
         else if (statueType == StatueType.Anomaly)
         {
-            Debug.Log("¡¾µñËÜ:È¥ÍùÒìÊÀ½çÊÂ¼ş¡¿");
-            GameDataManager.Instance.AddEnteredOtherWorld();//ÊÂ¼şÔö¼Ó
+            Debug.Log("ã€é›•å¡‘:å»å¾€å¼‚ä¸–ç•Œäº‹ä»¶ã€‘");
+            GameDataManager.Instance.AddEnteredOtherWorld();//äº‹ä»¶å¢åŠ 
             BadEvent.RaiseEvent();
         }
     }
 
 
     /// <summary>
-    /// Õâ¸ö¾ÍÊÇ±¾Éí¼¤»îºó×´Ì¬
+    /// è¿™ä¸ªå°±æ˜¯æœ¬èº«æ¿€æ´»åçŠ¶æ€
     /// </summary>
     protected override void OnActivatedVisual()
     {
-        Debug.Log("±ä³ÉµñËÜ¼¤»îÁËºóµÄ×´Ì¬");
-        //¸Ä±äµñËÜµÄÑù×Ó
+        Debug.Log("å˜æˆé›•å¡‘æ¿€æ´»äº†åçš„çŠ¶æ€");
+        //æ”¹å˜é›•å¡‘çš„æ ·å­
         ChangeTheStatus();
     }
 
@@ -64,6 +67,9 @@ public class StatueSavePoint : SavePointBase
     /// </summary>
     private void ChangeTheStatus()
     {
+
+        Debug.Log("é›•å¡‘å˜è‰²");
+
         if (statueType == StatueType.Good)
         {
             spriteRenderer.color = Color.yellow;

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 /// <summary>
 /// 结局管理器（挂在 Persistent 场景）
@@ -13,24 +12,21 @@ public class EndingManager : MonoBehaviour
     [Header("监听-死亡事件（玩家死亡时触发）")]
     public VoidEventSO deathEndingEventSO;
 
+    [Header("监听-任务全部完成（TaskManager 广播）")]
+    public VoidEventSO allTasksCompletedEventSO;
+
     private void OnEnable()
     {
         deathEndingEventSO.OnEventRaised += OnDeathEnding;
+        if (allTasksCompletedEventSO != null)
+            allTasksCompletedEventSO.OnEventRaised += TriggerEndingByStats;
     }
 
     private void OnDisable()
     {
         deathEndingEventSO.OnEventRaised -= OnDeathEnding;
-    }
-
-    private void Update()
-    {
-        // 测试用：按 O 键手动触发结局判断（模拟 Boss 死亡）
-        if (Keyboard.current.oKey.wasPressedThisFrame)
-        {
-            Debug.Log("[EndingManager] 按下 O 键，触发结局判断");
-            TriggerEndingByStats();
-        }
+        if (allTasksCompletedEventSO != null)
+            allTasksCompletedEventSO.OnEventRaised -= TriggerEndingByStats;
     }
 
 

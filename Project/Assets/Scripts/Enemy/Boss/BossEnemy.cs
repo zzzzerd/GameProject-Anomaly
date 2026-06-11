@@ -15,6 +15,9 @@ public class BossEnemy : Enemy
     private BaseState bossChaseState;
     private BaseState bossAttackState;
 
+    [Header("广播 - Boss 死亡任务事件（连 TaskManager 的 bossDefeatedEventSO）")]
+    public VoidEventSO bossDefeatedEventSO;
+
     [Header("Boss 攻击技能")]
     public GameObject projectilePrefab;
     public float projectileSpeed = 5f;
@@ -119,6 +122,7 @@ public class BossEnemy : Enemy
         rb.gravityScale = 1;
 
         GameDataManager.Instance?.AddKilledBoss();
+        bossDefeatedEventSO?.RaiseEvent();  // 通知 TaskManager
         Debug.Log("[BossEnemy] Boss 已死亡");
     }
 
