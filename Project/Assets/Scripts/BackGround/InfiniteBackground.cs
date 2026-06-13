@@ -10,11 +10,17 @@ public class InfiniteBackground : MonoBehaviour
     [Header("无限滚动触发距离 (默认为贴图宽度，可调小提前衔接)")]
     public float scrollThreshold = 0f;
 
+    [Header("Y轴跟随")]
+    public bool followY = false;
+    [Range(0f, 1f)]
+    public float parallaxEffectY = 0.5f;
+
     private Transform playerTransform;
     private float textureSizeX;
     private bool isReady;
 
     private float lastTargetX;
+    private float lastTargetY;
 
     void Start()
     {
@@ -60,6 +66,7 @@ public class InfiniteBackground : MonoBehaviour
         // 初始对齐到目标
         transform.position = new Vector3(playerTransform.position.x, transform.position.y, transform.position.z);
         lastTargetX = playerTransform.position.x;
+        lastTargetY = playerTransform.position.y;
 
         isReady = true;
     }
@@ -68,10 +75,14 @@ public class InfiniteBackground : MonoBehaviour
     {
         if (!isReady || playerTransform == null) return;
 
-        float delta = playerTransform.position.x - lastTargetX;
+        float deltaX = playerTransform.position.x - lastTargetX;
         lastTargetX = playerTransform.position.x;
 
-        transform.position += new Vector3(delta * (1f - parallaxEffect), 0, 0);
+        float deltaY = playerTransform.position.y - lastTargetY;
+        lastTargetY = playerTransform.position.y;
+
+        float moveY = followY ? deltaY * (1f - parallaxEffectY) : 0f;
+        transform.position += new Vector3(deltaX * (1f - parallaxEffect), moveY, 0);
 
         float dist = transform.position.x - playerTransform.position.x;
         if (dist > scrollThreshold)

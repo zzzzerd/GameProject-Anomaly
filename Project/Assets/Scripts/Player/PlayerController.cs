@@ -135,6 +135,8 @@ public class PlayerController : MonoBehaviour
         isFire = false;
         ColorUtility.TryParseHtmlString("#BCFAFF", out Color defaultColor);
         GetComponent<SpriteRenderer>().color = defaultColor;
+        var anim = GetComponent<Animator>();
+        if (anim != null) anim.ResetTrigger("hurt");
 
         inputControl.GamePlay.Enable();
     }
