@@ -1,17 +1,23 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerCampfireReceiver : MonoBehaviour
 {
-    //óô»ğÊÂ¼ş·¢ÉúÁË
+    //ç¯ç«äº‹ä»¶å‘ç”Ÿäº†
     public CampfireEventSO campfireEvent;
+
+    [Header("çƒ§ç«ç¦æ­¢ç§»åŠ¨æ—¶é—´")]
+    public float freezeDuration = 2f;
 
     private Character character;
     private Animator animator;
+    private PlayerController playerController;
 
     private void Awake()
     {
         character = GetComponent<Character>();
         animator = GetComponent<Animator>();
+        playerController = GetComponent<PlayerController>();
     }
 
     private void OnEnable()
@@ -26,16 +32,29 @@ public class PlayerCampfireReceiver : MonoBehaviour
 
 
     /// <summary>
-    /// ·¢ÉúÊ±Ö´ĞĞµÄÊÂ
+    /// å‘ç”Ÿæ—¶æ‰§è¡Œçš„äº‹
     /// </summary>
     /// <param name="healAmount"></param>
     private void OnCampfire(float healAmount)
     {
-        Debug.Log($"|Íæ¼ÒÕâ±ß½ÓÊÜµ½óô»ğĞÅºÅ£¬¿ªÊ¼Ö´ĞĞóô»ğÂß¼­");
+        Debug.Log($"|ç©å®¶è¿™è¾¹æ¥å—åˆ°ç¯ç«ä¿¡å·ï¼Œå¼€å§‹æ‰§è¡Œç¯ç«é€»è¾‘");
         animator.SetTrigger("fire");
 
         character.Heal(healAmount);
 
-        Debug.Log($"|Íæ¼ÒÕâ±ß:»ØÑª {healAmount}");
+        // ç¦æ­¢ç§»åŠ¨
+        StartCoroutine(FreezePlayer());
+
+        Debug.Log($"|ç©å®¶è¿™è¾¹:å›è¡€ {healAmount}");
+    }
+
+    private IEnumerator FreezePlayer()
+    {
+        if (playerController != null)
+        {
+            playerController.isFire = true;
+            yield return new WaitForSeconds(freezeDuration);
+            playerController.isFire = false;
+        }
     }
 }

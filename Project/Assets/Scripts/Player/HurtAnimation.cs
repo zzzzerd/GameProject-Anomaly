@@ -20,7 +20,12 @@ public class HurtAnimation : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.GetComponent<PlayerController>().isHurt = false;
-
+        var sr = animator.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            ColorUtility.TryParseHtmlString("#BCFAFF", out Color defaultColor);
+            sr.color = defaultColor;
+        }
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

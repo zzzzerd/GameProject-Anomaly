@@ -18,14 +18,22 @@ public class PlayerStatBar : MonoBehaviour
     public Sprite normalFrame;
     public Sprite otherWorldFrame;
 
+    [Header("ÑªÁ¿ÌõÇÐ»»")]
+    public Sprite normalHealthBar;
+    public Sprite otherWorldHealthBar;
+
     public void SwitchToOtherWorld()
     {
         frameImage.sprite = otherWorldFrame;
+        if (normalHealthBar != null && otherWorldHealthBar != null)
+            healthImage.sprite = otherWorldHealthBar;
     }
 
     public void SwitchToNormalWorld()
     {
         frameImage.sprite = normalFrame;
+        if (normalHealthBar != null && otherWorldHealthBar != null)
+            healthImage.sprite = normalHealthBar;
     }
 
 

@@ -282,7 +282,19 @@ public class ScenesLoader : MonoBehaviour, ISaveService
         if (data.characterData.ContainsKey(playerID))
         {
             positionToGo = data.characterData[playerID].position.ToVector3();
-            sceneToLoad = data.GetSavedScene();//会返回一个场景
+            sceneToLoad = data.GetSavedScene();
+
+            // 调试：检查具体是哪个为空
+            if (sceneToLoad == null)
+            {
+                Debug.LogWarning("[ScenesLoader] sceneToLoad 为 null，跳过 LoadData");
+                return;
+            }
+            if (sceneToLoad.sceneAssetReference == null)
+            {
+                Debug.LogWarning($"[ScenesLoader] sceneAssetReference 为 null，sceneToLoad 存在，跳过 LoadData");
+                return;
+            }
 
 
 
@@ -292,6 +304,8 @@ public class ScenesLoader : MonoBehaviour, ISaveService
             // 判断存档场景与当前场景是否相同
             bool sameScene = currentLoadedScene != null &&
                              sceneToLoad != null &&
+                             currentLoadedScene.sceneAssetReference != null &&
+                             sceneToLoad.sceneAssetReference != null &&
                              currentLoadedScene.sceneAssetReference.AssetGUID == sceneToLoad.sceneAssetReference.AssetGUID;
 
             if (sameScene)

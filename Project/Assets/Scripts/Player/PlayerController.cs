@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour
     //原始尺寸
     private Vector2 originalSize;
     private Vector2 originalOffset;
+    private PlayerCampfireReceiver campfireReceiver;
 
 
     //受伤被弹开
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviour
     public bool isCrouch;    //下蹲
     public bool wallJump;
     public bool isSlide;
+    public bool isFire;    //烧火
 
 
     [Header("物理材质")]
@@ -75,6 +77,7 @@ public class PlayerController : MonoBehaviour
         coll = GetComponent<CapsuleCollider2D>();
         playerAnimation = GetComponent<PlayerAnimation>();
         character = GetComponent<Character>();
+        campfireReceiver = GetComponent<PlayerCampfireReceiver>();
 
         //获取组件面板上这两个参数（下蹲）
         originalOffset = coll.offset;
@@ -127,6 +130,12 @@ public class PlayerController : MonoBehaviour
             ReviveAfterLoad();
         }
 
+        // 切场景后清除残留状态，防止受伤/烧火动画被打断后状态卡住
+        isHurt = false;
+        isFire = false;
+        ColorUtility.TryParseHtmlString("#BCFAFF", out Color defaultColor);
+        GetComponent<SpriteRenderer>().color = defaultColor;
+
         inputControl.GamePlay.Enable();
     }
 
@@ -173,7 +182,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(!isHurt && !isAttack)
+        if(!isHurt && !isAttack && !isFire)
             Move();
         
     }
@@ -347,6 +356,7 @@ public class PlayerController : MonoBehaviour
         isDead = false;
         isHurt = false;
         isAttack = false;
+        isFire = false;
         isSlide = false;
         wallJump = false;
         character.currentHealth = character.maxHealth;

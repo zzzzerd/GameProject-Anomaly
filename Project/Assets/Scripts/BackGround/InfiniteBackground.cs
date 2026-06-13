@@ -3,16 +3,18 @@ using UnityEngine;
 
 public class InfiniteBackground : MonoBehaviour
 {
-    [Header("相机引用")]
-    public Transform cameraTransform;
-
-    [Header("视差系数 (0:跟随相机不动, 1:完全静止在世界坐标)")]
+    [Header("视差系数 (0:完全跟随玩家, 1:完全静止)")]
     [Range(0f, 1f)]
     public float parallaxEffect;
 
-    private float startPosX;
+    [Header("无限滚动触发距离 (默认为贴图宽度，可调小提前衔接)")]
+    public float scrollThreshold = 0f;
+
+    private Transform playerTransform;
     private float textureSizeX;
     private bool isReady;
+
+    private float lastTargetX;
 
     void Start()
     {
@@ -21,62 +23,60 @@ public class InfiniteBackground : MonoBehaviour
 
     private IEnumerator InitRoutine()
     {
+        // 确保等场景加载器完全准备好
+        yield return null;
         yield return null;
 
-        if (cameraTransform == null)
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
         {
-            // 优先找 VirtualCamera（Cinemachine），因为它才是实际跟随玩家的相机
-            Camera[] cams = GameObject.FindObjectsOfType<Camera>();
-            foreach (var c in cams)
-            {
-                if (c.gameObject.CompareTag("VirtualCamera") && c.isActiveAndEnabled)
-                {
-                    cameraTransform = c.transform;
-                    break;
-                }
-            }
-
-            // 回退：找 MainCamera
-            if (cameraTransform == null && Camera.main != null)
-                cameraTransform = Camera.main.transform;
+            textureSizeX = sr.bounds.size.x;
+            if (scrollThreshold <= 0f)
+                scrollThreshold = textureSizeX; // 默认用贴图宽度
         }
 
-        if (cameraTransform == null)
+        // 优先通过 ScenesLoader 获取玩家
+        ScenesLoader loader = FindObjectOfType<ScenesLoader>();
+        if (loader != null && loader.playerTransform != null)
         {
-            Debug.LogError("[InfiniteBackground] 没有找到可用 Camera！");
+            playerTransform = loader.playerTransform;
+        }
+        else
+        {
+            // 回退方式
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+                playerTransform = playerObj.transform;
+            else if (Camera.main != null)
+                playerTransform = Camera.main.transform; // 最后回退找主相机
+        }
+
+        if (playerTransform == null)
+        {
+            Debug.LogError("[InfiniteBackground] 依然找不到参考目标(Player或相机)！");
             yield break;
         }
 
-        Debug.Log($"[InfiniteBackground] 使用相机: {cameraTransform.name}, Tag={cameraTransform.tag}, orthoSize={(cameraTransform.GetComponent<Camera>()?.orthographicSize)}");
-
-        startPosX = transform.position.x;
-
-        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-        {
-            textureSizeX = spriteRenderer.bounds.size.x;
-            Debug.Log($"[InfiniteBackground] 背景贴图宽度: {textureSizeX}, 当前对象: {gameObject.name}");
-        }
+        // 初始对齐到目标
+        transform.position = new Vector3(playerTransform.position.x, transform.position.y, transform.position.z);
+        lastTargetX = playerTransform.position.x;
 
         isReady = true;
     }
 
     void LateUpdate()
     {
-        if (!isReady || cameraTransform == null) return;
+        if (!isReady || playerTransform == null) return;
 
-        float distanceToMove = cameraTransform.position.x * parallaxEffect;
-        transform.position = new Vector3(startPosX + distanceToMove, transform.position.y, transform.position.z);
+        float delta = playerTransform.position.x - lastTargetX;
+        lastTargetX = playerTransform.position.x;
 
-        float tempPosition = cameraTransform.position.x * (1 - parallaxEffect);
+        transform.position += new Vector3(delta * (1f - parallaxEffect), 0, 0);
 
-        if (tempPosition > startPosX + textureSizeX)
-        {
-            startPosX += textureSizeX;
-        }
-        else if (tempPosition < startPosX - textureSizeX)
-        {
-            startPosX -= textureSizeX;
-        }
+        float dist = transform.position.x - playerTransform.position.x;
+        if (dist > scrollThreshold)
+            transform.position -= new Vector3(textureSizeX, 0, 0);
+        else if (dist < -scrollThreshold)
+            transform.position += new Vector3(textureSizeX, 0, 0);
     }
 }

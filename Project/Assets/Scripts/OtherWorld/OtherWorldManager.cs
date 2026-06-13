@@ -26,6 +26,9 @@ public class OtherWorldManager : MonoBehaviour
 
     [Header("异世界参数")]
     public bool inOtherWorld;
+    [Header("进入异世界的出生点")]
+    public Vector3 otherWorldSpawnPoint;
+
 
     [Header("其他饮用")]
     public PlayerStatBar playerStatBar;
@@ -74,7 +77,7 @@ public class OtherWorldManager : MonoBehaviour
 
         loadEventSO.RaiseLoadRequestEvent(
             otherWorldScene,
-            Vector3.zero,
+            otherWorldSpawnPoint,
             true
         );
     }

@@ -44,6 +44,11 @@ public class Tip : MonoBehaviour
     private void OnEnable()
     {
         InputSystem.onActionChange += OnActionChange;
+        if (pControl == null)
+        {
+            pControl = new PlayerInputControl();
+            pControl.Enable();
+        }
         pControl.GamePlay.Confirm.started += OnConfirmStarted;
     }
 
@@ -51,8 +56,9 @@ public class Tip : MonoBehaviour
 
     private void OnDisable()
     {
-        //InputSystem.onActionChange += OnActionChange;
-        //pControl.GamePlay.Confirm.started += OnConfirmStarted;
+        InputSystem.onActionChange -= OnActionChange;
+        if (pControl != null)
+            pControl.GamePlay.Confirm.started -= OnConfirmStarted;
         canPress = false;
     }
 

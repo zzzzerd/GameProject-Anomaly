@@ -9,12 +9,18 @@ public class UIManager : MonoBehaviour
 {
     [Header("UI")]
     public PlayerStatBar playerStatBar;
+    [Header("结局展示面图片he1打字机）")]
+    public EndingShowPanel endingShowPanel;
+
     [Header("迎来结局的时候展示的面板")]
     public GameObject gameOverPanel;
 
     [Header("暂停面板")]
     public GameObject pausePanel;
     public GameObject gearButton;  // 右上角齿轮按钮
+
+
+
 
     [Header("事件监听")]
     public CharacterEventSO healthEvent;
@@ -35,7 +41,9 @@ public class UIManager : MonoBehaviour
     public VoidEventSO newGameEventSO;
 
     [Header("一些状态")]
-    private bool isDying;   // 防重入：死亡流程进行中，忽略后续 hp==0 的重复事件
+    private bool isDying;
+
+    private EndingType currentEndingType;
 
     /// <summary>
     /// 注册事件（固定写法）
@@ -93,13 +101,23 @@ public class UIManager : MonoBehaviour
 
 
     /// <summary>
-    /// 收到 EndingManager 广播的结局结果，显示面板
+    /// 收到 EndingManager 广播的结局结果，先显示结局展示面板
     /// </summary>
     private void OnEndingResult(EndingType endingType)
     {
         Debug.Log($"[UIManager] 收到结局结果: {endingType}");
-        isDying = false;  // 结局流程走完，重置防重入标志
-        ShowGameOverPanel();
+        isDying = false;
+        currentEndingType = endingType;
+
+        if (endingShowPanel != null)
+        {
+            endingShowPanel.onContinue = ShowGameOverPanel;
+            endingShowPanel.Show(endingType);
+        }
+        else
+        {
+            ShowGameOverPanel();
+        }
     }
 
     private void ShowGameOverPanel()
@@ -111,10 +129,8 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[UIManager] GameOverPanel 面板未绑定，无法显示死亡面板，也不会暂停时间。");
+            Debug.LogWarning("[UIManager] GameOverPanel 面板未绑定");
         }
-
-        //LogPanelInteractableState("ShowGameOverPanel");
     }
 
 
