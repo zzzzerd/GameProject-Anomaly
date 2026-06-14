@@ -141,9 +141,19 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if (!FoundPlayer()&& lostTimeCounter>0)
+        // 找到玩家 -> 重置计时器并切换到追逐状态
+        if (FoundPlayer())
         {
-            lostTimeCounter-=Time.deltaTime;
+            lostTimeCounter = lostTime;
+            if (currentState != chaseState)
+            {
+                Debug.Log($"[TimeCounter] {gameObject.name} 发现玩家，切换到 Chase 状态");
+                SwitchState(NPCState.Chase);
+            }
+        }
+        else if (lostTimeCounter > 0)
+        {
+            lostTimeCounter -= Time.deltaTime;
         }
     }
 
@@ -153,7 +163,16 @@ public class Enemy : MonoBehaviour
     /// <returns></returns>
     public virtual bool FoundPlayer()
     {
-        return Physics2D.BoxCast(transform.position + (Vector3)centerOffet,checkSize,0,faceDir,checkDistance,attackLayer);
+        var hit = Physics2D.BoxCast(transform.position + (Vector3)centerOffet, checkSize, 0, faceDir, checkDistance, attackLayer);
+        
+        // 调试：输出检测信息
+        Debug.Log($"[FoundPlayer] {gameObject.name} 检测参数 | 中心: {transform.position + (Vector3)centerOffet} | 大小: {checkSize} | 方向: {faceDir} | 距离: {checkDistance} | Layer: {LayerMask.LayerToName(Mathf.RoundToInt(Mathf.Log(attackLayer.value, 2)))} | 命中: {hit}");
+        
+        if (hit)
+        {
+            Debug.Log($"[FoundPlayer] {gameObject.name} 检测到玩家：{hit.collider.name}");
+        }
+        return hit;
     }
 
 

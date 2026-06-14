@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     {
         FXevent.OnEventRaised += OnFXEvent;
         BGMevent.OnEventRaised += OnBGMEvent;
+        Debug.Log("[AudioManager] OnEnable 订阅完成");
     }
 
 
@@ -37,7 +38,8 @@ public class AudioManager : MonoBehaviour
     //每个场景准备一个空物体告诉这个bgm是啥
     private void OnBGMEvent(AudioClip clip)
     {
+        Debug.Log($"[AudioManager] OnBGMEvent 收到，clip：{clip}");
         BGMSource.clip = clip;
-        BGMSource.Play();//单次播放
+        BGMSource.Play();
     }
 }

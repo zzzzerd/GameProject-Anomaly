@@ -4161,7 +4161,7 @@ Transform:
   m_GameObject: {fileID: 1402268122}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.6709995, z: 0}
+  m_LocalPosition: {x: -0.03, y: 3.34, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4638,8 +4638,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_Sprite: {fileID: -507934350, guid: 9600f954fac54f84aa567a66befd35f7, type: 3}
+  m_SortingOrder: 18
+  m_Sprite: {fileID: -1546845116, guid: 9600f954fac54f84aa567a66befd35f7, type: 3}
   m_Color: {r: 0.735849, g: 0.9792735, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -4700,8 +4700,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.037184954, y: 1.1045253}
-  m_Size: {x: 1.1235499, y: 2.2090507}
+  m_Offset: {x: -0.14625978, y: 1.700721}
+  m_Size: {x: 1.4904394, y: 3.401442}
   m_Direction: 0
 --- !u!50 &1471822097
 Rigidbody2D:
@@ -4843,6 +4843,7 @@ MonoBehaviour:
   invulnerableDuration: 2
   invulnerable: 0
   healAudio: {fileID: 2021717540}
+  hurtAudio: {fileID: 0}
   OnHealthChange:
     m_PersistentCalls:
       m_Calls:
@@ -6211,7 +6212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1669880323
 Transform:
   m_ObjectHideFlags: 0

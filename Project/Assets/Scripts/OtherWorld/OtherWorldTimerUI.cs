@@ -13,6 +13,8 @@ public class OtherWorldTimerUI : MonoBehaviour
     //public Text timerText;
     public TMP_Text timerText;
 
+
+    //开始就关闭并的
     private void Start()
     {
         if (timerPanel != null)

@@ -40,6 +40,6 @@ public class TaskPanel : MonoBehaviour
             statueProgressText.text = $"Statues: {tm.StatuesActivated} / {tm.statuesRequired}";
 
         if (bossStatusText != null)
-            bossStatusText.text = $"Sorcerer: {(tm.BossDefeated ? "Defeated" : "Not Defeated")}";
+            bossStatusText.text = $"{(tm.BossDefeated ? "Defeated" : "Not Defeated")}";
     }
 }

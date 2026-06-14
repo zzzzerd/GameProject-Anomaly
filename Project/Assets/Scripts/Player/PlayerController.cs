@@ -109,13 +109,12 @@ public class PlayerController : MonoBehaviour
 
         //滑铲
         inputControl.GamePlay.Slide.started += Slide;
-
-        inputControl.Enable();
     }
 
 
     private void OnEnable()
     {
+        inputControl.Enable();
         loadEventSO.LoadRequestEvent += OnLoadRequestEvent;
         afterSceneLoad.OnEventRaised += OnAfterSceneLoad;
         //if (newGameEventSO != null)
@@ -184,9 +183,8 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(!isHurt && !isAttack && !isFire)
+        if (!isHurt && !isFire)
             Move();
-        
     }
 
     //private void OnTriggerStay2D(Collider2D other)
@@ -197,8 +195,11 @@ public class PlayerController : MonoBehaviour
     public void Move()
     {
         //主要的移动方法
-        if(!isCrouch && !wallJump) //不是下蹲才可以移动
-         rb.velocity = new Vector2(inputDirection.x * speed * Time.deltaTime, rb.velocity.y);
+        if (!wallJump) //蹬墙跳时不能移动
+        {
+            float currentSpeed = isCrouch ? speed * 0.5f : speed; // 下蹲时速度减半
+            rb.velocity = new Vector2(inputDirection.x * currentSpeed * Time.deltaTime, rb.velocity.y);
+        }
         
         //初始值
         int faceDir = (int)transform.localScale.x;

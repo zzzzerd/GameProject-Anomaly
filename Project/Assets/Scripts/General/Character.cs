@@ -23,6 +23,7 @@ public class Character : MonoBehaviour,ISaveService
 
     [Header("音效")]
     public AudioDefination healAudio;  // 加血音效
+    public AudioDefination hurtAudio;  // 受伤音效
 
     public UnityEvent<Character> OnHealthChange;
 
@@ -43,11 +44,12 @@ public class Character : MonoBehaviour,ISaveService
     //玩家被伤害
     public void TakeDamage(Attack attacker)
     {
-        //Debug.Log(attacker.damage);
+        Debug.Log($"[TakeDamage] {gameObject.name} 受到攻击 | 当前血量: {currentHealth} | 伤害: {attacker.damage} | 攻击者: {attacker.name}");
+        
         //如果是在无敌状态就不受伤
         if (invulnerable)
         {
-            Debug.Log("进入TakeDamage函数：无敌状态");
+            Debug.Log($"[TakeDamage] {gameObject.name} 无敌状态，跳过伤害");
             return;
         }
 
@@ -55,14 +57,14 @@ public class Character : MonoBehaviour,ISaveService
         //非无敌状态-剩余血量-受到伤害
         if (currentHealth - attacker.damage > 0)
         {
-            //Debug.Log($"[TakeDamage] 进入受伤逻辑 | 当前血量: {currentHealth} | 伤害: {attacker.damage} | 攻击者: {attacker.name}");
-
             //血量减少
             currentHealth -= attacker.damage;
+            Debug.Log($"[TakeDamage] {gameObject.name} 受伤完成 | 剩余血量: {currentHealth}/{maxHealth}");
 
-            //Debug.Log($"[TakeDamage] 受伤完成 | 剩余血量: {currentHealth}");
             //触发无敌
             TriggerInvulnerable();
+            //受伤音效
+            hurtAudio?.PlayAudioCLip();
             //执行受伤
             OnTakeDamage?.Invoke(attacker.transform);
        
@@ -72,12 +74,10 @@ public class Character : MonoBehaviour,ISaveService
         else
         {
             currentHealth = 0;
+            Debug.Log($"[TakeDamage] {gameObject.name} 死亡！血量归零");
             //触发死亡
             OnDie?.Invoke();
         }
-
-        //Debug.Log($"[OnHealthChange] 调用对象: {gameObject.name}");
-        //OnHealthChange?.Invoke(this);
 
         OnHealthChange?.Invoke(this);
     }

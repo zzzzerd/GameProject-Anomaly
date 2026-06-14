@@ -22,6 +22,9 @@ public class BossEnemy : Enemy
     public GameObject projectilePrefab;
     public float projectileSpeed = 5f;
 
+    [Header("音效")]
+    public AudioDefination deadAudio;  // Boss 死亡音效
+
     [Header("攻击点")]
     public Collider2D attackCollider;
     public float attackStopDistance = 2f;
@@ -121,6 +124,7 @@ public class BossEnemy : Enemy
         rb.velocity = Vector2.zero;
         rb.gravityScale = 1;
 
+        deadAudio?.PlayAudioCLip();  // 播放死亡音效
         GameDataManager.Instance?.AddKilledBoss();
         bossDefeatedEventSO?.RaiseEvent();  // 通知 TaskManager
         Debug.Log("[BossEnemy] Boss 已死亡");

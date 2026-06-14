@@ -6,34 +6,26 @@ using UnityEngine;
 public class AudioDefination : MonoBehaviour
 {
     
-    public PlayAudioEventSO pEvent; //¾ÍÊÇ´´½¨ÁËÒ»¸öÔ­ĞÍÄ£°å°¡£¬
+    public PlayAudioEventSO pEvent; //å°±æ˜¯åˆ›å»ºäº†ä¸€ä¸ªåŸå‹æ¨¡æ¿å•Šï¼Œ
     public AudioClip audioClip;
-    public bool playOnEnable;   //ÊÇ²»ÊÇ¹ÒÔØµÄÎïÌåÒ»¼¤»î¾Í»á²¥·ÅÒôÀÖ
+    public bool playOnEnable;   //æ˜¯ä¸æ˜¯æŒ‚è½½çš„ç‰©ä½“ä¸€æ¿€æ´»å°±ä¼šæ’­æ”¾éŸ³ä¹
 
 
-    //µ±ÎïÌå¼¤»îµÄÊ±ºò
+    //å½“ç‰©ä½“æ¿€æ´»çš„æ—¶å€™
     private void OnEnable()
     {
+        Debug.Log($"[AudioDefination] OnEnable è§¦å‘ï¼Œç‰©ä½“ï¼š{gameObject.name}ï¼ŒplayOnEnableï¼š{playOnEnable}");
         if (playOnEnable)
             PlayAudioCLip();
-            
-        
     }
 
-    //µ÷ÓÃÕâ¸öº¯Êı¾ÍÏàµ±ÓÚ¼¤»îÕâ¸ö²¥·ÅÀ®°È
+    //è°ƒç”¨è¿™ä¸ªå‡½æ•°å°±ç›¸å½“äºæ¿€æ´»è¿™ä¸ªæ’­æ”¾å–‡å­
     public void PlayAudioCLip()
     {
-        //Debug.Log($"Ö´ĞĞ²¥·Å£¬ËùÊôÎïÌå£º{gameObject.name}", gameObject);
-        //if (pEvent == null)
-        //{
-        //    Debug.LogError($"±¨´í£¡ÎïÌå¡¾{gameObject.name}¡¿ÉÏµÄpEventÎª¿Õ", gameObject);
-        //    return;
-        //}
-        //if (audioClip == null)
-        //{
-        //    Debug.LogWarning($"ÎïÌå¡¾{gameObject.name}¡¿ÒôÆµÆ¬¶ÎÎ´¸³Öµ", gameObject);
-        //    return;
-        //}
+        Debug.Log($"[AudioDefination] PlayAudioCLip è°ƒç”¨ï¼ŒpEventï¼š{pEvent}ï¼ŒaudioClipï¼š{audioClip}");
+        if (pEvent == null) { Debug.LogError("[AudioDefination] pEvent ä¸ºç©ºï¼"); return; }
+        if (audioClip == null) { Debug.LogWarning("[AudioDefination] audioClip æœªèµ‹å€¼ï¼"); return; }
+        Debug.Log($"[AudioDefination] RaisedEvent æ‰§è¡Œï¼Œè®¢é˜…è€…æ•°é‡ï¼š{pEvent.OnEventRaised?.GetInvocationList().Length}");
         pEvent.RaisedEvent(audioClip);
     }
     // Start is called before the first frame update
