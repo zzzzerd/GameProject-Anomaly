@@ -374,7 +374,14 @@ public class PlayerController : MonoBehaviour
 
 
         if (physicsCheck.onWall)
+        {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y / 2f);
+            // ÌùÇ½Ê±³¯ÏòÇ½±Ú·½Ïò£¨×óÇ½³¯×ó£¬ÓÒÇ½³¯ÓÒ£©
+            if (physicsCheck.touchLeftWall)
+                transform.localScale = new Vector3(1, 1, 1);
+            else if (physicsCheck.touchRightWall)
+                transform.localScale = new Vector3(-1, 1, 1);
+        }
         else
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
 

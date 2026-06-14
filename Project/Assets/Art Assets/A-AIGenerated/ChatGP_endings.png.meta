@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e5ac9a5084e9ef54d8469146f38990f8
+guid: aa305d8e1af626c4d9e24fe80185aea6
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -46,9 +46,9 @@ TextureImporter:
   spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 7
-  spritePivot: {x: 0.5, y: 0}
-  spritePixelsToUnits: 18
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -97,43 +97,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Slide_Start_0
+      name: ChatGP_endings_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 192
-        height: 96
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 50
+        y: 781
+        width: 295
+        height: 688
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b743413202c7cf84982cbedb22cd4635
-      internalID: -1360194960
+      spriteID: c8d6234c009fc8f4dbc692a94b96d04b
+      internalID: 932060073
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Slide_Start_1
+      name: ChatGP_endings_1
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 192
-        height: 96
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+        x: 364
+        y: 778
+        width: 303
+        height: 690
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 145a51ede00d75a48acd4e9ab64fb89e
-      internalID: 130071656
+      spriteID: efcebf8e4135efc48a1a58ac4b4c56f6
+      internalID: -434764082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChatGP_endings_2
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 779
+        width: 306
+        height: 687
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d09f745b1c87e2419fc171404644d20
+      internalID: 1836469769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChatGP_endings_3
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 79
+        width: 301
+        height: 670
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40e8c06c6161cd345becb10a7332060e
+      internalID: -1253970828
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChatGP_endings_4
+      rect:
+        serializedVersion: 2
+        x: 366
+        y: 78
+        width: 299
+        height: 673
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21d4eb9bb3d1dc74d971bf232c7c3d5c
+      internalID: 719653698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ChatGP_endings_5
+      rect:
+        serializedVersion: 2
+        x: 678
+        y: 80
+        width: 316
+        height: 674
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3797864436f334849a64d3b200536f5e
+      internalID: 965963561
       vertices: []
       indices: 
       edges: []
@@ -149,8 +233,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Slide_Start_0: -1360194960
-      Slide_Start_1: 130071656
+      ChatGP_endings_0: 932060073
+      ChatGP_endings_1: -434764082
+      ChatGP_endings_2: 1836469769
+      ChatGP_endings_3: -1253970828
+      ChatGP_endings_4: 719653698
+      ChatGP_endings_5: 965963561
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
