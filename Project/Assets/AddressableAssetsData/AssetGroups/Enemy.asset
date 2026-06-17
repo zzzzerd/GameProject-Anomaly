@@ -17,8 +17,23 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 4305b13fcedd4fd47b01056ed2a2d00c
   m_SerializeEntries:
+  - m_GUID: 2f514a1018d74b8449d2ff1cdeeaa845
+    m_Address: FireSavePoint
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3b2c5ee4123eb4a44abccd9287354a4d
+    m_Address: StatusSavePoint_Bad
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3f86c64dce23b14449b18d147974b953
     m_Address: Mimic
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 46f48b924b78d8d4b8ecb74fa30cc036
+    m_Address: Attack toturial
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -27,18 +42,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 65c316f5f6ef03c4db8a7261b702f289
+    m_Address: EndingRecordItem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6fb3a908505e0f9448e3f2973cc959d3
     m_Address: Bat
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8fa54a8a65d18924880e66aad4bcd708
-    m_Address: EvileBoss
+  - m_GUID: a97c105638bdf8b4a8650670310a4cd3
+    m_Address: Sprite-Lit-Default
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a97c105638bdf8b4a8650670310a4cd3
-    m_Address: Packages/com.unity.render-pipelines.universal/Runtime/Materials/Sprite-Lit-Default.mat
+  - m_GUID: f0916322e665b66408e85d7fe9138442
+    m_Address: StatusSavePoint_Good
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

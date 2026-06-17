@@ -149,10 +149,15 @@ public class BossEnemy : Enemy
     public override bool FoundPlayer()
     {
         var obj = Physics2D.OverlapCircle(transform.position, checkDistance, attackLayer);
+        
+        // 调试
+        Debug.Log($"[BossEnemy.FoundPlayer] 位置: {transform.position} | 检测距离: {checkDistance} | Layer: {LayerMask.LayerToName(Mathf.RoundToInt(Mathf.Log(attackLayer.value, 2)))} | 命中: {obj != null}");
+        
         if (obj != null)
         {
             attacker = obj.transform;
             lostTimeCounter = lostTime;
+            Debug.Log($"[BossEnemy.FoundPlayer] 检测到玩家: {obj.name}");
         }
         return obj != null;
     }

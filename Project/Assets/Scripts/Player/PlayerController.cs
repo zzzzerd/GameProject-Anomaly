@@ -120,6 +120,15 @@ public class PlayerController : MonoBehaviour
         //if (newGameEventSO != null)
         //    newGameEventSO.OnEventRaised += OnNewGame;
     }
+    
+    private void OnDisable()
+    {
+        inputControl.Disable();
+        loadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
+        afterSceneLoad.OnEventRaised -= OnAfterSceneLoad;
+        //if (newGameEventSO != null)
+        //    newGameEventSO.OnEventRaised -= OnNewGame;
+    }
 
     private void OnAfterSceneLoad()
     {
@@ -136,8 +145,6 @@ public class PlayerController : MonoBehaviour
         GetComponent<SpriteRenderer>().color = defaultColor;
         var anim = GetComponent<Animator>();
         if (anim != null) anim.ResetTrigger("hurt");
-
-        inputControl.GamePlay.Enable();
     }
 
     //private void OnNewGame()
@@ -145,19 +152,10 @@ public class PlayerController : MonoBehaviour
     //    ReviveAfterLoad();
     //}
 
-    private void OnDisable()
-    {
-        inputControl.Disable();
-        loadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
-        afterSceneLoad.OnEventRaised -= OnAfterSceneLoad;
-        //if (newGameEventSO != null)
-        //    newGameEventSO.OnEventRaised -= OnNewGame;
-    }
-
     private void OnLoadRequestEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
     {
-        inputControl.GamePlay.Disable();
-        //throw new NotImplementedException();
+        // 场景切换时禁用输入，防止玩家在加载过程中移动
+        // OnDisable 会自动调用 inputControl.Disable()
     }
 
 

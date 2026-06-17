@@ -77,9 +77,13 @@ public class BossChaseState : BaseState
 
     public override void PhysicsUpdate()
     {
+        // 调试
+        Debug.Log($"[BossChaseState.PhysicsUpdate] isHurt={currentEnemy.isHurt} | isDead={currentEnemy.isDead} | isAttack={isAttack} | moveDir={moveDir} | speed={currentEnemy.currentSpeed}");
+        
         if (!currentEnemy.isHurt && !currentEnemy.isDead && !isAttack)
         {
             currentEnemy.rb.velocity = moveDir * currentEnemy.currentSpeed * Time.deltaTime;
+            Debug.Log($"[BossChaseState.PhysicsUpdate] 移动中 | velocity={currentEnemy.rb.velocity}");
         }
         else if (isAttack)
         {

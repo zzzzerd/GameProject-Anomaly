@@ -1,5 +1,52 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1535053302205154857
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2552197999890514127}
+  - component: {fileID: 7817557693708548800}
+  m_Layer: 8
+  m_Name: Hurt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2552197999890514127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535053302205154857}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7902534964759195767}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7817557693708548800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535053302205154857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073f9f3948fd78d46a70ea95a2eeed04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pEvent: {fileID: 11400000, guid: 269fd2cc29de80e4592b75d0be4ae4ca, type: 2}
+  audioClip: {fileID: 8300000, guid: 69aa9754dc9c195478a252a1eb24ef9c, type: 3}
+  playOnEnable: 0
 --- !u!1 &4073281829742966100
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,6 +203,7 @@ Transform:
   m_Children:
   - {fileID: 6627995755473384026}
   - {fileID: 2466146485053678382}
+  - {fileID: 2552197999890514127}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &5636165905695358411
@@ -319,7 +367,7 @@ MonoBehaviour:
   invulnerableDuration: 0.5
   invulnerable: 0
   healAudio: {fileID: 0}
-  hurtAudio: {fileID: 0}
+  hurtAudio: {fileID: 7817557693708548800}
   OnHealthChange:
     m_PersistentCalls:
       m_Calls: []
@@ -401,7 +449,7 @@ MonoBehaviour:
   bossDefeatedEventSO: {fileID: 11400000, guid: 974615c0beeb4654da0018be2d2a6a2f, type: 2}
   projectilePrefab: {fileID: 0}
   projectileSpeed: 5
-  deadAudio: {fileID: 0}
+  deadAudio: {fileID: 8064991629771434504}
   attackCollider: {fileID: 2751133189541843063}
   attackStopDistance: 4
 --- !u!114 &1621569886450245993

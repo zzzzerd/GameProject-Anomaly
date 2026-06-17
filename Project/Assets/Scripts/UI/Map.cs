@@ -12,6 +12,9 @@ public class Map : MonoBehaviour
     [Header("关卡场景")]
     public GameSceneSO level1Scene;
 
+    [Header("主菜单场景")]
+    public GameSceneSO mainMenuScene;
+
     [Header("事件")]
     public SceneLoadEventSO loadEventSO;
     public VoidEventSO newGameEventSO;
@@ -38,6 +41,19 @@ public class Map : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        // 使用 Addressable 系统加载场景，保持 Persistent Scene 不被卸载
+        if (mainMenuScene == null)
+        {
+            Debug.LogError("[Map] mainMenuScene 未绑定！");
+            return;
+        }
+        
+        if (loadEventSO == null)
+        {
+            Debug.LogError("[Map] loadEventSO 未绑定！");
+            return;
+        }
+        
+        loadEventSO.RaiseLoadRequestEvent(mainMenuScene, Vector3.zero, true);
     }
 }
